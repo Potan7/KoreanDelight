@@ -1,7 +1,9 @@
 package com.potan.koreandelight.item;
 
 import com.potan.koreandelight.Koreandelight;
+import com.potan.koreandelight.block.ModBlocks;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -14,12 +16,39 @@ public class ModItems {
     // Creates a new BlockItem with the id "koreandelight:example_block", combining the namespace and path
 //    public static final RegistryObject<Item> EXAMPLE_BLOCK_ITEM = ITEMS.register("example_block", () -> new BlockItem(EXAMPLE_BLOCK.get(), new Item.Properties()));
 
-    // Creates a new food item with the id "koreandelight:example_id", nutrition 1 and saturation 2
-//    public static final RegistryObject<Item> EXAMPLE_ITEM = ITEMS.register("example_item", () -> new Item(new Item.Properties().food(new FoodProperties.Builder().alwaysEat().nutrition(1).saturationMod(2f).build())));
-
     public static final RegistryObject<Item> TEST_ITEM = ITEMS.register(
             "test_item",
             () -> new Item(new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> KIMCHI_CABBAGE = ITEMS.register(
+            "kimchi_cabbage",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.KIMCHI_CABBAGE_FOOD))
+    );
+
+    public static final RegistryObject<Item> KIMCHI_CABBAGE_SEEDS = ITEMS.register(
+            "kimchi_cabbage_seeds",
+            () -> new ItemNameBlockItem(ModBlocks.KIMCHI_CABBAGE_CROP.get(), new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> RED_PEPPER = ITEMS.register(
+            "red_pepper",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.RED_PEPPER))
+    );
+
+    public static final RegistryObject<Item> RED_PEPPER_SEEDS = ITEMS.register(
+            "red_pepper_seeds",
+            () -> new ItemNameBlockItem(ModBlocks.RED_PEPPER_CROP.get(), new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> RED_PEPPER_POWDER = ITEMS.register(
+            "red_pepper_powder",
+            () -> new Item(new Item.Properties())
+    );
+
+    public static final RegistryObject<Item> KIMCHI = ITEMS.register(
+            "kimchi",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.KIMCHI_FOOD))
     );
 
     public static void register(IEventBus eventBus) {

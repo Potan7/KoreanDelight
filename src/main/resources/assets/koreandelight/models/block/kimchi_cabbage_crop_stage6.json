@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "koreandelight:block/kimchi_cabbage_crop_stage6"
+  },
+  "render_type": "cutout"
+}

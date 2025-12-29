@@ -1,3 +1,17 @@
 {
-  "item.koreandelight.test_item": "Test Item"
+  "item.koreandelight.test_item": "Test Item",
+
+  "item.koreandelight.kimchi_cabbage": "Kimchi Cabbage",
+  "item.koreandelight.kimchi_cabbage_seeds": "Kimchi Cabbage Seeds",
+  "block.koreandelight.kimchi_cabbage_crop": "Kimchi Cabbage Crop",
+
+  "item.koreandelight.red_pepper": "Red Pepper",
+  "item.koreandelight.red_pepper_seeds": "Red Pepper Seeds",
+  "block.koreandelight.red_pepper_crop": "Red Pepper Crop",
+  "item.koreandelight.red_pepper_powder": "Red Pepper Powder",
+
+  "item.koreandelight.kimchi": "Kimchi",
+
+  "creativetab.koreandelight": "Korean Delight"
+
 }
