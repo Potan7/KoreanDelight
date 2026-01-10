@@ -1,6 +1,7 @@
 package com.potan.koreandelight;
 
 import com.mojang.logging.LogUtils;
+import com.potan.koreandelight.block.ModBlockEntityTypes;
 import com.potan.koreandelight.block.ModBlocks;
 import com.potan.koreandelight.item.ModItems;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
@@ -44,6 +45,7 @@ public class Koreandelight {
         modEventBus.addListener(this::commonSetup);
 
         ModBlocks.register(modEventBus);
+        ModBlockEntityTypes.register(modEventBus);
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
 

@@ -1,5 +1,6 @@
 {
-  "item.koreandelight.test_item": "Test Item",
+  "item.koreandelight.kimchi": "Kimchi",
+  "item.koreandelight.fresh_kimchi": "Fresh Kimchi",
 
   "item.koreandelight.kimchi_cabbage": "Kimchi Cabbage",
   "item.koreandelight.kimchi_cabbage_seeds": "Kimchi Cabbage Seeds",
@@ -10,8 +11,15 @@
   "block.koreandelight.red_pepper_crop": "Red Pepper Crop",
   "item.koreandelight.red_pepper_powder": "Red Pepper Powder",
 
-  "item.koreandelight.kimchi": "Kimchi",
+  "item.koreandelight.bean": "Bean",
+  "item.koreandelight.bean_seeds": "Bean Seeds",
+  "block.koreandelight.bean_crop": "Bean Crop",
+
+  "item.koreandelight.green_onion": "Green Onion",
+  "item.koreandelight.green_onion_seeds": "Green Onion Seeds",
+  "block.koreandelight.green_onion_crop": "Green Onion Crop",
+
+  "block.koreandelight.onggi_block": "Onggi",
 
   "creativetab.koreandelight": "Korean Delight"
-
 }

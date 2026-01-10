@@ -8,6 +8,11 @@ public class ModFoodProperties {
             .saturationMod(0.6f)
             .build();
 
+    public static final FoodProperties FRESH_KIMCHI = new FoodProperties.Builder()
+            .nutrition(4)
+            .saturationMod(0.4f)
+            .build();
+
     public static FoodProperties KIMCHI_CABBAGE_FOOD = new FoodProperties.Builder()
             .nutrition(2)
             .saturationMod(0.3f)
@@ -16,5 +21,15 @@ public class ModFoodProperties {
     public static FoodProperties RED_PEPPER = new FoodProperties.Builder()
             .nutrition(8)
             .saturationMod(0.8f)
+            .build();
+
+    public static FoodProperties BEAN = new FoodProperties.Builder()
+            .nutrition(2)
+            .saturationMod(0.3f)
+            .build();
+
+    public static FoodProperties GREEN_ONION = new FoodProperties.Builder()
+            .nutrition(2)
+            .saturationMod(0.3f)
             .build();
 }

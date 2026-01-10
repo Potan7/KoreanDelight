@@ -1,9 +1,7 @@
 package com.potan.koreandelight.block;
 
 import com.potan.koreandelight.Koreandelight;
-import com.potan.koreandelight.block.custom.KimchiCabbageCropBlock;
-import com.potan.koreandelight.block.custom.RedPepperCropBlock;
-import io.netty.util.Attribute;
+import com.potan.koreandelight.block.custom.*;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
@@ -24,6 +22,15 @@ public class ModBlocks {
 
     public static final RegistryObject<Block> RED_PEPPER_CROP = BLOCKS.register("red_pepper_crop",
             () -> new RedPepperCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT).noOcclusion().noCollission()));
+
+    public static final RegistryObject<Block> BEAN_CROP = BLOCKS.register("bean_crop",
+            () -> new BeanCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT).noOcclusion().noCollission()));
+
+    public static final RegistryObject<Block> GREEN_ONION_CROP = BLOCKS.register("green_onion_crop",
+            () -> new GreenOnionCropBlock(BlockBehaviour.Properties.copy(Blocks.WHEAT).noOcclusion().noCollission()));
+
+    public static final RegistryObject<Block> ONGGI_BLOCK = BLOCKS.register("onggi_block",
+            () -> new OnggiBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.5f)));
 
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);

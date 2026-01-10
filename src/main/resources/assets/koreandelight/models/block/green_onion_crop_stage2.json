@@ -1,0 +1,7 @@
+{
+  "parent": "minecraft:block/crop",
+  "textures": {
+    "crop": "koreandelight:block/green_onion_crop_stage2"
+  },
+  "render_type": "cutout"
+}

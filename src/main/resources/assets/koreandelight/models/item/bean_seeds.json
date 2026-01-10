@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "koreandelight:item/test_item"
+    "layer0": "koreandelight:item/bean_seeds"
   }
 }

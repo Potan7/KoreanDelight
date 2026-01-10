@@ -1,16 +1,25 @@
 {
-  "item.koreandelight.test_item": "테스트 아이템",
+  "item.koreandelight.kimchi": "김치",
+  "item.koreandelight.fresh_kimchi": "겉절이",
 
   "item.koreandelight.kimchi_cabbage": "배추",
-  "item.koreandelight.kimchi_cabbage_seeds": "배추 씨",
+  "item.koreandelight.kimchi_cabbage_seeds": "배추 씨앗",
   "block.koreandelight.kimchi_cabbage_crop": "배추 작물",
 
   "item.koreandelight.red_pepper": "고추",
   "item.koreandelight.red_pepper_seeds": "고추 씨앗",
   "block.koreandelight.red_pepper_crop": "고추 작물",
-  "item.koreandelight.red_pepper_powder": "고춧가루",
+  "item.koreandelight.red_pepper_powder": "고추가루",
 
-  "item.koreandelight.kimchi": "김치",
+  "item.koreandelight.bean": "콩",
+  "item.koreandelight.bean_seeds": "콩 씨앗",
+  "block.koreandelight.bean_crop": "콩 작물",
+
+  "item.koreandelight.green_onion": "대파",
+  "item.koreandelight.green_onion_seeds": "대파 씨앗",
+  "block.koreandelight.green_onion_crop": "대파 작물",
+
+  "item.koreandelight.onggi_block": "옹기",
 
   "creativetab.koreandelight": "Korean Delight"
 }
