@@ -20,6 +20,8 @@
   "block.koreandelight.green_onion_crop": "Green Onion Crop",
 
   "block.koreandelight.onggi_block": "Onggi",
+  "item.koreandelight.onggi_block": "Onggi",
 
-  "creativetab.koreandelight": "Korean Delight"
+  "creativetab.koreandelight": "Korean Delight",
+  "jei.koreandelight.category.fermentation": "Fermentation"
 }

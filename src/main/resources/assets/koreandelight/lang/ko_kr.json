@@ -19,7 +19,9 @@
   "item.koreandelight.green_onion_seeds": "대파 씨앗",
   "block.koreandelight.green_onion_crop": "대파 작물",
 
+  "block.koreandelight.onggi_block": "옹기",
   "item.koreandelight.onggi_block": "옹기",
 
-  "creativetab.koreandelight": "Korean Delight"
+  "creativetab.koreandelight": "Korean Delight",
+  "jei.koreandelight.category.fermentation": "발효"
 }

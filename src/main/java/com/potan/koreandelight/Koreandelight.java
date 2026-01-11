@@ -4,6 +4,7 @@ import com.mojang.logging.LogUtils;
 import com.potan.koreandelight.block.ModBlockEntityTypes;
 import com.potan.koreandelight.block.ModBlocks;
 import com.potan.koreandelight.item.ModItems;
+import com.potan.koreandelight.recipe.ModRecipes;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.Minecraft;
@@ -48,6 +49,7 @@ public class Koreandelight {
         ModBlockEntityTypes.register(modEventBus);
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
+        ModRecipes.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         MinecraftForge.EVENT_BUS.register(this);
