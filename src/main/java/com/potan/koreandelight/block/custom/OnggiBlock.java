@@ -19,6 +19,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
 import org.jetbrains.annotations.Nullable;
 
@@ -45,18 +46,26 @@ public class OnggiBlock extends Block implements EntityBlock {
             return InteractionResult.FAIL;
         }
 
+        // 1순위: 액체 상호작용 (양동이 등으로 액체 넣기/빼기)
+        if (FluidUtil.interactWithFluidHandler(player, hand, level, pos, hit.getDirection())) {
+            return InteractionResult.SUCCESS;
+        }
+
         ItemStack heldItem = player.getItemInHand(hand);
         ItemStack outputItem = onggi.getInventory().getStackInSlot(0);
 
-        // 플레이어가 빈손인 경우 아이템을 꺼냄
+        // 2순위: 플레이어가 빈손인 경우 옹기 안의 아이템을 꺼냄
         if (heldItem.isEmpty()) {
             if (!outputItem.isEmpty()) {
                 ItemHandlerHelper.giveItemToPlayer(player, onggi.getInventory().extractItem(0, 64, false));
                 return InteractionResult.CONSUME;
             }
         }
-        // 플레이어가 아이템을 들고 있는 경우 아이템을 넣음
+        // 3순위: 플레이어가 아이템을 들고 있는 경우 옹기에 아이템을 넣음
         else {
+            if  (!outputItem.isEmpty()) {
+                return InteractionResult.PASS; // 이미 아이템이 있으면 패스
+            }
             ItemStack remaining = onggi.getInventory().insertItem(0, heldItem.copy() , false);
             player.setItemInHand(hand, remaining);
             return InteractionResult.CONSUME;

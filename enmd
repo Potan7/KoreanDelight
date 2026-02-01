@@ -1,0 +1,29 @@
+[33mcommit a2c5ee9f5c09a6164fb262b59e3ef642201fde6b[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m
+Author: Potan7 <whwo145@naver.com>
+Date:   Mon Feb 2 04:31:59 2026 +0900
+
+    옹기에 넣어서 처리하는 발효 조합 제작 및 jei 연동, 간장 액체 추가
+
+[33mcommit 95e3053cb6de78368d30e2c7c7582bd480b08e02[m
+Author: Potan7 <whwo145@naver.com>
+Date:   Sun Jan 11 19:01:26 2026 +0900
+
+    옹기에 넣어서 처리하는 발효 조합 제작 및 jei 연동
+
+[33mcommit 7226e75735c08ac263927848d630aa8b05df56ce[m
+Author: Potan7 <whwo145@naver.com>
+Date:   Sun Jan 11 03:51:04 2026 +0900
+
+    콩, 파 추가, 옹기 개발 진행, 일부 리소스 교체
+
+[33mcommit f032b392f84626ca6c26d1f2b91bd6e096b6ddd2[m
+Author: Potan7 <whwo145@naver.com>
+Date:   Mon Dec 29 17:33:34 2025 +0900
+
+    배추, 고추, 고추가루, 김치 추가
+
+[33mcommit 06c80afbbfe819e8342c14ca255ee09b50ef7869[m
+Author: Potan7 <whwo145@naver.com>
+Date:   Mon Dec 29 02:52:16 2025 +0900
+
+    Init commit

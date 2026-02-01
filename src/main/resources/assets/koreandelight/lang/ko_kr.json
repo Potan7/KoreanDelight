@@ -23,5 +23,8 @@
   "item.koreandelight.onggi_block": "옹기",
 
   "creativetab.koreandelight": "Korean Delight",
-  "jei.koreandelight.category.fermentation": "발효"
+  "jei.koreandelight.category.fermentation": "발효",
+  "fluid_type.koreandelight.soy_sauce_fluid": "간장",
+  "block.koreandelight.soy_sauce_block": "간장",
+  "item.koreandelight.soy_sauce_bucket": "간장 양동이"
 }

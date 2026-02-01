@@ -13,6 +13,8 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.ForgeCapabilities;
 import net.minecraftforge.common.util.LazyOptional;
+import net.minecraftforge.fluids.capability.IFluidHandler;
+import net.minecraftforge.fluids.capability.templates.FluidTank;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
 import org.jetbrains.annotations.NotNull;
@@ -31,7 +33,16 @@ public class OnggiBlockEntity extends SyncedBlockEntity {
         }
     };
 
+    private final FluidTank fluidTank = new FluidTank(1000) {
+        @Override
+        protected void onContentsChanged() {
+            setChanged();
+            inventoryChanged();
+        }
+    };
+
     private final LazyOptional<IItemHandler> inventoryOptional = LazyOptional.of(() -> inventory);
+    private final LazyOptional<IFluidHandler> fluidOptional = LazyOptional.of(() -> fluidTank);
     private int agingProgress = 0;
 
     public OnggiBlockEntity(BlockPos pos, BlockState state) {
@@ -54,12 +65,54 @@ public class OnggiBlockEntity extends SyncedBlockEntity {
                 .getRecipeFor(ModRecipes.FERMENTATION_RECIPE_TYPE.get(), container, level);
 
         if (recipe.isPresent()) {
-            FermentationRecipe jarRecipe = recipe.get();
+            FermentationRecipe fermentationRecipe = recipe.get();
+
+            // 액체 조건 확인 (입력)
+            if (!fermentationRecipe.getFluid().isEmpty()) {
+                if (blockEntity.fluidTank.getFluidAmount() < fermentationRecipe.getFluid().getAmount() ||
+                    !blockEntity.fluidTank.getFluid().getFluid().isSame(fermentationRecipe.getFluid().getFluid())) {
+                    blockEntity.agingProgress = 0;
+                    return;
+                }
+            }
+
+            // 액체 조건 확인 (출력)
+            if (!fermentationRecipe.getFluidResult().isEmpty()) {
+                int currentAmount = blockEntity.fluidTank.getFluidAmount();
+                int inputAmount = fermentationRecipe.getFluid().isEmpty() ? 0 : fermentationRecipe.getFluid().getAmount();
+                int outputAmount = fermentationRecipe.getFluidResult().getAmount();
+                int remainingAmount = currentAmount - inputAmount;
+
+                // 1. 용량 체크
+                if (remainingAmount + outputAmount > blockEntity.fluidTank.getCapacity()) {
+                    blockEntity.agingProgress = 0;
+                    return;
+                }
+
+                // 2. 액체 종류 체크 (남은 액체가 있고, 남은 액체와 결과 액체가 다르면 불가)
+                if (remainingAmount > 0 && !blockEntity.fluidTank.getFluid().getFluid().isSame(fermentationRecipe.getFluidResult().getFluid())) {
+                    blockEntity.agingProgress = 0;
+                    return;
+                }
+            }
+
             blockEntity.agingProgress++;
 
             // 숙성 완료
-            if (blockEntity.agingProgress >= jarRecipe.getFermentation_time()) {
-                ItemStack result = jarRecipe.getResultItem(level.registryAccess()).copy();
+            if (blockEntity.agingProgress >= fermentationRecipe.getFermentation_time()) {
+                ItemStack result = fermentationRecipe.getResultItem(level.registryAccess()).copy();
+                // 입력 아이템 개수가 그대로 결과물 개수로
+                result.setCount(inputStack.getCount());
+
+                // 액체 소모
+                if (!fermentationRecipe.getFluid().isEmpty()) {
+                    blockEntity.fluidTank.drain(fermentationRecipe.getFluid(), IFluidHandler.FluidAction.EXECUTE);
+                }
+
+                // 액체 생성
+                if (!fermentationRecipe.getFluidResult().isEmpty()) {
+                    blockEntity.fluidTank.fill(fermentationRecipe.getFluidResult(), IFluidHandler.FluidAction.EXECUTE);
+                }
 
                 // 결과물로 교체
                 blockEntity.inventory.setStackInSlot(0, result);
@@ -78,6 +131,9 @@ public class OnggiBlockEntity extends SyncedBlockEntity {
         if (cap == ForgeCapabilities.ITEM_HANDLER) {
             return inventoryOptional.cast();
         }
+        if (cap == ForgeCapabilities.FLUID_HANDLER) {
+            return fluidOptional.cast();
+        }
 
         return super.getCapability(cap, side);
     }
@@ -88,6 +144,7 @@ public class OnggiBlockEntity extends SyncedBlockEntity {
         super.saveAdditional(tag);
         tag.putInt("aging_progress", this.agingProgress);
         tag.put("inventory", inventory.serializeNBT());
+        tag.put("fluid", fluidTank.writeToNBT(new CompoundTag()));
     }
 
     // 데이터를 불러올 때 (NBT -> 객체)
@@ -96,15 +153,21 @@ public class OnggiBlockEntity extends SyncedBlockEntity {
         super.load(tag);
         this.agingProgress = tag.getInt("aging_progress");
         inventory.deserializeNBT(tag.getCompound("inventory"));
+        fluidTank.readFromNBT(tag.getCompound("fluid"));
     }
 
     @Override
     public void invalidateCaps() {
         super.invalidateCaps();
         inventoryOptional.invalidate();
+        fluidOptional.invalidate();
     }
 
     public ItemStackHandler getInventory() {
         return inventory;
+    }
+
+    public FluidTank getFluidTank() {
+        return fluidTank;
     }
 }

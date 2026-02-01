@@ -8,9 +8,11 @@ import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 
 public class ModBlockEntityTypes {
+    // 블록 엔티티 타입 레지스트리 생성
     public static final DeferredRegister<BlockEntityType<?>> BLOCK_ENTITY_TYPES =
             DeferredRegister.create(ForgeRegistries.BLOCK_ENTITY_TYPES, "koreandelight");
 
+    // 옹기 블록 엔티티 등록
     public static final RegistryObject<BlockEntityType<OnggiBlockEntity>> ONGGI_BLOCK_ENTITY =
             BLOCK_ENTITY_TYPES.register("onggi_block",
                     () -> BlockEntityType.Builder.of(
