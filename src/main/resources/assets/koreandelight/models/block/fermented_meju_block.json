@@ -1,0 +1,7 @@
+{
+	"parent": "koreandelight:block/meju_block",
+	"textures": {
+		"particle": "koreandelight:block/fermented_meju_block",
+		"0": "koreandelight:block/fermented_meju_block"
+	}
+}

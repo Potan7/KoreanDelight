@@ -1,6 +1,9 @@
 {
+  "creativetab.koreandelight": "Korean Delight",
+
   "item.koreandelight.kimchi": "Kimchi",
   "item.koreandelight.fresh_kimchi": "Fresh Kimchi",
+  "jei.koreandelight.category.fermentation": "Fermentation",
 
   "item.koreandelight.kimchi_cabbage": "Kimchi Cabbage",
   "item.koreandelight.kimchi_cabbage_seeds": "Kimchi Cabbage Seeds",
@@ -22,9 +25,13 @@
   "block.koreandelight.onggi_block": "Onggi",
   "item.koreandelight.onggi_block": "Onggi",
 
-  "creativetab.koreandelight": "Korean Delight",
-  "jei.koreandelight.category.fermentation": "Fermentation",
   "fluid_type.koreandelight.soy_sauce_fluid": "Soy Sauce",
   "block.koreandelight.soy_sauce_block": "Soy Sauce",
-  "item.koreandelight.soy_sauce_bucket": "Soy Sauce Bucket"
+  "item.koreandelight.soy_sauce_bucket": "Soy Sauce Bucket",
+
+  "item.koreandelight.meju_block": "Raw Meju",
+  "block.koreandelight.meju_block": "Raw Meju",
+
+  "item.koreandelight.fermented_meju_block": "Fermented Meju",
+  "block.koreandelight.fermented_meju_block": "Fermented Meju"
 }
