@@ -32,4 +32,9 @@ public class ModFoodProperties {
             .nutrition(2)
             .saturationMod(0.3f)
             .build();
+
+    public static FoodProperties DOENJANG = new FoodProperties.Builder()
+            .nutrition(2)
+            .saturationMod(0.3f)
+            .build();
 }

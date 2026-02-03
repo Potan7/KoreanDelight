@@ -14,7 +14,7 @@
                 {
                   "condition": "minecraft:block_state_property",
                   "block": "koreandelight:meju_block",
-                  "properties": { "age": 7 }
+                  "properties": { "age": 4 }
                 }
               ]
             },

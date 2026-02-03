@@ -12,9 +12,9 @@ import net.minecraftforge.registries.RegistryObject;
 import org.joml.Vector3f;
 
 public class ModFluidTypes {
-    public static final ResourceLocation WATER_STILL_RL = ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "water_still");
-    public static final ResourceLocation WATER_FLOW_RL = ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "water_flow");
-    public static final ResourceLocation SOY_SAUCE_OVERLAY_RL = ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "misc/in_soap_water"); // Assuming no specific overlay, or reuse water
+    public static final ResourceLocation WATER_STILL_RL = ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "block/water_still");
+    public static final ResourceLocation WATER_FLOW_RL = ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "block/water_flow");
+    public static final ResourceLocation SOY_SAUCE_OVERLAY_RL = ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "block/water_overlay");
 
     public static final DeferredRegister<FluidType> FLUID_TYPES =
             DeferredRegister.create(ForgeRegistries.Keys.FLUID_TYPES, Koreandelight.MODID);

@@ -34,6 +34,10 @@ public class ModBlocks {
     public static final RegistryObject<Block> FERMENTED_MEJU_BLOCK = BLOCKS.register("fermented_meju_block",
             () -> new Block(BlockBehaviour.Properties.of().noOcclusion().strength(0.2f)));
 
+    // 된장 블록
+    public static final RegistryObject<Block> DOENJANG_BLOCK = BLOCKS.register("doenjang_block",
+            () -> new Block(BlockBehaviour.Properties.of().noOcclusion().strength(0.5f)));
+
     public static void register(IEventBus eventBus) {
         BLOCKS.register(eventBus);
         ModCropBlocks.register(eventBus);

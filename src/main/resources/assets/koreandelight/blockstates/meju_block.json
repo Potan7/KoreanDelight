@@ -1,7 +1,19 @@
 {
   "variants": {
-    "": {
+    "age=0": {
       "model": "koreandelight:block/meju_block"
+    },
+    "age=1": {
+      "model": "koreandelight:block/meju_block"
+    },
+    "age=2": {
+      "model": "koreandelight:block/meju_block"
+    },
+    "age=3": {
+      "model": "koreandelight:block/meju_block"
+    },
+    "age=4": {
+      "model": "koreandelight:block/fermented_meju_block"
     }
   }
 }

@@ -32,5 +32,8 @@
   "item.koreandelight.meju_block": "메주",
   "block.koreandelight.meju_block": "메주",
   "item.koreandelight.fermented_meju_block": "발효된 메주",
-  "block.koreandelight.fermented_meju_block": "발효된 메주"
+  "block.koreandelight.fermented_meju_block": "발효된 메주",
+
+  "item.koreandelight.doenjang": "된장",
+  "block.koreandelight.doenjang_block": "된장 블록"
 }

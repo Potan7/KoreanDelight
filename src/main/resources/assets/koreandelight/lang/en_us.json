@@ -33,5 +33,8 @@
   "block.koreandelight.meju_block": "Raw Meju",
 
   "item.koreandelight.fermented_meju_block": "Fermented Meju",
-  "block.koreandelight.fermented_meju_block": "Fermented Meju"
+  "block.koreandelight.fermented_meju_block": "Fermented Meju",
+
+  "item.koreandelight.doenjang": "Doenjang",
+  "block.koreandelight.doenjang_block": "Doenjang Block"
 }

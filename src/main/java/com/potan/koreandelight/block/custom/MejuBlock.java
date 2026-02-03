@@ -11,7 +11,7 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.block.state.properties.Property;
 
 public class MejuBlock extends Block {
-    public static IntegerProperty AGE = IntegerProperty.create("age", 0, 7);
+    public static IntegerProperty AGE = IntegerProperty.create("age", 0, 4);
 
     public MejuBlock(Properties properties) {
         super(properties);
@@ -27,37 +27,34 @@ public class MejuBlock extends Block {
         super.createBlockStateDefinition(builder);
     }
 
-    public int getMaxAge() {return 7;}
+    public int getMaxAge() {return 4;}
 
-    @SuppressWarnings("deprecation")
     @Override
     public void randomTick(BlockState state, ServerLevel level, BlockPos pos, RandomSource random) {
         if (level.isClientSide) {
             return;
         }
+            int age = state.getValue(AGE);
+        if (age < getMaxAge()) {
 
-        int emptyNeighborCount = 0;
-        for (BlockPos neighborPos : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
-            // 상하좌우가 빈 블록인지 확인
-            if (level.isEmptyBlock(neighborPos)) {
-                emptyNeighborCount++;
-                break;
+            // 기본값 20%, 주변에 빈 블록이 많을수록 증가
+            float chance = 0.2f;
+            for (BlockPos neighborPos : BlockPos.betweenClosed(pos.offset(-1, -1, -1), pos.offset(1, 1, 1))) {
+                // 상하좌우가 빈 블록인지 확인
+                if (level.isEmptyBlock(neighborPos)) {
+                    chance += 0.1f;
+                }
             }
-        }
 
-        int age = state.getValue(AGE);
-        int nextAge = age + 1;
-        if (age < this.getMaxAge()) {
-            // 만약 빈 이웃 블록이 3개 초과라면, 발효 속도 증가
-            if (emptyNeighborCount > 3 && nextAge < this.getMaxAge()) {
-                nextAge++;
+            // 확률에 따라 성장
+            if (level.getRandom().nextFloat() < chance) {
+                level.setBlock(pos, state.setValue(AGE, age+1), 3);
             }
-            level.setBlock(pos, state.setValue(AGE, nextAge), 3);
         }
     }
 
     @Override
-    public boolean hasAnalogOutputSignal(BlockState state) {return true;    }
+    public boolean hasAnalogOutputSignal(BlockState state) {return true; }
 
     @Override
     public int getAnalogOutputSignal(BlockState blockState, Level level, BlockPos pos) {

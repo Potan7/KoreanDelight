@@ -1,6 +1,8 @@
 package com.potan.koreandelight.item;
 
 import com.potan.koreandelight.Koreandelight;
+import com.potan.koreandelight.block.ModBlocks;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.registries.DeferredRegister;
@@ -44,6 +46,18 @@ public class ModFoodItems {
     public static final RegistryObject<Item> FRESH_KIMCHI = ITEMS.register(
             "fresh_kimchi",
             () -> new Item(new Item.Properties().food(ModFoodProperties.FRESH_KIMCHI))
+    );
+
+    // 된장
+    public static final RegistryObject<Item> DOENJANG = ITEMS.register(
+            "doenjang",
+            () -> new Item(new Item.Properties().food(ModFoodProperties.DOENJANG))
+    );
+
+    // 된장 블록 아이템
+    public static final RegistryObject<Item> DOENJANG_BLOCK_ITEM = ITEMS.register(
+            "doenjang_block",
+            () -> new BlockItem(ModBlocks.DOENJANG_BLOCK.get(), new Item.Properties())
     );
 
     public static void register(IEventBus eventBus) {

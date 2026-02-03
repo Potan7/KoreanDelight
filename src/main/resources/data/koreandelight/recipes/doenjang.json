@@ -1,0 +1,12 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "koreandelight:doenjang_block"
+    }
+  ],
+  "result": {
+    "item": "koreandelight:doenjang",
+    "count": 16
+  }
+}
