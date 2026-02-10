@@ -3,23 +3,14 @@ package com.potan.koreandelight;
 import com.mojang.logging.LogUtils;
 import com.potan.koreandelight.block.ModBlockEntityTypes;
 import com.potan.koreandelight.block.ModBlocks;
-import com.potan.koreandelight.block.ModCropBlocks;
 import com.potan.koreandelight.fluid.ModFluidTypes;
 import com.potan.koreandelight.fluid.ModFluids;
-import com.potan.koreandelight.item.ModFoodItems;
 import com.potan.koreandelight.item.ModItems;
 import com.potan.koreandelight.recipe.ModRecipes;
 import com.potan.koreandelight.client.renderer.OnggiRenderer;
-import net.minecraft.client.renderer.ItemBlockRenderTypes;
-import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.EntityRenderersEvent;
-import net.minecraft.core.registries.Registries;
-import net.minecraft.world.item.CreativeModeTab;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockBehaviour;
-import net.minecraft.world.level.material.MapColor;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
@@ -31,10 +22,9 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import net.minecraftforge.registries.RegistryObject;
 import org.slf4j.Logger;
+import com.potan.koreandelight.mobeffect.ModEffects;
 
 // The value here should match an entry in the META-INF/mods.toml file
 // META-INF/mods.toml 파일에 있는 entry와 일치해야 합니다.
@@ -63,6 +53,7 @@ public class Koreandelight {
         ModItems.register(modEventBus);
         ModCreativeTabs.register(modEventBus);
         ModRecipes.register(modEventBus);
+        ModEffects.register(modEventBus);
 
         // Register ourselves for server and other game events we are interested in
         // 서버 및 기타 게임 이벤트에 등록합니다.
