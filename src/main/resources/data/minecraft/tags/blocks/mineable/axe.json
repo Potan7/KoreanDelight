@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "values": [
+    "koreandelight:meju_block",
+    "koreandelight:fermented_meju_block",
+    "koreandelight:doenjang_block"
+  ]
+}

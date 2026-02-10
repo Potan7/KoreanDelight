@@ -1,0 +1,9 @@
+{
+  "replace": false,
+  "values": [
+    "koreandelight:kimchi_cabbage_crop",
+    "koreandelight:red_pepper_crop",
+    "koreandelight:bean_crop",
+    "koreandelight:green_onion_crop"
+  ]
+}
