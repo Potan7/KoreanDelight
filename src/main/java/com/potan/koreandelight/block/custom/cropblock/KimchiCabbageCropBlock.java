@@ -1,4 +1,4 @@
-package com.potan.koreandelight.block.custom;
+package com.potan.koreandelight.block.custom.cropblock;
 
 import com.potan.koreandelight.item.ModItems;
 import net.minecraft.world.level.ItemLike;
@@ -8,17 +8,17 @@ import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.jetbrains.annotations.NotNull;
 
-public class BeanCropBlock extends CropBlock {
-    public static final int MAX_AGE = 3;
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
+public class KimchiCabbageCropBlock extends CropBlock {
+    public static final int MAX_AGE = 7;
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
 
-    public BeanCropBlock(Properties pProperties) {
+    public KimchiCabbageCropBlock(Properties pProperties) {
         super(pProperties);
     }
 
     @Override
     protected @NotNull ItemLike getBaseSeedId() {
-        return ModItems.BEAN_SEEDS.get();
+        return ModItems.KIMCHI_CABBAGE_SEEDS.get();
     }
 
     @Override

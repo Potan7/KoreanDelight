@@ -1,4 +1,4 @@
-package com.potan.koreandelight.block.custom;
+package com.potan.koreandelight.block.custom.cropblock;
 
 import com.potan.koreandelight.item.ModItems;
 import net.minecraft.world.level.ItemLike;

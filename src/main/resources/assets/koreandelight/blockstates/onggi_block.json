@@ -1,6 +1,9 @@
 {
   "variants": {
-    "": {
+    "has_lid=true": {
+      "model": "koreandelight:block/onggi_block"
+    },
+    "has_lid=false": {
       "model": "koreandelight:block/onggi_block"
     }
   }

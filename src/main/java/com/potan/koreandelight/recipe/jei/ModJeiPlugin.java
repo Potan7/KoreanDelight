@@ -20,7 +20,7 @@ public class ModJeiPlugin implements IModPlugin {
     // 고유 ID
     @Override
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation("koreandelight", "jei_plugin");
+        return ResourceLocation.fromNamespaceAndPath("koreandelight", "jei_plugin");
     }
 
     // 1. 카테고리 등록

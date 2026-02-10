@@ -1,9 +1,10 @@
 {
   "creativetab.koreandelight": "Korean Delight",
+  "jei.koreandelight.category.fermentation": "Fermentation",
 
   "item.koreandelight.kimchi": "Kimchi",
   "item.koreandelight.fresh_kimchi": "Fresh Kimchi",
-  "jei.koreandelight.category.fermentation": "Fermentation",
+  "item.koreandelight.aged_kimchi": "Aged Kimchi",
 
   "item.koreandelight.kimchi_cabbage": "Kimchi Cabbage",
   "item.koreandelight.kimchi_cabbage_seeds": "Kimchi Cabbage Seeds",

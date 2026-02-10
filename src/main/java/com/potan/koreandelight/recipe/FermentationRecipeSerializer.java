@@ -42,7 +42,7 @@ public class FermentationRecipeSerializer implements RecipeSerializer<Fermentati
     private FluidStack readFluid(JsonObject json) {
         String fluidId = GsonHelper.getAsString(json, "fluid");
         int amount = GsonHelper.getAsInt(json, "amount", 1000);
-        return new FluidStack(ForgeRegistries.FLUIDS.getValue(new ResourceLocation(fluidId)), amount);
+        return new FluidStack(ForgeRegistries.FLUIDS.getValue(ResourceLocation.parse(fluidId)), amount);
     }
 
     // 네트워크 패킷 읽기 (서버 -> 클라이언트 동기화)

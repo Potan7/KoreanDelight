@@ -16,18 +16,28 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
 import net.minecraftforge.fluids.FluidUtil;
 import net.minecraftforge.items.ItemHandlerHelper;
-import org.jetbrains.annotations.Nullable;
+
+import javax.annotation.Nullable;
 
 public class OnggiBlock extends Block implements EntityBlock {
+    public static final BooleanProperty HAS_LID = BooleanProperty.create("has_lid");
     protected static final VoxelShape SHAPE = Block.box(2.0D, 0.0D, 2.0D, 14.0D, 14.0D, 14.0D);
 
     public OnggiBlock(Properties properties) {
         super(properties);
+        this.registerDefaultState(this.stateDefinition.any().setValue(HAS_LID, true));
+    }
+
+    @Override
+    protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
+        builder.add(HAS_LID);
     }
 
     @Override
@@ -37,8 +47,21 @@ public class OnggiBlock extends Block implements EntityBlock {
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
+        // Shift + Right Click toggles the lid
+        // 쉬프트 + 우클릭으로 뚜껑을 여닫습니다.
+        if (player.isShiftKeyDown()) {
+            level.setBlock(pos, state.setValue(HAS_LID, !state.getValue(HAS_LID)), 3);
+            return InteractionResult.sidedSuccess(level.isClientSide);
+        }
+
         if (level.isClientSide) {
             return InteractionResult.SUCCESS;
+        }
+
+        // If the lid is on, interaction is not possible
+        // 뚜껑이 닫혀있으면 상호작용이 불가능합니다.
+        if (state.getValue(HAS_LID)) {
+            return InteractionResult.PASS;
         }
 
         BlockEntity entity = level.getBlockEntity(pos);
@@ -76,7 +99,6 @@ public class OnggiBlock extends Block implements EntityBlock {
 
     @Override
     public @Nullable <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState state, BlockEntityType<T> type) {
-        if (level.isClientSide()) return null;
         return createTickerHelper(type, ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), OnggiBlockEntity::tick);
     }
 

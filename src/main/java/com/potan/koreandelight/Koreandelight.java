@@ -9,9 +9,11 @@ import com.potan.koreandelight.fluid.ModFluids;
 import com.potan.koreandelight.item.ModFoodItems;
 import com.potan.koreandelight.item.ModItems;
 import com.potan.koreandelight.recipe.ModRecipes;
+import com.potan.koreandelight.client.renderer.OnggiRenderer;
 import net.minecraft.client.renderer.ItemBlockRenderTypes;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.Minecraft;
+import net.minecraftforge.client.event.EntityRenderersEvent;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.level.block.Block;
@@ -116,6 +118,11 @@ public class Koreandelight {
             LOGGER.info("MINECRAFT NAME >> {}", Minecraft.getInstance().getUser().getName());
 
 //            ItemBlockRenderTypes.setRenderLayer(ModBlocks.KIMCHI_CABBAGE_CROP.get(), RenderType.cutout());
+        }
+
+        @SubscribeEvent
+        public static void registerRenderers(EntityRenderersEvent.RegisterRenderers event) {
+            event.registerBlockEntityRenderer(ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), OnggiRenderer::new);
         }
     }
 }

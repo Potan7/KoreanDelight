@@ -1,10 +1,10 @@
 package com.potan.koreandelight.block;
 
 import com.potan.koreandelight.Koreandelight;
-import com.potan.koreandelight.block.custom.BeanCropBlock;
-import com.potan.koreandelight.block.custom.GreenOnionCropBlock;
-import com.potan.koreandelight.block.custom.KimchiCabbageCropBlock;
-import com.potan.koreandelight.block.custom.RedPepperCropBlock;
+import com.potan.koreandelight.block.custom.cropblock.BeanCropBlock;
+import com.potan.koreandelight.block.custom.cropblock.GreenOnionCropBlock;
+import com.potan.koreandelight.block.custom.cropblock.KimchiCabbageCropBlock;
+import com.potan.koreandelight.block.custom.cropblock.RedPepperCropBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
