@@ -71,6 +71,12 @@ public class ModItems {
             () -> new BlockItem(ModBlocks.FERMENTED_MEJU_BLOCK.get(), new Item.Properties())
     );
 
+    // 김장 대야 블록 아이템
+    public static final RegistryObject<Item> KIMJANG_BASIN = ITEMS.register(
+            "kimjang_basin",
+            () -> new BlockItem(ModBlocks.KIMJANG_BASIN.get(), new Item.Properties())
+    );
+
     public static void register(IEventBus eventBus) {
         ITEMS.register(eventBus);
         ModFoodItems.register(eventBus);

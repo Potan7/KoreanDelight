@@ -23,7 +23,7 @@ public class MejuBlock extends Block {
 
     @Override
     protected void createBlockStateDefinition(StateDefinition.Builder<Block, BlockState> builder) {
-        builder.add(new Property[]{AGE});
+        builder.add(AGE);
         super.createBlockStateDefinition(builder);
     }
 

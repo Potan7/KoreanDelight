@@ -38,5 +38,8 @@
   "block.koreandelight.fermented_meju_block": "발효된 메주",
 
   "item.koreandelight.doenjang": "된장",
-  "block.koreandelight.doenjang_block": "된장 블록"
+  "block.koreandelight.doenjang_block": "된장 블록",
+
+  "item.koreandelight.kimjang_basin": "김장 대야",
+  "block.koreandelight.kimjang_basin": "김장 대야"
 }

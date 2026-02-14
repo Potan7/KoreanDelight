@@ -1,5 +1,6 @@
 package com.potan.koreandelight.block;
 
+import com.potan.koreandelight.block.blockentity.KimjangBasinEntity;
 import com.potan.koreandelight.block.blockentity.OnggiBlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraftforge.eventbus.api.IEventBus;
@@ -18,6 +19,15 @@ public class ModBlockEntityTypes {
                     () -> BlockEntityType.Builder.of(
                             OnggiBlockEntity::new,
                             ModBlocks.ONGGI_BLOCK.get()
+                    ).build(null)
+            );
+
+    // 김장 대야 엔티티 등록
+    public static final RegistryObject<BlockEntityType<KimjangBasinEntity>> KIMJANG_BASIN_ENTITY =
+            BLOCK_ENTITY_TYPES.register("kimjang_basin",
+                    () -> BlockEntityType.Builder.of(
+                            KimjangBasinEntity::new,
+                            ModBlocks.KIMJANG_BASIN.get()
                     ).build(null)
             );
 
