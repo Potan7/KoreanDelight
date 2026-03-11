@@ -41,5 +41,11 @@
   "block.koreandelight.doenjang_block": "된장 블록",
 
   "item.koreandelight.kimjang_basin": "김장 대야",
-  "block.koreandelight.kimjang_basin": "김장 대야"
+  "block.koreandelight.kimjang_basin": "김장 대야",
+  "msg.koreandelight.need_vegetable": "김장을 시작하려면 채소가 필요합니다.",
+  "msg.koreandelight.need_spice": "김장을 시작하려면 최소 하나 이상의 양념이 필요합니다.",
+  "msg.koreandelight.already_has_vegetable": "이미 채소가 들어있습니다.",
+  "item.koreandelight.kimchi_format": "%s 김치 (+%d)",
+  "tooltip.koreandelight.is_kimchi": "김치입니다!",
+  "tooltip.koreandelight.spicy_level": "매운 강도: %d"
 }

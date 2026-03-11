@@ -42,5 +42,11 @@
   "block.koreandelight.doenjang_block": "Doenjang Block",
 
   "item.koreandelight.kimjang_basin": "Kimjang Basin",
-  "block.koreandelight.kimjang_basin": "Kimjang Basin"
+  "block.koreandelight.kimjang_basin": "Kimjang Basin",
+  "msg.koreandelight.need_vegetable": "You need a vegetable to start Kimjang.",
+  "msg.koreandelight.need_spice": "You need at least one seasoning to start Kimjang.",
+  "msg.koreandelight.already_has_vegetable": "The basin already has a vegetable.",
+  "item.koreandelight.kimchi_format": "%s Kimchi (+%d)",
+  "tooltip.koreandelight.is_kimchi": "This is a Kimchi!",
+  "tooltip.koreandelight.spicy_level": "Spicy Level: %d"
 }

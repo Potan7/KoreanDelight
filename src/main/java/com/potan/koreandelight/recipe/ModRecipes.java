@@ -27,6 +27,19 @@ public class ModRecipes {
     public static final RegistryObject<RecipeSerializer<FermentationRecipe>> FERMENTATION_SERIALIZER =
             RECIPE_SERIALIZERS.register("fermentation", FermentationRecipeSerializer::new);
 
+    // 김장 레시피 타입 등록
+    public static final RegistryObject<RecipeType<KimjangRecipe>> KIMJANG_RECIPE_TYPE =
+            RECIPE_TYPES.register("kimjang", () -> new RecipeType<>() {
+                @Override
+                public String toString() {
+                    return "koreandelight:kimjang";
+                }
+            });
+
+    // 김장 레시피 시리얼라이저 등록
+    public static final RegistryObject<RecipeSerializer<KimjangRecipe>> KIMJANG_SERIALIZER =
+            RECIPE_SERIALIZERS.register("kimjang", KimjangRecipeSerializer::new);
+
     public static void register(IEventBus eventBus) {
         RECIPE_TYPES.register(eventBus);
         RECIPE_SERIALIZERS.register(eventBus);
