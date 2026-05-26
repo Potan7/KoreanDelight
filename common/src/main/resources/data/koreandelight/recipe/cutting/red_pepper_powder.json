@@ -1,0 +1,26 @@
+{
+  "type": "farmersdelight:cutting",
+  "ingredients": [
+    {
+      "item": "koreandelight:red_pepper"
+    }
+  ],
+  "result": [
+    {
+      "item": {
+        "count": 2,
+        "id": "koreandelight:red_pepper_powder"
+      }
+    },
+    {
+      "chance": 0.5,
+      "item": {
+        "count": 1,
+        "id": "koreandelight:red_pepper_seeds"
+      }
+    }
+  ],
+  "tool": {
+    "tag": "c:tools/knife"
+  }
+}

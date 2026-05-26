@@ -1,0 +1,19 @@
+{
+  "type": "koreandelight:fermentation",
+  "ingredient": {
+    "item": "koreandelight:fermented_meju_block"
+  },
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "result_fluid": {
+    "fluid": "koreandelight:soy_sauce_fluid",
+    "amount": 1000
+  },
+  "result": {
+    "count": 1,
+    "id": "koreandelight:doenjang_block"
+  },
+  "fermentation_time": 2400
+}

@@ -1,0 +1,28 @@
+// plugins {
+//     id 'fabric-loom'
+// }
+// 
+// dependencies {
+//     minecraft "com.mojang:minecraft:${rootProject.minecraft_version}"
+//     mappings loom.officialMojangMappings()
+//     modImplementation "net.fabricmc:fabric-loader:${rootProject.fabric_loader_version}"
+//     modImplementation "net.fabricmc.fabric-api:fabric-api:${rootProject.fabric_api_version}"
+// 
+//     implementation project(":common")
+// }
+
+// Common 리소스를 Fabric 리소스에 포함
+sourceSets.main.resources.srcDirs += project(":common").sourceSets.main.resources.srcDirs
+
+tasks.withType(JavaCompile).configureEach {
+    source(project(":common").sourceSets.main.allSource)
+}
+
+processResources {
+    inputs.property "version", rootProject.mod_version
+    inputs.property "mod_id", rootProject.mod_id
+
+    filesMatching("fabric.mod.json") {
+        expand "version": rootProject.mod_version, "mod_id": rootProject.mod_id
+    }
+}

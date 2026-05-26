@@ -1,0 +1,18 @@
+plugins {
+    id 'net.neoforged.moddev' version '2.0.78'
+}
+
+neoForge {
+    // Common 모듈은 실행 기능이 필요 없으므로 최소 설정만 합니다.
+    version = rootProject.neoforge_version
+}
+
+dependencies {
+    // 1.21.1 마인크래프트 라이브러리를 컴파일 시에만 참조합니다.
+}
+
+sourceSets.main.resources.srcDir 'src/generated/resources'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
