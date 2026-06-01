@@ -1,0 +1,62 @@
+plugins {
+    id 'net.neoforged.moddev'
+}
+
+neoForge {
+    version = rootProject.neoforge_version
+
+    runs {
+        client {
+            client()
+        }
+        server {
+            server()
+        }
+        data {
+            data()
+            programArguments.addAll '--mod', rootProject.mod_id
+            programArguments.addAll '--all'
+            programArguments.addAll '--output', rootProject.project(":common").file('src/generated/resources').absolutePath
+            programArguments.addAll '--existing', rootProject.project(":common").file('src/main/resources').absolutePath
+        }
+    }
+
+    mods {
+        "${rootProject.mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    implementation project(":common")
+    
+    // Farmer's Delight NeoForge
+    implementation "curse.maven:farmers-delight-398521:7596366"
+
+    // JEI is loaded only in the NeoForge development runtime for recipe testing.
+    compileOnly "curse.maven:jei-238222:${rootProject.jei_curseforge_file_id}"
+    runtimeOnly "curse.maven:jei-238222:${rootProject.jei_curseforge_file_id}"
+}
+
+// Ensure common sources are available
+sourceSets.main.resources.srcDirs += project(":common").sourceSets.main.resources.srcDirs
+tasks.named('compileJava', JavaCompile) {
+    source(project(":common").sourceSets.main.allSource)
+}
+
+processResources {
+    def properties = [
+            mod_id          : rootProject.mod_id,
+            mod_name        : rootProject.mod_name,
+            mod_version     : rootProject.mod_version,
+            mod_authors     : rootProject.mod_authors,
+            mod_description : rootProject.mod_description,
+            mod_license     : rootProject.mod_license
+    ]
+    inputs.properties properties
+
+    filesMatching("META-INF/neoforge.mods.toml") {
+        expand properties
+    }
+}

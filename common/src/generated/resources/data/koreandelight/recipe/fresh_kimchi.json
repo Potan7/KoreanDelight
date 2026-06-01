@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:kimchi_cabbage"
+    },
+    {
+      "item": "koreandelight:red_pepper_powder"
+    },
+    {
+      "item": "koreandelight:red_pepper_powder"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:fresh_kimchi"
+  }
+}

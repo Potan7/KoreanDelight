@@ -1,0 +1,22 @@
+{
+  "type": "koreandelight:kimjang",
+  "vegetable": {
+    "item": "koreandelight:kimchi_cabbage"
+  },
+  "seasonings": [
+    {
+      "item": "koreandelight:red_pepper_powder"
+    }
+  ],
+  "seasoning_count": 2,
+  "result": {
+    "count": 1,
+    "id": "koreandelight:kimchi",
+    "components": {
+      "minecraft:custom_data": {
+        "IsKimchi": true,
+        "SpicyLevel": 1
+      }
+    }
+  }
+}
