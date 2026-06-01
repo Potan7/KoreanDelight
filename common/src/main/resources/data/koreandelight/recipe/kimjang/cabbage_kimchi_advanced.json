@@ -11,6 +11,12 @@
   "seasoning_count": 2,
   "result": {
     "count": 1,
-    "id": "koreandelight:kimchi"
+    "id": "koreandelight:kimchi",
+    "components": {
+      "minecraft:custom_data": {
+        "IsKimchi": true,
+        "SpicyLevel": 1
+      }
+    }
   }
 }

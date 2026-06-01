@@ -21,7 +21,7 @@ public class ModBlocks {
     public static final Supplier<LiquidBlock> SOY_SAUCE_BLOCK = BLOCKS.register(
             "soy_sauce_block",
             () -> new com.potan.koreandelight.block.custom.ModLiquidBlock(
-                    ModFluids.SOURCE_SOY_SAUCE,
+                    ModFluids.SOURCE_SOY_SAUCE.get(),
                     BlockBehaviour.Properties.ofFullCopy(net.minecraft.world.level.block.Blocks.WATER).noLootTable()
             )
     );

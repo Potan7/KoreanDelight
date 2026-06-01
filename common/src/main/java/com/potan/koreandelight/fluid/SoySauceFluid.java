@@ -11,11 +11,13 @@ import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.LevelReader;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
+import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.material.FlowingFluid;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.FluidState;
 import net.minecraft.world.level.material.Fluids;
 import net.neoforged.neoforge.fluids.FluidType;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * 간장(Soy Sauce) 액체의 공통 로직을 담은 클래스입니다.
@@ -23,17 +25,17 @@ import net.neoforged.neoforge.fluids.FluidType;
  */
 public abstract class SoySauceFluid extends FlowingFluid {
     @Override
-    public FluidType getFluidType() {
+    public @NotNull FluidType getFluidType() {
         return ModFluidTypes.SOY_SAUCE_FLUID_TYPE.get();
     }
 
     @Override
-    public Fluid getFlowing() {
+    public @NotNull Fluid getFlowing() {
         return ModFluids.FLOWING_SOY_SAUCE.get();
     }
 
     @Override
-    public Fluid getSource() {
+    public @NotNull Fluid getSource() {
         return ModFluids.SOURCE_SOY_SAUCE.get();
     }
 
@@ -43,7 +45,16 @@ public abstract class SoySauceFluid extends FlowingFluid {
     }
 
     @Override
+    public boolean canConvertToSource(FluidState state, Level level, BlockPos pos) {
+        return false;
+    }
+
+    @Override
     protected boolean canConvertToSource(Level level) {
+        return false;
+    }
+
+    protected boolean canConvertToSource(net.minecraft.server.level.ServerLevel level, BlockPos pos) {
         return false;
     }
 
@@ -59,7 +70,8 @@ public abstract class SoySauceFluid extends FlowingFluid {
 
     @Override
     protected BlockState createLegacyBlock(FluidState state) {
-        return ModBlocks.SOY_SAUCE_BLOCK.get().defaultBlockState();
+        return ModBlocks.SOY_SAUCE_BLOCK.get().defaultBlockState()
+                .setValue(LiquidBlock.LEVEL, getLegacyLevel(state));
     }
 
     @Override
