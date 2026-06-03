@@ -5,13 +5,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 
 public class ModFoodProperties {
-    // 겉절이: 가볍게 매콤 (50% 확률)
-    public static final FoodProperties FRESH_KIMCHI = new FoodProperties.Builder()
-            .nutrition(4)
-            .saturationModifier(0.4f)
-            .effect(new MobEffectInstance(ModEffects.SPICY_HOLDER, 100, 0), 0.5f)
-            .build();
-
     // 김치: 표준 매콤함 (100% 확률)
     public static final FoodProperties KIMCHI_FOOD = new FoodProperties.Builder()
             .nutrition(6)

@@ -1,6 +1,7 @@
 package com.potan.koreandelight.block.blockentity;
 
 import com.potan.koreandelight.block.ModBlockEntityTypes;
+import com.potan.koreandelight.block.custom.OnggiBlock;
 import com.potan.koreandelight.recipe.FermentationInput;
 import com.potan.koreandelight.recipe.FermentationRecipe;
 import com.potan.koreandelight.recipe.FluidStackData;
@@ -53,10 +54,12 @@ public class OnggiBlockEntity extends BlockEntity {
 
         ItemStack inputStack = blockEntity.inventory.getItem(0);
         if (inputStack.isEmpty()) {
-            if (blockEntity.agingProgress > 0) {
-                blockEntity.agingProgress = 0;
-                blockEntity.setChanged();
-            }
+            blockEntity.resetProgress();
+            return;
+        }
+
+        if (state.hasProperty(OnggiBlock.HAS_LID) && !state.getValue(OnggiBlock.HAS_LID)) {
+            blockEntity.resetProgress();
             return;
         }
 
@@ -73,10 +76,7 @@ public class OnggiBlockEntity extends BlockEntity {
                 FluidStackData inputFluid = fermentationRecipe.getFluid().get();
                 if (blockEntity.storedFluidAmount < inputFluid.amount() ||
                     !blockEntity.storedFluid.isSame(inputFluid.fluid())) {
-                    if (blockEntity.agingProgress > 0) {
-                        blockEntity.agingProgress = 0;
-                        blockEntity.setChanged();
-                    }
+                    blockEntity.resetProgress();
                     return;
                 }
             }
@@ -91,19 +91,13 @@ public class OnggiBlockEntity extends BlockEntity {
 
                 // 옹기의 유체 최대 용량은 1000mB입니다.
                 if (remainingAmount + outputAmount > 1000) {
-                    if (blockEntity.agingProgress > 0) {
-                        blockEntity.agingProgress = 0;
-                        blockEntity.setChanged();
-                    }
+                    blockEntity.resetProgress();
                     return;
                 }
 
                 // 기존 유체와 결과물 유체 종류가 일치하는지 확인
                 if (remainingAmount > 0 && !blockEntity.storedFluid.isSame(outputFluid.fluid())) {
-                    if (blockEntity.agingProgress > 0) {
-                        blockEntity.agingProgress = 0;
-                        blockEntity.setChanged();
-                    }
+                    blockEntity.resetProgress();
                     return;
                 }
             }
@@ -111,8 +105,8 @@ public class OnggiBlockEntity extends BlockEntity {
             blockEntity.maxProgress = fermentationRecipe.getFermentation_time();
             blockEntity.agingProgress++;
             
-            if (blockEntity.agingProgress % 20 == 0) {
-                blockEntity.setChanged();
+            if (blockEntity.agingProgress == 1 || blockEntity.agingProgress % 20 == 0) {
+                blockEntity.syncChanged();
             }
 
             // 발효(숙성) 완료
@@ -137,13 +131,11 @@ public class OnggiBlockEntity extends BlockEntity {
 
                 blockEntity.inventory.setItem(0, result);
                 blockEntity.agingProgress = 0;
-                blockEntity.setChanged();
+                blockEntity.maxProgress = 0;
+                blockEntity.syncChanged();
             }
         } else {
-            if (blockEntity.agingProgress > 0) {
-                blockEntity.agingProgress = 0;
-                blockEntity.setChanged();
-            }
+            blockEntity.resetProgress();
         }
     }
 
@@ -154,7 +146,7 @@ public class OnggiBlockEntity extends BlockEntity {
 
         if (random.nextFloat() < 0.2F + (progressRatio * 0.3F)) {
             double x = pos.getX() + 0.3D + random.nextDouble() * 0.4D;
-            double y = pos.getY() + 0.5D + random.nextDouble() * 0.5D;
+            double y = pos.getY() + 0.95D + random.nextDouble() * 0.25D;
             double z = pos.getZ() + 0.3D + random.nextDouble() * 0.4D;
 
             if (progressRatio < 0.5) {
@@ -164,6 +156,21 @@ public class OnggiBlockEntity extends BlockEntity {
             } else {
                 level.addParticle(net.minecraft.core.particles.ParticleTypes.BUBBLE_POP, x, y, z, 0.0D, 0.08D, 0.0D);
             }
+        }
+    }
+
+    private void resetProgress() {
+        if (agingProgress != 0 || maxProgress != 0) {
+            agingProgress = 0;
+            maxProgress = 0;
+            syncChanged();
+        }
+    }
+
+    private void syncChanged() {
+        setChanged();
+        if (level != null && !level.isClientSide) {
+            level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
         }
     }
 

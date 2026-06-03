@@ -9,8 +9,8 @@ import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import org.jetbrains.annotations.NotNull;
 
 public class KimchiCabbageCropBlock extends CropBlock {
-    public static final int MAX_AGE = 7;
-    public static final IntegerProperty AGE = BlockStateProperties.AGE_7;
+    public static final int MAX_AGE = 3;
+    public static final IntegerProperty AGE = BlockStateProperties.AGE_3;
 
     public KimchiCabbageCropBlock(Properties pProperties) {
         super(pProperties);

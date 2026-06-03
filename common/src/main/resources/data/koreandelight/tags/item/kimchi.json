@@ -2,7 +2,6 @@
   "replace": false,
   "values": [
     "koreandelight:kimchi",
-    "koreandelight:aged_kimchi",
-    "koreandelight:fresh_kimchi"
+    "koreandelight:aged_kimchi"
   ]
 }

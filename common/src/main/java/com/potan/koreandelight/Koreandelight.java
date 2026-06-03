@@ -26,7 +26,7 @@ public class Koreandelight {
     public static void init() {
         LOGGER.info("Korean Delight: Initializing common logic for 1.21.1 Multiloader!");
 
-        // 1. 유체(Fluid) 먼저 초기화 (블록에서 참조하기 때문)
+        // 1. 유체(Fluid) 초기화
         ModFluidTypes.init();
         ModFluids.init();
 

@@ -1,10 +1,10 @@
 {
   "variants": {
     "has_lid=true": {
-      "model": "koreandelight:block/onggi_block"
+      "model": "koreandelight:block/onggi_block_closed"
     },
     "has_lid=false": {
-      "model": "koreandelight:block/onggi_block"
+      "model": "koreandelight:block/onggi_block_open"
     }
   }
 }

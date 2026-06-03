@@ -49,12 +49,6 @@ public class ModFoodItems {
             () -> new Item(new Item.Properties().food(ModFoodProperties.AGED_KIMCHI_FOOD))
     );
 
-    // 겉절이
-    public static final Supplier<Item> FRESH_KIMCHI = ITEMS.register(
-            "fresh_kimchi",
-            () -> new Item(new Item.Properties().food(ModFoodProperties.FRESH_KIMCHI))
-    );
-
     // 된장
     public static final Supplier<Item> DOENJANG = ITEMS.register(
             "doenjang",

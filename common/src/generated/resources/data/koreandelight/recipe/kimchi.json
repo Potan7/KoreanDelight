@@ -1,6 +1,6 @@
 {
   "type": "minecraft:crafting_shapeless",
-  "category": "misc",
+  "category": "food",
   "ingredients": [
     {
       "item": "koreandelight:kimchi_cabbage"
@@ -14,6 +14,6 @@
   ],
   "result": {
     "count": 1,
-    "id": "koreandelight:fresh_kimchi"
+    "id": "koreandelight:kimchi"
   }
 }

@@ -5,7 +5,6 @@
   "effect.koreandelight.spicy": "매움",
 
   "item.koreandelight.kimchi": "김치",
-  "item.koreandelight.fresh_kimchi": "겉절이",
     "item.koreandelight.aged_kimchi": "묵은지",
 
   "item.koreandelight.kimchi_cabbage": "배추",
@@ -42,11 +41,6 @@
 
   "item.koreandelight.kimjang_basin": "김장 대야",
   "block.koreandelight.kimjang_basin": "김장 대야",
-  "msg.koreandelight.need_vegetable": "김장을 시작하려면 채소가 필요합니다.",
-  "msg.koreandelight.need_spice": "김장을 시작하려면 최소 하나 이상의 양념이 필요합니다.",
-  "msg.koreandelight.already_has_vegetable": "이미 채소가 들어있습니다.",
-  "msg.koreandelight.no_matching_recipe": "이 재료 조합에 맞는 김장 레시피가 없습니다.",
-  "item.koreandelight.kimchi_format": "%s 김치 (+%d)",
   "tooltip.koreandelight.is_kimchi": "김치입니다!",
   "tooltip.koreandelight.spicy_level": "매운 강도: %d"
 }

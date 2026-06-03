@@ -23,7 +23,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "koreandelight:fresh_kimchi"
+        "recipe": "koreandelight:kimchi"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -37,7 +37,7 @@
   ],
   "rewards": {
     "recipes": [
-      "koreandelight:fresh_kimchi"
+      "koreandelight:kimchi"
     ]
   }
 }

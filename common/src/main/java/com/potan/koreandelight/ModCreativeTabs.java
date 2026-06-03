@@ -40,8 +40,8 @@ public class ModCreativeTabs {
                         output.accept(ModFoodItems.GREEN_ONION.get());
                         output.accept(ModFoodItems.KIMCHI.get());
                         output.accept(ModFoodItems.AGED_KIMCHI.get());
-                        output.accept(ModFoodItems.FRESH_KIMCHI.get());
                         output.accept(ModFoodItems.DOENJANG.get());
+                        output.accept(ModFoodItems.DOENJANG_BLOCK_ITEM.get());
                     }).build()
     );
 

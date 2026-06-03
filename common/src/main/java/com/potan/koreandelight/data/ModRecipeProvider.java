@@ -30,12 +30,12 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_doenjang_block", has(ModBlocks.DOENJANG_BLOCK.get()))
                 .save(output, modRecipe("doenjang"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.FRESH_KIMCHI.get())
+        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.KIMCHI.get())
                 .requires(ModFoodItems.KIMCHI_CABBAGE.get())
                 .requires(ModItems.RED_PEPPER_POWDER.get(), 2)
                 .unlockedBy("has_kimchi_cabbage", has(ModFoodItems.KIMCHI_CABBAGE.get()))
                 .unlockedBy("has_red_pepper_powder", has(ModItems.RED_PEPPER_POWDER.get()))
-                .save(output, modRecipe("fresh_kimchi"));
+                .save(output, modRecipe("kimchi"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, ModItems.KIMCHI_CABBAGE_SEEDS.get())
                 .requires(ModFoodItems.KIMCHI_CABBAGE.get())
