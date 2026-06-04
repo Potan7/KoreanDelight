@@ -9,21 +9,21 @@ public class ModFoodProperties {
     public static final FoodProperties KIMCHI_FOOD = new FoodProperties.Builder()
             .nutrition(6)
             .saturationModifier(0.6f)
-            .effect(new MobEffectInstance(ModEffects.SPICY_HOLDER, 200, 0), 1.0f)
+            .effect(() -> new MobEffectInstance(ModEffects.SPICY_HOLDER, 200, 0), 1.0f)
             .build();
 
     // 묵은지: 깊고 강한 매운맛
     public static final FoodProperties AGED_KIMCHI_FOOD = new FoodProperties.Builder()
             .nutrition(8)
             .saturationModifier(0.8f)
-            .effect(new MobEffectInstance(ModEffects.SPICY_HOLDER, 300, 1), 1.0f)
+            .effect(() -> new MobEffectInstance(ModEffects.SPICY_HOLDER, 300, 1), 1.0f)
             .build();
 
     // 고추
     public static final FoodProperties RED_PEPPER = new FoodProperties.Builder()
             .nutrition(2)
             .saturationModifier(0.8f)
-            .effect(new MobEffectInstance(ModEffects.SPICY_HOLDER, 100, 2), 1.0f)
+            .effect(() -> new MobEffectInstance(ModEffects.SPICY_HOLDER, 100, 2), 1.0f)
             .build();
 
     // 배추

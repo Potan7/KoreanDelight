@@ -23,8 +23,9 @@ public class NeoForgeRegistrationProvider<T> implements RegistrationProvider<T> 
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public <I extends T> Holder<I> registerHolder(String name, Supplier<I> supplier) {
-        return (Holder<I>) register.<I>register(name, supplier);
+        return (Holder<I>) register.register(name, supplier);
     }
 
     public DeferredRegister<T> getRegister() {

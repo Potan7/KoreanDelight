@@ -50,11 +50,8 @@ public abstract class SoySauceFluid extends FlowingFluid {
     }
 
     @Override
+    @SuppressWarnings("deprecation")
     protected boolean canConvertToSource(Level level) {
-        return false;
-    }
-
-    protected boolean canConvertToSource(net.minecraft.server.level.ServerLevel level, BlockPos pos) {
         return false;
     }
 

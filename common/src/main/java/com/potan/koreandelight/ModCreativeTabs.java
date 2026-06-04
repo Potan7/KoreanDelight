@@ -17,7 +17,7 @@ public class ModCreativeTabs {
 
     public static final Supplier<CreativeModeTab> KOREAN_DELIGHT_TAB = CREATIVE_TABS.register(
             "koreandelight_tab",
-            () -> CreativeModeTab.builder(CreativeModeTab.Row.TOP, 0)
+            () -> CreativeModeTab.builder()
                     .icon(() -> new ItemStack(ModFoodItems.KIMCHI.get()))
                     .title(Component.translatable("creativetab.koreandelight"))
                     .displayItems((parameters, output) -> {
