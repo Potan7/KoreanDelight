@@ -5,6 +5,18 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.food.FoodProperties;
 
 public class ModFoodProperties {
+    public static final FoodProperties GARLIC = food(2, 0.2f);
+    public static final FoodProperties FISH_CAKE = food(5, 0.6f);
+    public static final FoodProperties KIMCHI_JEON = food(7, 0.7f);
+    public static final FoodProperties PAJEON = food(7, 0.7f);
+    public static final FoodProperties BIBIMBAP = food(12, 0.9f);
+    public static final FoodProperties CHICKEN_KALGUKSU = food(14, 1.0f);
+    public static final FoodProperties TTEOKBOKKI = food(12, 0.8f);
+    public static final FoodProperties JEYUK_BOKKEUM = food(14, 0.9f);
+    public static final FoodProperties PORK_GUKBAP = food(14, 1.0f);
+    public static final FoodProperties DOENJANG_GUKBAP = food(14, 1.0f);
+    public static final FoodProperties SIKHYE = food(4, 0.3f);
+
     // 김치: 표준 매콤함 (100% 확률)
     public static final FoodProperties KIMCHI_FOOD = new FoodProperties.Builder()
             .nutrition(6)
@@ -49,4 +61,8 @@ public class ModFoodProperties {
             .nutrition(2)
             .saturationModifier(0.3f)
             .build();
+
+    private static FoodProperties food(int nutrition, float saturation) {
+        return new FoodProperties.Builder().nutrition(nutrition).saturationModifier(saturation).build();
+    }
 }

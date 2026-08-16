@@ -60,6 +60,21 @@ public class ModFoodItems {
             "doenjang_block",
             () -> new BlockItem(ModBlocks.DOENJANG_BLOCK.get(), new Item.Properties())
     );
+    public static final Supplier<Item> FISH_CAKE = food("fish_cake", ModFoodProperties.FISH_CAKE);
+    public static final Supplier<Item> KIMCHI_JEON = food("kimchi_jeon", ModFoodProperties.KIMCHI_JEON);
+    public static final Supplier<Item> PAJEON = food("pajeon", ModFoodProperties.PAJEON);
+    public static final Supplier<Item> BIBIMBAP = food("bibimbap", ModFoodProperties.BIBIMBAP);
+    public static final Supplier<Item> CHICKEN_KALGUKSU = food("chicken_kalguksu", ModFoodProperties.CHICKEN_KALGUKSU);
+    public static final Supplier<Item> TTEOKBOKKI = food("tteokbokki", ModFoodProperties.TTEOKBOKKI);
+    public static final Supplier<Item> JEYUK_BOKKEUM = food("jeyuk_bokkeum", ModFoodProperties.JEYUK_BOKKEUM);
+    public static final Supplier<Item> PORK_GUKBAP = food("pork_gukbap", ModFoodProperties.PORK_GUKBAP);
+    public static final Supplier<Item> DOENJANG_GUKBAP = food("doenjang_gukbap", ModFoodProperties.DOENJANG_GUKBAP);
+    public static final Supplier<Item> SIKHYE = food("sikhye", ModFoodProperties.SIKHYE);
+
+    private static Supplier<Item> food(String name, net.minecraft.world.food.FoodProperties properties) {
+        return ITEMS.register(name, () -> new Item(new Item.Properties().food(properties)));
+    }
+
 
     public static void init() {
         // 클래스 로딩을 위해 호출됩니다.

@@ -1,6 +1,5 @@
 package com.potan.koreandelight.block;
 
-import com.potan.koreandelight.block.custom.KimjangBasin;
 import com.potan.koreandelight.block.custom.MejuBlock;
 import com.potan.koreandelight.block.custom.OnggiBlock;
 import com.potan.koreandelight.fluid.ModFluids;
@@ -48,12 +47,6 @@ public class ModBlocks {
     public static final Supplier<Block> DOENJANG_BLOCK = BLOCKS.register(
             "doenjang_block",
             () -> new Block(BlockBehaviour.Properties.of().noOcclusion().strength(0.5f))
-    );
-
-    // 김장 대야 블록
-    public static final Supplier<Block> KIMJANG_BASIN = BLOCKS.register(
-            "kimjang_basin",
-            () -> new KimjangBasin(BlockBehaviour.Properties.of().noOcclusion().strength(0.5f))
     );
 
     public static void init() {

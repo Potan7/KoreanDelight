@@ -1,6 +1,7 @@
 package com.potan.koreandelight.block;
 
 import com.potan.koreandelight.block.custom.cropblock.BeanCropBlock;
+import com.potan.koreandelight.block.custom.cropblock.GarlicCropBlock;
 import com.potan.koreandelight.block.custom.cropblock.GreenOnionCropBlock;
 import com.potan.koreandelight.block.custom.cropblock.KimchiCabbageCropBlock;
 import com.potan.koreandelight.block.custom.cropblock.RedPepperCropBlock;
@@ -38,6 +39,12 @@ public class ModCropBlocks {
     public static final Supplier<Block> GREEN_ONION_CROP = BLOCKS.register(
             "green_onion_crop",
             () -> new GreenOnionCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).noOcclusion().noCollission())
+    );
+
+    // 마늘 작물
+    public static final Supplier<Block> GARLIC_CROP = BLOCKS.register(
+            "garlic_crop",
+            () -> new GarlicCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).noOcclusion().noCollission())
     );
 
     public static void init() {

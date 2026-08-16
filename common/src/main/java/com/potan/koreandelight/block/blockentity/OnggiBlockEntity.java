@@ -48,7 +48,10 @@ public class OnggiBlockEntity extends BlockEntity {
 
     public static void tick(Level level, BlockPos pos, BlockState state, OnggiBlockEntity blockEntity) {
         if (level.isClientSide) {
-            blockEntity.spawnParticles(level, pos);
+            // 뚜껑이 열려있을 때만 내부 발효 파티클을 렌더링하여 렉을 방지합니다.
+            if (state.hasProperty(OnggiBlock.HAS_LID) && !state.getValue(OnggiBlock.HAS_LID)) {
+                blockEntity.spawnParticles(level, pos);
+            }
             return;
         }
 
@@ -59,7 +62,7 @@ public class OnggiBlockEntity extends BlockEntity {
         }
 
         if (state.hasProperty(OnggiBlock.HAS_LID) && !state.getValue(OnggiBlock.HAS_LID)) {
-            blockEntity.resetProgress();
+            // 뚜껑이 열려있으면 발효 진행을 일시 정지(Pause)합니다. (기존 진행도는 유지하여 파티클 출력 가능하게 함)
             return;
         }
 

@@ -48,11 +48,27 @@ public class ModItems {
             () -> new ItemNameBlockItem(ModCropBlocks.GREEN_ONION_CROP.get(), new Item.Properties())
     );
 
+    // 마늘(식재료 및 파종용)
+    public static final Supplier<Item> GARLIC = ITEMS.register(
+            "garlic",
+            () -> new ItemNameBlockItem(ModCropBlocks.GARLIC_CROP.get(), new Item.Properties().food(ModFoodProperties.GARLIC))
+    );
+
     // 고춧가루
     public static final Supplier<Item> RED_PEPPER_POWDER = ITEMS.register(
             "red_pepper_powder",
             () -> new Item(new Item.Properties())
     );
+
+    public static final Supplier<Item> GOCHUJANG = ITEMS.register("gochujang", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> FISH_SAUCE = ITEMS.register("fish_sauce", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> MINCED_GARLIC = ITEMS.register("minced_garlic", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> RAW_KALGUKSU = ITEMS.register("raw_kalguksu", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> TTEOK = ITEMS.register("tteok", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> MINCED_FISH = ITEMS.register("minced_fish", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> RAW_FISH_CAKE = ITEMS.register("raw_fish_cake", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> RAW_KIMCHI_JEON = ITEMS.register("raw_kimchi_jeon", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> RAW_PAJEON = ITEMS.register("raw_pajeon", () -> new Item(new Item.Properties()));
 
     // 옹기 블록 아이템
     public static final Supplier<Item> ONGGI_BLOCK_ITEM = ITEMS.register(
@@ -70,12 +86,6 @@ public class ModItems {
     public static final Supplier<Item> FERMENTED_MEJU = ITEMS.register(
             "fermented_meju_block",
             () -> new BlockItem(ModBlocks.FERMENTED_MEJU_BLOCK.get(), new Item.Properties())
-    );
-
-    // 김장 대야 블록 아이템
-    public static final Supplier<Item> KIMJANG_BASIN = ITEMS.register(
-            "kimjang_basin",
-            () -> new BlockItem(ModBlocks.KIMJANG_BASIN.get(), new Item.Properties())
     );
 
     public static void init() {
