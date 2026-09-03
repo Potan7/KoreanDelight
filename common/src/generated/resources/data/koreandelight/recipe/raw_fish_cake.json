@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:minced_fish"
+    },
+    {
+      "tag": "c:foods/dough/wheat"
+    },
+    {
+      "item": "koreandelight:minced_garlic"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:raw_fish_cake"
+  }
+}

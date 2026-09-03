@@ -10,26 +10,8 @@
       "bonus_rolls": 0.0,
       "entries": [
         {
-          "type": "minecraft:alternatives",
-          "children": [
-            {
-              "type": "minecraft:item",
-              "conditions": [
-                {
-                  "block": "koreandelight:bean_crop",
-                  "condition": "minecraft:block_state_property",
-                  "properties": {
-                    "age": "3"
-                  }
-                }
-              ],
-              "name": "koreandelight:bean"
-            },
-            {
-              "type": "minecraft:item",
-              "name": "koreandelight:bean_seeds"
-            }
-          ]
+          "type": "minecraft:item",
+          "name": "koreandelight:bean"
         }
       ],
       "rolls": 1.0
@@ -59,7 +41,7 @@
               }
             }
           ],
-          "name": "koreandelight:bean_seeds"
+          "name": "koreandelight:bean"
         }
       ],
       "rolls": 1.0

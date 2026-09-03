@@ -1,1 +1,4 @@
-{ "parent": "minecraft:item/baked_potato" }
+{
+  "parent": "minecraft:item/generated",
+  "textures": { "layer0": "koreandelight:item/kimchi_jeon" }
+}

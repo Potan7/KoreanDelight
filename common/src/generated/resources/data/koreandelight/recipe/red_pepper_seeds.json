@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:red_pepper"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:red_pepper_seeds"
+  }
+}

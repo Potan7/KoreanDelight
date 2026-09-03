@@ -25,13 +25,11 @@ public class ModCreativeTabs {
                         output.accept(ModItems.SOY_SAUCE_BUCKET.get());
                         output.accept(ModItems.KIMCHI_CABBAGE_SEEDS.get());
                         output.accept(ModItems.RED_PEPPER_SEEDS.get());
-                        output.accept(ModItems.BEAN_SEEDS.get());
                         output.accept(ModItems.GREEN_ONION_SEEDS.get());
                         output.accept(ModItems.GARLIC.get());
                         output.accept(ModItems.GOCHUJANG.get());
                         output.accept(ModItems.FISH_SAUCE.get());
                         output.accept(ModItems.MINCED_GARLIC.get());
-                        output.accept(ModItems.RAW_KALGUKSU.get());
                         output.accept(ModItems.TTEOK.get());
                         output.accept(ModItems.MINCED_FISH.get());
                         output.accept(ModItems.RAW_FISH_CAKE.get());
@@ -59,7 +57,7 @@ public class ModCreativeTabs {
                         output.accept(ModFoodItems.TTEOKBOKKI.get());
                         output.accept(ModFoodItems.JEYUK_BOKKEUM.get());
                         output.accept(ModFoodItems.PORK_GUKBAP.get());
-                        output.accept(ModFoodItems.DOENJANG_GUKBAP.get());
+                        output.accept(ModFoodItems.DOENJANG_JJIGAE.get());
                         output.accept(ModFoodItems.SIKHYE.get());
                     }).build()
     );

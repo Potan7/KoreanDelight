@@ -1,1 +1,4 @@
-{ "parent": "minecraft:item/ghast_tear" }
+{
+  "parent": "minecraft:item/generated",
+  "textures": { "layer0": "koreandelight:item/garlic" }
+}

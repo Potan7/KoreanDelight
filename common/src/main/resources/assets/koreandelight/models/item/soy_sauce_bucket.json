@@ -1,6 +1,5 @@
 {
-  "parent": "minecraft:item/generated",
-  "textures": {
-    "layer0": "koreandelight:item/soy_sauce_bucket"
-  }
+  "loader": "neoforge:fluid_container",
+  "parent": "neoforge:item/bucket",
+  "fluid": "koreandelight:soy_sauce_fluid"
 }

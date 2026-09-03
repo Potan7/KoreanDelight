@@ -14,7 +14,7 @@ public class ModFoodProperties {
     public static final FoodProperties TTEOKBOKKI = food(12, 0.8f);
     public static final FoodProperties JEYUK_BOKKEUM = food(14, 0.9f);
     public static final FoodProperties PORK_GUKBAP = food(14, 1.0f);
-    public static final FoodProperties DOENJANG_GUKBAP = food(14, 1.0f);
+    public static final FoodProperties DOENJANG_JJIGAE = food(14, 1.0f);
     public static final FoodProperties SIKHYE = food(4, 0.3f);
 
     // 김치: 표준 매콤함 (100% 확률)

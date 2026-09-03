@@ -17,7 +17,6 @@
   "item.koreandelight.red_pepper_powder": "Red Pepper Powder",
 
   "item.koreandelight.bean": "Bean",
-  "item.koreandelight.bean_seeds": "Bean Seeds",
   "block.koreandelight.bean_crop": "Bean Crop",
 
   "item.koreandelight.green_onion": "Green Onion",
@@ -45,7 +44,6 @@
   "item.koreandelight.gochujang": "Gochujang",
   "item.koreandelight.fish_sauce": "Fish Sauce",
   "item.koreandelight.minced_garlic": "Minced Garlic",
-  "item.koreandelight.raw_kalguksu": "Raw Kalguksu Noodles",
   "item.koreandelight.tteok": "Tteok",
   "item.koreandelight.minced_fish": "Minced Fish",
   "item.koreandelight.raw_fish_cake": "Raw Fish Cake",
@@ -59,7 +57,7 @@
   "item.koreandelight.tteokbokki": "Tteokbokki",
   "item.koreandelight.jeyuk_bokkeum": "Jeyuk Bokkeum",
   "item.koreandelight.pork_gukbap": "Pork Gukbap",
-  "item.koreandelight.doenjang_gukbap": "Doenjang Gukbap",
+  "item.koreandelight.doenjang_jjigae": "Doenjang Jjigae",
   "item.koreandelight.sikhye": "Sikhye",
 
   "tooltip.koreandelight.is_kimchi": "This is a Kimchi!",

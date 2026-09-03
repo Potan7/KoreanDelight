@@ -36,12 +36,6 @@ public class ModItems {
             () -> new ItemNameBlockItem(ModCropBlocks.RED_PEPPER_CROP.get(), new Item.Properties())
     );
 
-    // 콩 씨앗
-    public static final Supplier<Item> BEAN_SEEDS = ITEMS.register(
-            "bean_seeds",
-            () -> new ItemNameBlockItem(ModCropBlocks.BEAN_CROP.get(), new Item.Properties())
-    );
-
     // 대파 씨앗
     public static final Supplier<Item> GREEN_ONION_SEEDS = ITEMS.register(
             "green_onion_seeds",
@@ -63,7 +57,6 @@ public class ModItems {
     public static final Supplier<Item> GOCHUJANG = ITEMS.register("gochujang", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> FISH_SAUCE = ITEMS.register("fish_sauce", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> MINCED_GARLIC = ITEMS.register("minced_garlic", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> RAW_KALGUKSU = ITEMS.register("raw_kalguksu", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> TTEOK = ITEMS.register("tteok", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> MINCED_FISH = ITEMS.register("minced_fish", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> RAW_FISH_CAKE = ITEMS.register("raw_fish_cake", () -> new Item(new Item.Properties()));

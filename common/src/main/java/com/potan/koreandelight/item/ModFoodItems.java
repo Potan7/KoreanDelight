@@ -2,11 +2,13 @@ package com.potan.koreandelight.item;
 
 import com.potan.koreandelight.Koreandelight;
 import com.potan.koreandelight.block.ModBlocks;
+import com.potan.koreandelight.block.ModCropBlocks;
 import com.potan.koreandelight.platform.RegistrationProvider;
 import com.potan.koreandelight.platform.Services;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemNameBlockItem;
 
 import java.util.function.Supplier;
 
@@ -28,7 +30,7 @@ public class ModFoodItems {
     // 콩
     public static final Supplier<Item> BEAN = ITEMS.register(
             "bean",
-            () -> new Item(new Item.Properties().food(ModFoodProperties.BEAN))
+            () -> new ItemNameBlockItem(ModCropBlocks.BEAN_CROP.get(), new Item.Properties().food(ModFoodProperties.BEAN))
     );
 
     // 대파
@@ -68,7 +70,7 @@ public class ModFoodItems {
     public static final Supplier<Item> TTEOKBOKKI = food("tteokbokki", ModFoodProperties.TTEOKBOKKI);
     public static final Supplier<Item> JEYUK_BOKKEUM = food("jeyuk_bokkeum", ModFoodProperties.JEYUK_BOKKEUM);
     public static final Supplier<Item> PORK_GUKBAP = food("pork_gukbap", ModFoodProperties.PORK_GUKBAP);
-    public static final Supplier<Item> DOENJANG_GUKBAP = food("doenjang_gukbap", ModFoodProperties.DOENJANG_GUKBAP);
+    public static final Supplier<Item> DOENJANG_JJIGAE = food("doenjang_jjigae", ModFoodProperties.DOENJANG_JJIGAE);
     public static final Supplier<Item> SIKHYE = food("sikhye", ModFoodProperties.SIKHYE);
 
     private static Supplier<Item> food(String name, net.minecraft.world.food.FoodProperties properties) {

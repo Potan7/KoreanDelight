@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:smoking",
+  "category": "food",
+  "cookingtime": 100,
+  "experience": 0.35,
+  "ingredient": {
+    "item": "koreandelight:raw_fish_cake"
+  },
+  "result": {
+    "count": 1,
+    "id": "koreandelight:fish_cake"
+  }
+}

@@ -17,7 +17,6 @@
   "item.koreandelight.red_pepper_powder": "고추가루",
 
   "item.koreandelight.bean": "콩",
-  "item.koreandelight.bean_seeds": "콩 씨앗",
   "block.koreandelight.bean_crop": "콩 작물",
 
   "item.koreandelight.green_onion": "대파",
@@ -44,7 +43,6 @@
   "item.koreandelight.gochujang": "고추장",
   "item.koreandelight.fish_sauce": "액젖",
   "item.koreandelight.minced_garlic": "다진 마늘",
-  "item.koreandelight.raw_kalguksu": "생칼국수 면",
   "item.koreandelight.tteok": "떡",
   "item.koreandelight.minced_fish": "다진 생선살",
   "item.koreandelight.raw_fish_cake": "생 어묵 반죽",
@@ -58,7 +56,7 @@
   "item.koreandelight.tteokbokki": "떡볶이",
   "item.koreandelight.jeyuk_bokkeum": "제육볶음",
   "item.koreandelight.pork_gukbap": "돼지국밥",
-  "item.koreandelight.doenjang_gukbap": "된장국밥",
+  "item.koreandelight.doenjang_jjigae": "된장찌개",
   "item.koreandelight.sikhye": "식혜",
 
   "tooltip.koreandelight.is_kimchi": "김치입니다!",

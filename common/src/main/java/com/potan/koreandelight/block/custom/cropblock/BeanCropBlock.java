@@ -1,6 +1,6 @@
 package com.potan.koreandelight.block.custom.cropblock;
 
-import com.potan.koreandelight.item.ModItems;
+import com.potan.koreandelight.item.ModFoodItems;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.block.CropBlock;
 import net.minecraft.world.level.block.state.BlockState;
@@ -18,7 +18,7 @@ public class BeanCropBlock extends CropBlock {
 
     @Override
     protected @NotNull ItemLike getBaseSeedId() {
-        return ModItems.BEAN_SEEDS.get();
+        return ModFoodItems.BEAN.get();
     }
 
     @Override

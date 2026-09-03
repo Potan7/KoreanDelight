@@ -1,1 +1,4 @@
-{ "parent": "minecraft:item/rabbit_stew" }
+{
+  "parent": "minecraft:item/generated",
+  "textures": { "layer0": "koreandelight:item/pork_gukbap" }
+}
