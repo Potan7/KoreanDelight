@@ -9,27 +9,76 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class FermentationRecipe implements Recipe<FermentationInput> {
     private final ItemStack output;
-    private final Ingredient input;
+    private final NonNullList<Ingredient> ingredients;
     private final Optional<FluidStackData> fluid;
     private final Optional<FluidStackData> resultFluid;
     private final int fermentationTime;
 
-    public FermentationRecipe(ItemStack result, Ingredient input, Optional<FluidStackData> fluid, Optional<FluidStackData> resultFluid, int processTime) {
+    public FermentationRecipe(ItemStack result, NonNullList<Ingredient> ingredients, Optional<FluidStackData> fluid, Optional<FluidStackData> resultFluid, int processTime) {
         this.output = result;
-        this.input = input;
+        this.ingredients = ingredients;
         this.fluid = fluid.filter(stack -> !stack.isEmpty());
         this.resultFluid = resultFluid.filter(stack -> !stack.isEmpty());
         this.fermentationTime = processTime;
     }
 
+    public FermentationRecipe(ItemStack result, Ingredient input, Optional<FluidStackData> fluid, Optional<FluidStackData> resultFluid, int processTime) {
+        this(result, createSingleList(input), fluid, resultFluid, processTime);
+    }
+
+    private static NonNullList<Ingredient> createSingleList(Ingredient input) {
+        NonNullList<Ingredient> list = NonNullList.create();
+        if (input != null && !input.isEmpty()) {
+            list.add(input);
+        }
+        return list;
+    }
+
     @Override
     public boolean matches(FermentationInput input, Level level) {
-        ItemStack stack = input.getItem(0);
-        return !stack.isEmpty() && this.input.test(stack);
+        List<ItemStack> nonEmptyInputs = new ArrayList<>();
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack stack = input.getItem(i);
+            if (!stack.isEmpty()) {
+                nonEmptyInputs.add(stack);
+            }
+        }
+
+        List<Ingredient> nonEmptyIngredients = new ArrayList<>();
+        for (Ingredient ing : this.ingredients) {
+            if (!ing.isEmpty()) {
+                nonEmptyIngredients.add(ing);
+            }
+        }
+
+        if (nonEmptyInputs.size() != nonEmptyIngredients.size()) {
+            return false;
+        }
+
+        return matchIngredients(nonEmptyInputs, nonEmptyIngredients, 0, new boolean[nonEmptyInputs.size()]);
+    }
+
+    private boolean matchIngredients(List<ItemStack> inputs, List<Ingredient> ingredients, int ingIndex, boolean[] used) {
+        if (ingIndex >= ingredients.size()) {
+            return true;
+        }
+        Ingredient ing = ingredients.get(ingIndex);
+        for (int i = 0; i < inputs.size(); i++) {
+            if (!used[i] && ing.test(inputs.get(i))) {
+                used[i] = true;
+                if (matchIngredients(inputs, ingredients, ingIndex + 1, used)) {
+                    return true;
+                }
+                used[i] = false;
+            }
+        }
+        return false;
     }
 
     @Override
@@ -66,7 +115,7 @@ public class FermentationRecipe implements Recipe<FermentationInput> {
     }
 
     public Ingredient getInput() {
-        return input;
+        return ingredients.isEmpty() ? Ingredient.EMPTY : ingredients.get(0);
     }
 
     public ItemStack getOutput() {
@@ -83,8 +132,7 @@ public class FermentationRecipe implements Recipe<FermentationInput> {
 
     @Override
     public NonNullList<Ingredient> getIngredients() {
-        NonNullList<Ingredient> list = NonNullList.create();
-        list.add(input);
-        return list;
+        return ingredients;
     }
 }
+

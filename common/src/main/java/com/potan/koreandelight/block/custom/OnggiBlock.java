@@ -4,8 +4,8 @@ import com.potan.koreandelight.block.ModBlockEntityTypes;
 import com.potan.koreandelight.block.blockentity.OnggiBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
-import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
 import net.minecraft.world.ItemInteractionResult;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -46,13 +46,15 @@ public class OnggiBlock extends Block implements EntityBlock {
 
     /**
      * 1.21.1 사양: 플레이어가 빈손으로 옹기 블록을 우클릭했을 때 호출됩니다.
-     * Shift+우클릭 시 뚜껑을 여닫고, 그냥 우클릭 시 옹기 내부의 아이템을 꺼냅니다.
+     * Shift+우클릭 시 뚜껑을 여닫고, 뚜껑이 열려 있을 때 우클릭하면 내부 GUI를 엽니다.
      */
     @Override
     protected InteractionResult useWithoutItem(BlockState state, Level level, BlockPos pos, Player player, BlockHitResult hit) {
         // Shift + 우클릭 시 뚜껑을 여닫습니다.
         if (player.isShiftKeyDown()) {
-            level.setBlock(pos, state.setValue(HAS_LID, !state.getValue(HAS_LID)), 3);
+            boolean newLidState = !state.getValue(HAS_LID);
+            level.setBlock(pos, state.setValue(HAS_LID, newLidState), 3);
+            level.playSound(null, pos, newLidState ? net.minecraft.sounds.SoundEvents.BARREL_CLOSE : net.minecraft.sounds.SoundEvents.BARREL_OPEN, net.minecraft.sounds.SoundSource.BLOCKS, 0.7F, 0.9F);
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
 
@@ -60,25 +62,18 @@ public class OnggiBlock extends Block implements EntityBlock {
             return InteractionResult.SUCCESS;
         }
 
-        // 뚜껑이 닫혀있으면 상호작용(아이템 꺼내기)이 불가능합니다.
+        // 뚜껑이 닫혀있으면 GUI가 열리지 않고 닫혀있음을 알립니다.
         if (state.getValue(HAS_LID)) {
-            return InteractionResult.PASS;
+            player.displayClientMessage(net.minecraft.network.chat.Component.translatable("block.koreandelight.onggi.lid_closed"), true);
+            level.playSound(null, pos, net.minecraft.sounds.SoundEvents.BARREL_CLOSE, net.minecraft.sounds.SoundSource.BLOCKS, 0.5F, 1.2F);
+            return InteractionResult.CONSUME;
         }
 
+        // 뚜껑이 열려있으면 GUI 화면을 엽니다.
         BlockEntity entity = level.getBlockEntity(pos);
         if (entity instanceof OnggiBlockEntity onggi) {
-            ItemStack outputItem = onggi.getInventory().getItem(0);
-
-            // 옹기 안에 꺼낼 아이템이 존재할 경우
-            if (!outputItem.isEmpty()) {
-                // 인벤토리에서 아이템을 안전하게 꺼내어 플레이어에게 줍니다.
-                ItemStack extracted = onggi.getInventory().removeItem(0, 64);
-                if (!player.getInventory().add(extracted)) {
-                    player.drop(extracted, false);
-                }
-                onggi.setChanged();
-                return InteractionResult.SUCCESS;
-            }
+            player.openMenu(onggi);
+            return InteractionResult.SUCCESS;
         }
 
         return InteractionResult.PASS;
@@ -86,22 +81,20 @@ public class OnggiBlock extends Block implements EntityBlock {
 
     /**
      * 1.21.1 사양: 플레이어가 손에 아이템을 들고 옹기 블록을 우클릭했을 때 호출됩니다.
-     * Shift+우클릭 시 아이템을 들고 있어도 뚜껑을 제어할 수 있도록 보완하며, 
-     * 뚜껑이 열려있다면 옹기 내부에 아이템을 안전하게 집어넣습니다.
+     * Shift+우클릭 시 뚜껑을 제어하며,
+     * 뚜껑이 열려있을 때 양동이로는 즉시 유체를 넣고 뺄 수 있고, 일반 아이템일 경우 GUI를 엽니다.
      */
     @Override
     protected ItemInteractionResult useItemOn(ItemStack heldItem, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
         // Shift + 우클릭 시 아이템을 들고 있어도 뚜껑을 여닫을 수 있게 지원합니다.
         if (player.isShiftKeyDown()) {
-            level.setBlock(pos, state.setValue(HAS_LID, !state.getValue(HAS_LID)), 3);
+            boolean newLidState = !state.getValue(HAS_LID);
+            level.setBlock(pos, state.setValue(HAS_LID, newLidState), 3);
+            level.playSound(null, pos, newLidState ? net.minecraft.sounds.SoundEvents.BARREL_CLOSE : net.minecraft.sounds.SoundEvents.BARREL_OPEN, net.minecraft.sounds.SoundSource.BLOCKS, 0.7F, 0.9F);
             return ItemInteractionResult.sidedSuccess(level.isClientSide);
         }
 
-        if (level.isClientSide) {
-            return ItemInteractionResult.SUCCESS;
-        }
-
-        // 뚜껑이 닫혀있으면 아이템 투입을 시도할 수 없습니다.
+        // 뚜껑이 닫혀있으면 월드 상호작용을 처리하지 않고 기본 블록 상호작용으로 넘깁니다.
         if (state.getValue(HAS_LID)) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
@@ -111,15 +104,17 @@ public class OnggiBlock extends Block implements EntityBlock {
             return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
 
-        // [양동이 유체 상호작용 - 주입 및 퍼내기 복구]
-        if (heldItem.getItem() instanceof net.minecraft.world.item.BucketItem bucketItem) {
-            
+        // [양동이 유체 상호작용 - 월드에서 직접 주입 및 퍼내기 지원]
+        if (heldItem.getItem() instanceof net.minecraft.world.item.BucketItem) {
+            if (level.isClientSide) {
+                return ItemInteractionResult.SUCCESS;
+            }
+
             // 1. 빈 양동이인 경우 -> 옹기 속 액체(1000mB 이상)를 퍼올립니다.
             if (heldItem.is(net.minecraft.world.item.Items.BUCKET)) {
                 if (onggi.getStoredFluid() != net.minecraft.world.level.material.Fluids.EMPTY && onggi.getStoredFluidAmount() >= 1000) {
                     ItemStack filledBucket = new ItemStack(onggi.getStoredFluid().getBucket());
-                    
-                    // 빈 양동이 1개를 유체 양동이로 성공적으로 교체해 줍니다.
+
                     if (heldItem.getCount() == 1) {
                         player.setItemInHand(hand, filledBucket);
                     } else {
@@ -128,15 +123,14 @@ public class OnggiBlock extends Block implements EntityBlock {
                             player.drop(filledBucket, false);
                         }
                     }
-                    
-                    // 옹기의 유체를 완전히 비워줍니다.
+
                     onggi.setStoredFluid(net.minecraft.world.level.material.Fluids.EMPTY, 0);
                     onggi.setChanged();
                     return ItemInteractionResult.SUCCESS;
                 }
-                return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
-            
+
             // 2. 가득 찬 유체 양동이인 경우 -> 옹기 내부로 유체 1000mB를 투입합니다.
             net.minecraft.world.level.material.Fluid fluidInBucket = net.minecraft.world.level.material.Fluids.EMPTY;
             if (heldItem.is(net.minecraft.world.item.Items.WATER_BUCKET)) {
@@ -144,45 +138,28 @@ public class OnggiBlock extends Block implements EntityBlock {
             } else if (heldItem.is(com.potan.koreandelight.item.ModItems.SOY_SAUCE_BUCKET.get())) {
                 fluidInBucket = com.potan.koreandelight.fluid.ModFluids.SOURCE_SOY_SAUCE.get();
             }
-            
+
             if (fluidInBucket != net.minecraft.world.level.material.Fluids.EMPTY) {
-                // 옹기 액체 탱크가 비어있거나, 같은 종류의 유체이면서 가득 차지 않은 경우
                 if (onggi.getStoredFluid() == net.minecraft.world.level.material.Fluids.EMPTY || 
                    (onggi.getStoredFluid() == fluidInBucket && onggi.getStoredFluidAmount() < 1000)) {
-                    
-                    // 옹기에 1000mB(1양동이 분량) 만큼 액체를 주입합니다.
+
                     onggi.setStoredFluid(fluidInBucket, 1000);
-                    
-                    // 서바이벌 모드일 경우 사용한 양동이를 빈 양동이로 돌려줍니다.
+
                     if (!player.isCreative()) {
                         player.setItemInHand(hand, new ItemStack(net.minecraft.world.item.Items.BUCKET));
                     }
                     onggi.setChanged();
                     return ItemInteractionResult.SUCCESS;
                 }
-                return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
+                return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
             }
         }
 
-        ItemStack outputItem = onggi.getInventory().getItem(0);
-
-        // 아이템을 옹기에 집어넣는 경우
-        if (!heldItem.isEmpty()) {
-            // 이미 옹기 안에 아이템이 차있다면 추가 투입이 불가하므로 스킵 처리합니다.
-            if (!outputItem.isEmpty()) {
-                return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
-            }
-            
-            // 들고 있는 아이템 중 1개를 옹기 인벤토리로 안전하게 이관합니다.
-            ItemStack toInsert = heldItem.copy();
-            toInsert.setCount(1);
-            onggi.getInventory().setItem(0, toInsert);
-            heldItem.shrink(1);
-            onggi.setChanged();
-            return ItemInteractionResult.SUCCESS;
+        // 양동이가 아닌 일반 아이템을 들고 우클릭한 경우 GUI를 엽니다.
+        if (!level.isClientSide) {
+            player.openMenu(onggi);
         }
-
-        return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
+        return ItemInteractionResult.sidedSuccess(level.isClientSide);
     }
 
     @Override

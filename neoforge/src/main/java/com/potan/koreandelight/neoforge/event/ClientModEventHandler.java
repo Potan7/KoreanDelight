@@ -29,6 +29,16 @@ import org.joml.Vector3f;
 public class ClientModEventHandler {
 
     @SubscribeEvent
+    public static void registerScreens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
+        event.register(com.potan.koreandelight.menu.ModMenuTypes.ONGGI_MENU.get(), com.potan.koreandelight.client.gui.OnggiScreen::new);
+    }
+
+    @SubscribeEvent
+    public static void registerRenderers(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
+        event.registerBlockEntityRenderer(com.potan.koreandelight.block.ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), com.potan.koreandelight.client.renderer.OnggiRenderer::new);
+    }
+
+    @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
         event.register(new DynamicFluidContainerModel.Colors(), ModItems.SOY_SAUCE_BUCKET.get());
     }

@@ -41,6 +41,7 @@ public class Koreandelight {
         ModEffects.init();
         ModBlockEntityTypes.init();
         ModRecipes.init();
+        com.potan.koreandelight.menu.ModMenuTypes.init();
 
         // 크리에이티브 탭 등록
         ModCreativeTabs.init();

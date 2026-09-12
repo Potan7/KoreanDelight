@@ -70,8 +70,18 @@ public class FermentationCategory implements IRecipeCategory<FermentationRecipe>
 
     @Override
     public void setRecipe(IRecipeLayoutBuilder builder, FermentationRecipe recipe, IFocusGroup focuses) {
-        builder.addSlot(RecipeIngredientRole.INPUT, 46, 12)
-                .addIngredients(recipe.getInput());
+        java.util.List<net.minecraft.world.item.crafting.Ingredient> ingredients = recipe.getIngredients();
+        if (ingredients.size() <= 1) {
+            builder.addSlot(RecipeIngredientRole.INPUT, 46, 12)
+                    .addIngredients(recipe.getInput());
+        } else {
+            for (int i = 0; i < ingredients.size() && i < 6; i++) {
+                int col = i % 3;
+                int row = i / 3;
+                builder.addSlot(RecipeIngredientRole.INPUT, 28 + col * 18, 8 + row * 18)
+                        .addIngredients(ingredients.get(i));
+            }
+        }
 
         builder.addSlot(RecipeIngredientRole.OUTPUT, 103, 12)
                 .addItemStack(recipe.getOutput());

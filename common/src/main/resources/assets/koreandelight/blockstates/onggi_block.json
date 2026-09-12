@@ -1,7 +1,7 @@
 {
   "multipart": [
     {
-      "apply": { "model": "koreandelight:block/onggi_block_body" }
+      "apply": { "model": "koreandelight:block/onggi_block" }
     },
     {
       "when": { "has_lid": true },

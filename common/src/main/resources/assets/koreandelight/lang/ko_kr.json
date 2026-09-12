@@ -60,5 +60,10 @@
   "item.koreandelight.sikhye": "식혜",
 
   "tooltip.koreandelight.is_kimchi": "김치입니다!",
-  "tooltip.koreandelight.spicy_level": "매운 강도: %d"
+  "tooltip.koreandelight.spicy_level": "매운 강도: %d",
+
+  "container.koreandelight.onggi": "옹기",
+  "block.koreandelight.onggi.lid_closed": "뚜껑이 닫혀 있습니다. (Shift + 우클릭으로 열기)",
+  "gui.koreandelight.onggi.fluid_empty": "비어있음",
+  "fluid.koreandelight.soy_sauce": "간장"
 }
