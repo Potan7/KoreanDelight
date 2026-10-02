@@ -29,7 +29,7 @@ public class EffectEventHandler {
     /**
      * 아이템의 툴팁을 동적으로 설정하는 이벤트 핸들러입니다.
      * 1.21.1 마인크래프트의 Data Components 시스템을 사용하여 아이템에 저장된
-     * CustomData(구 NBT) 내의 김치 정보("IsKimchi", "SpicyLevel")를 읽어와 툴팁에 표시합니다.
+     * CustomData(구 NBT) 내의 매운맛 정보("SpicyLevel")를 읽어와 툴팁에 표시합니다.
      *
      * @param event 아이템 툴팁 이벤트 객체
      */
@@ -41,14 +41,13 @@ public class EffectEventHandler {
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
         if (customData != null) {
             CompoundTag tag = customData.copyTag();
-            // 해당 아이템이 김치인지 확인
-            if (tag.contains("IsKimchi") && tag.getBoolean("IsKimchi")) {
+            // 매운맛 강도 정보 확인
+            if (tag.contains("SpicyLevel")) {
                 int level = tag.getInt("SpicyLevel");
-                List<Component> tooltip = event.getToolTip();
-                
-                // 김치 정보 및 매운맛 강도를 툴팁 목록에 빨간색으로 추가합니다.
-                tooltip.add(Component.translatable("tooltip.koreandelight.is_kimchi").withStyle(ChatFormatting.RED));
-                tooltip.add(Component.translatable("tooltip.koreandelight.spicy_level", level).withStyle(ChatFormatting.DARK_RED));
+                if (level > 0) {
+                    List<Component> tooltip = event.getToolTip();
+                    tooltip.add(Component.translatable("tooltip.koreandelight.spicy_level", level).withStyle(ChatFormatting.DARK_RED));
+                }
             }
         }
     }
@@ -70,14 +69,14 @@ public class EffectEventHandler {
             CustomData customData = stack.get(DataComponents.CUSTOM_DATA);
             if (customData != null) {
                 CompoundTag tag = customData.copyTag();
-                // 김치 정보 확인
-                if (tag.contains("IsKimchi") && tag.getBoolean("IsKimchi")) {
+                // 매운맛 강도 정보 확인
+                if (tag.contains("SpicyLevel")) {
                     int spicyLevel = tag.getInt("SpicyLevel");
                     if (spicyLevel > 0) {
                         // 매움 효과(SPICY)를 부여합니다.
-                        // 지속 시간: 매운 등급당 20초 (400 틱 = 20초 * 20틱/초)
+                        // 지속 시간: 매운 등급당 30초 (600 틱 = 30초 * 20틱/초)
                         // 강도(Amplifier): spicyLevel - 1 (0부터 시작하므로 레벨 1은 0, 레벨 2는 1...)
-                        entity.addEffect(new MobEffectInstance(ModEffects.SPICY_HOLDER, 400 * spicyLevel, spicyLevel - 1));
+                        entity.addEffect(new MobEffectInstance(ModEffects.SPICY_HOLDER, 600 * spicyLevel, spicyLevel - 1));
                     }
                 }
             }
@@ -87,7 +86,7 @@ public class EffectEventHandler {
     /**
      * 플레이어의 블록 채굴 속도를 조절하는 이벤트 핸들러입니다.
      * 플레이어가 '매움(Spicy)' 효과를 받고 있을 때, 매움 버프의 레벨에 비례하여
-     * 블록을 캐는 속도를 증가시킵니다. (레벨당 약 10% 속도 보너스 부여)
+     * 블록을 캐는 속도를 증가시킵니다. (레벨당 5% 속도 보너스 부여)
      *
      * @param event 플레이어 채굴 속도 이벤트 객체
      */
@@ -98,8 +97,8 @@ public class EffectEventHandler {
             // 매움 효과의 앰플리파이어(증폭 등급)를 가져옵니다.
             int amplifier = event.getEntity().getEffect(ModEffects.SPICY_HOLDER).getAmplifier();
 
-            // 성급함(Haste) 효과의 약 절반에 해당하는 보너스: 레벨당 10% 속도 증가
-            float bonus = 1.0f + (0.1f * (amplifier + 1));
+            // 성급함(Haste) 효과와 유사한 보너스: 레벨당 5% 속도 증가
+            float bonus = 1.0f + (0.05f * (amplifier + 1));
             // 새로운 채굴 속도를 설정합니다.
             event.setNewSpeed(event.getOriginalSpeed() * bonus);
         }
