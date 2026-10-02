@@ -62,9 +62,6 @@
 
   "tooltip.koreandelight.is_kimchi": "This is a Kimchi!",
   "tooltip.koreandelight.spicy_level": "Spicy Level: %d",
-
-  "container.koreandelight.onggi": "Onggi",
-  "block.koreandelight.onggi.lid_closed": "The lid is closed. (Shift + Right-Click to open)",
-  "gui.koreandelight.onggi.fluid_empty": "Empty",
+  "block.koreandelight.onggi.lid_closed": "The lid is closed. (Right-click with an empty hand to open)",
   "fluid.koreandelight.soy_sauce": "Soy Sauce"
 }

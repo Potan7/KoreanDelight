@@ -1,0 +1,17 @@
+{
+  "type": "koreandelight:fermentation",
+  "ingredients": [
+    { "item": "farmersdelight:cooked_rice" },
+    { "item": "minecraft:sugar" },
+    { "item": "minecraft:wheat" }
+  ],
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "result": {
+    "count": 1,
+    "id": "koreandelight:sikhye"
+  },
+  "fermentation_time": 1200
+}

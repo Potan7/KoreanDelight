@@ -1,0 +1,13 @@
+{
+  "type": "koreandelight:fermentation",
+  "ingredients": [
+    { "item": "koreandelight:red_pepper_powder" },
+    { "item": "koreandelight:doenjang" },
+    { "item": "minecraft:sugar" }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:gochujang"
+  },
+  "fermentation_time": 1600
+}

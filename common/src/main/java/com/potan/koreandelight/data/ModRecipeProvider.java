@@ -1,7 +1,6 @@
 package com.potan.koreandelight.data;
 
 import com.potan.koreandelight.Koreandelight;
-import com.potan.koreandelight.block.ModBlocks;
 import com.potan.koreandelight.item.ModFoodItems;
 import com.potan.koreandelight.item.ModItems;
 import net.minecraft.core.HolderLookup;
@@ -35,18 +34,6 @@ public class ModRecipeProvider extends RecipeProvider {
 
     @Override
     protected void buildRecipes(RecipeOutput output) {
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.DOENJANG.get(), 16)
-                .requires(ModBlocks.DOENJANG_BLOCK.get())
-                .unlockedBy("has_doenjang_block", has(ModBlocks.DOENJANG_BLOCK.get()))
-                .save(output, modRecipe("doenjang"));
-
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.KIMCHI.get())
-                .requires(ModFoodItems.KIMCHI_CABBAGE.get())
-                .requires(ModItems.RED_PEPPER_POWDER.get(), 2)
-                .unlockedBy("has_kimchi_cabbage", has(ModFoodItems.KIMCHI_CABBAGE.get()))
-                .unlockedBy("has_red_pepper_powder", has(ModItems.RED_PEPPER_POWDER.get()))
-                .save(output, modRecipe("kimchi"));
-
         seedFromCrop(output, ModFoodItems.KIMCHI_CABBAGE.get(), ModItems.KIMCHI_CABBAGE_SEEDS.get(), "kimchi_cabbage");
         seedFromCrop(output, ModFoodItems.RED_PEPPER.get(), ModItems.RED_PEPPER_SEEDS.get(), "red_pepper");
         seedFromCrop(output, ModFoodItems.GREEN_ONION.get(), ModItems.GREEN_ONION_SEEDS.get(), "green_onion");

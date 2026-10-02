@@ -4,6 +4,7 @@ import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
 import com.potan.koreandelight.Koreandelight;
+import com.potan.koreandelight.block.ModBlocks;
 import com.potan.koreandelight.block.blockentity.OnggiBlockEntity;
 import com.potan.koreandelight.block.custom.OnggiBlock;
 import com.potan.koreandelight.fluid.ModFluids;
@@ -17,6 +18,7 @@ import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.item.ItemDisplayContext;
+import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
@@ -77,6 +79,10 @@ public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
         // 결과물 슬롯(6)에 아이템이 있으면 중앙에 크게 렌더링
         ItemStack outputStack = blockEntity.getInventory().getItem(OnggiBlockEntity.OUTPUT_SLOT);
         if (!outputStack.isEmpty()) {
+            if (outputStack.getItem() instanceof BlockItem) {
+                renderFilledBlock(outputStack, poseStack, bufferSource, combinedLight, combinedOverlay);
+                return;
+            }
             poseStack.pushPose();
             poseStack.translate(0.5F, itemBaseY + 0.05F, 0.5F);
             poseStack.scale(0.5F, 0.5F, 0.5F);
@@ -84,6 +90,14 @@ public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
             this.itemRenderer.renderStatic(outputStack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
             poseStack.popPose();
         } else {
+            // A single block item fills the jar regardless of the stack count.
+            for (int i = 0; i < OnggiBlockEntity.INGREDIENT_SLOTS; i++) {
+                ItemStack stack = blockEntity.getInventory().getItem(i);
+                if (stack.getItem() instanceof BlockItem) {
+                    renderFilledBlock(stack, poseStack, bufferSource, combinedLight, combinedOverlay);
+                    return;
+                }
+            }
             // 재료 슬롯(0..5)의 아이템들을 옹기 내부 공간에 자연스럽게 분산 렌더링
             for (int i = 0; i < OnggiBlockEntity.INGREDIENT_SLOTS; i++) {
                 ItemStack ingredientStack = blockEntity.getInventory().getItem(i);
@@ -102,6 +116,18 @@ public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
                 }
             }
         }
+    }
+
+    private void renderFilledBlock(ItemStack stack, PoseStack poseStack, MultiBufferSource bufferSource, int light, int overlay) {
+        BlockState state = ((BlockItem) stack.getItem()).getBlock().defaultBlockState();
+        boolean isMeju = state.is(ModBlocks.MEJU_BLOCK.get()) || state.is(ModBlocks.FERMENTED_MEJU_BLOCK.get());
+        poseStack.pushPose();
+        poseStack.translate(0.5F, 0.08F, 0.5F);
+        // Meju's model is half a block wide; compensate to fill the interior.
+        poseStack.scale(isMeju ? 1.2F : 0.6F, isMeju ? 1.2F : 0.8F, isMeju ? 1.2F : 0.6F);
+        poseStack.translate(-0.5F, 0.0F, -0.5F);
+        Minecraft.getInstance().getBlockRenderer().renderSingleBlock(state, poseStack, bufferSource, light, overlay);
+        poseStack.popPose();
     }
 
     private void renderFluidSurface(Fluid fluid, float yLevel, PoseStack poseStack, MultiBufferSource bufferSource, int combinedLight, int combinedOverlay) {

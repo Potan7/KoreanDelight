@@ -1,0 +1,18 @@
+{
+  "type": "koreandelight:fermentation",
+  "ingredients": [
+    { "item": "koreandelight:minced_fish" },
+    { "item": "koreandelight:minced_fish" },
+    { "item": "koreandelight:minced_fish" },
+    { "item": "koreandelight:minced_fish" }
+  ],
+  "fluid": {
+    "fluid": "minecraft:water",
+    "amount": 1000
+  },
+  "result": {
+    "count": 1,
+    "id": "koreandelight:fish_sauce"
+  },
+  "fermentation_time": 1200
+}

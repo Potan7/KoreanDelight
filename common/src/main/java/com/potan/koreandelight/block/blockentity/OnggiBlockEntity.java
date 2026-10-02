@@ -4,7 +4,6 @@ import com.potan.koreandelight.block.ModBlockEntityTypes;
 import com.potan.koreandelight.block.custom.OnggiBlock;
 import com.potan.koreandelight.fluid.ModFluids;
 import com.potan.koreandelight.item.ModItems;
-import com.potan.koreandelight.menu.OnggiMenu;
 import com.potan.koreandelight.recipe.FermentationInput;
 import com.potan.koreandelight.recipe.FermentationRecipe;
 import com.potan.koreandelight.recipe.FluidStackData;
@@ -14,18 +13,12 @@ import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.chat.Component;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientGamePacketListener;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.ContainerHelper;
-import net.minecraft.world.MenuProvider;
 import net.minecraft.world.SimpleContainer;
-import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.inventory.AbstractContainerMenu;
-import net.minecraft.world.inventory.ContainerData;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -36,12 +29,11 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class OnggiBlockEntity extends BlockEntity implements MenuProvider {
+public class OnggiBlockEntity extends BlockEntity {
     public static final int INGREDIENT_SLOTS = 6;
     public static final int OUTPUT_SLOT = 6;
     public static final int BUCKET_IN_SLOT = 7;
@@ -66,47 +58,8 @@ public class OnggiBlockEntity extends BlockEntity implements MenuProvider {
     private int agingProgress = 0;
     private int maxProgress = 0;
 
-    protected final ContainerData dataAccess = new ContainerData() {
-        @Override
-        public int get(int index) {
-            return switch (index) {
-                case 0 -> OnggiBlockEntity.this.agingProgress;
-                case 1 -> OnggiBlockEntity.this.maxProgress;
-                case 2 -> OnggiBlockEntity.this.storedFluidAmount;
-                case 3 -> BuiltInRegistries.FLUID.getId(OnggiBlockEntity.this.storedFluid);
-                default -> 0;
-            };
-        }
-
-        @Override
-        public void set(int index, int value) {
-            switch (index) {
-                case 0 -> OnggiBlockEntity.this.agingProgress = value;
-                case 1 -> OnggiBlockEntity.this.maxProgress = value;
-                case 2 -> OnggiBlockEntity.this.storedFluidAmount = value;
-                case 3 -> OnggiBlockEntity.this.storedFluid = BuiltInRegistries.FLUID.byId(value);
-            }
-        }
-
-        @Override
-        public int getCount() {
-            return 4;
-        }
-    };
-
     public OnggiBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), pos, state);
-    }
-
-    @Override
-    public Component getDisplayName() {
-        return Component.translatable("container.koreandelight.onggi");
-    }
-
-    @Nullable
-    @Override
-    public AbstractContainerMenu createMenu(int containerId, Inventory playerInventory, Player player) {
-        return new OnggiMenu(containerId, playerInventory, this.inventory, this.dataAccess);
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, OnggiBlockEntity blockEntity) {
@@ -118,7 +71,7 @@ public class OnggiBlockEntity extends BlockEntity implements MenuProvider {
             return;
         }
 
-        // 1. GUI 버킷 슬롯 처리 (양동이 투입 및 배출)
+        // 1. 기존 저장 데이터에 남아 있는 양동이 슬롯 처리
         handleBucketSlots(blockEntity);
 
         // 2. 뚜껑이 열려있으면 발효 일시 정지
@@ -384,6 +337,60 @@ public class OnggiBlockEntity extends BlockEntity implements MenuProvider {
         return inventory;
     }
 
+    public boolean insertItem(ItemStack stack) {
+        if (!insertItem(inventory, stack)) {
+            return false;
+        }
+        inventory.setChanged();
+        resetProgress();
+        return true;
+    }
+
+    static boolean insertItem(SimpleContainer inventory, ItemStack stack) {
+        if (stack.isEmpty()) {
+            return false;
+        }
+        // Merge first, so repeated clicks do not occupy every ingredient slot.
+        for (int i = 0; i < INGREDIENT_SLOTS; i++) {
+            ItemStack stored = inventory.getItem(i);
+            if (ItemStack.isSameItemSameComponents(stored, stack)
+                    && stored.getCount() < Math.min(stored.getMaxStackSize(), inventory.getMaxStackSize())) {
+                stored.grow(1);
+                return true;
+            }
+        }
+        for (int i = 0; i < INGREDIENT_SLOTS; i++) {
+            if (inventory.getItem(i).isEmpty()) {
+                inventory.setItem(i, stack.copyWithCount(1));
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ItemStack extractItem() {
+        ItemStack extracted = extractItem(inventory);
+        if (!extracted.isEmpty()) {
+            inventory.setChanged();
+            resetProgress();
+        }
+        return extracted;
+    }
+
+    static ItemStack extractItem(SimpleContainer inventory) {
+        // Results first; include legacy bucket slots so old saves remain recoverable.
+        int slot = OUTPUT_SLOT;
+        if (inventory.getItem(slot).isEmpty()) {
+            for (int i = TOTAL_SLOTS - 1; i >= 0; i--) {
+                if (!inventory.getItem(i).isEmpty()) {
+                    slot = i;
+                    break;
+                }
+            }
+        }
+        return inventory.removeItemNoUpdate(slot);
+    }
+
     public Fluid getStoredFluid() {
         return storedFluid;
     }
@@ -401,4 +408,3 @@ public class OnggiBlockEntity extends BlockEntity implements MenuProvider {
         }
     }
 }
-
