@@ -32,13 +32,12 @@
           "type": "minecraft:item",
           "functions": [
             {
-              "enchantment": "minecraft:fortune",
-              "formula": "minecraft:binomial_with_bonus_count",
-              "function": "minecraft:apply_bonus",
-              "parameters": {
-                "extra": 3,
-                "probability": 0.5714286
-              }
+              "count": {
+                "max": 2,
+                "type": "minecraft:uniform",
+                "min": 1.0
+              },
+              "function": "minecraft:set_count"
             }
           ],
           "name": "koreandelight:bean"
@@ -47,5 +46,5 @@
       "rolls": 1.0
     }
   ],
-    "random_sequence": "koreandelight:blocks/bean_crop"
+  "random_sequence": "koreandelight:blocks/bean_crop"
 }

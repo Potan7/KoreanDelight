@@ -19,11 +19,21 @@
                   "block": "koreandelight:red_pepper_crop",
                   "condition": "minecraft:block_state_property",
                   "properties": {
-                    "age": "3"
+                    "age": "7"
                   }
                 }
               ],
-              "name": "koreandelight:red_pepper"
+              "name": "koreandelight:red_pepper",
+              "functions": [
+                {
+                  "count": {
+                    "max": 3,
+                    "type": "minecraft:uniform",
+                    "min": 2
+                  },
+                  "function": "minecraft:set_count"
+                }
+              ]
             },
             {
               "type": "minecraft:item",
@@ -41,7 +51,7 @@
           "block": "koreandelight:red_pepper_crop",
           "condition": "minecraft:block_state_property",
           "properties": {
-            "age": "3"
+            "age": "7"
           }
         }
       ],
@@ -65,5 +75,5 @@
       "rolls": 1.0
     }
   ],
-    "random_sequence": "koreandelight:blocks/red_pepper_crop"
+  "random_sequence": "koreandelight:blocks/red_pepper_crop"
 }

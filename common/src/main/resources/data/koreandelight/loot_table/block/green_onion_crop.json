@@ -23,7 +23,17 @@
                   }
                 }
               ],
-              "name": "koreandelight:green_onion"
+              "name": "koreandelight:green_onion",
+              "functions": [
+                {
+                  "count": {
+                    "max": 2,
+                    "type": "minecraft:uniform",
+                    "min": 1
+                  },
+                  "function": "minecraft:set_count"
+                }
+              ]
             },
             {
               "type": "minecraft:item",
@@ -65,5 +75,5 @@
       "rolls": 1.0
     }
   ],
-    "random_sequence": "koreandelight:blocks/green_onion_crop"
+  "random_sequence": "koreandelight:blocks/green_onion_crop"
 }
