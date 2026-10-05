@@ -2,6 +2,9 @@ package com.potan.koreandelight.block.custom;
 
 import com.potan.koreandelight.block.ModBlockEntityTypes;
 import com.potan.koreandelight.block.blockentity.OnggiBlockEntity;
+import com.potan.koreandelight.menu.OnggiMenu;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Containers;
 import net.minecraft.world.InteractionHand;
@@ -53,24 +56,23 @@ public class OnggiBlock extends Block implements EntityBlock {
             return InteractionResult.PASS;
         }
         if (player.isShiftKeyDown()) {
-            if (!state.getValue(HAS_LID)) {
-                ItemStack extracted = onggi.extractItem();
-                if (!extracted.isEmpty() && !player.getInventory().add(extracted)) {
-                    player.drop(extracted, false);
-                }
-            }
-        } else {
             boolean hasLid = !state.getValue(HAS_LID);
             level.setBlock(pos, state.setValue(HAS_LID, hasLid), 3);
             level.playSound(null, pos, hasLid ? net.minecraft.sounds.SoundEvents.BARREL_CLOSE : net.minecraft.sounds.SoundEvents.BARREL_OPEN,
                     net.minecraft.sounds.SoundSource.BLOCKS, 0.7F, 0.9F);
+        } else if (!state.getValue(HAS_LID)) {
+            player.openMenu(new SimpleMenuProvider(
+                    (id, inventory, menuPlayer) -> new OnggiMenu(id, inventory, onggi),
+                    Component.translatable("block.koreandelight.onggi_block")));
+        } else {
+            player.displayClientMessage(Component.translatable("block.koreandelight.onggi.lid_closed"), true);
         }
         return InteractionResult.CONSUME;
     }
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack heldItem, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        if (heldItem.isEmpty()) {
+        if (heldItem.isEmpty() || player.isShiftKeyDown()) {
             return ItemInteractionResult.PASS_TO_DEFAULT_BLOCK_INTERACTION;
         }
         // Consume failed interactions too, so buckets cannot spill beside a closed/full jar.
@@ -86,23 +88,14 @@ public class OnggiBlock extends Block implements EntityBlock {
         if (!(level.getBlockEntity(pos) instanceof OnggiBlockEntity onggi)) {
             return ItemInteractionResult.SKIP_DEFAULT_BLOCK_INTERACTION;
         }
-        if (heldItem.is(net.minecraft.world.item.Items.BUCKET)) {
-            if (onggi.getStoredFluidAmount() >= 1000 && onggi.getStoredFluid().getBucket() != net.minecraft.world.item.Items.AIR) {
-                ItemStack filledBucket = new ItemStack(onggi.getStoredFluid().getBucket());
-                player.setItemInHand(hand, net.minecraft.world.item.ItemUtils.createFilledResult(heldItem, player, filledBucket));
-                onggi.setStoredFluid(net.minecraft.world.level.material.Fluids.EMPTY, 0);
-            }
-        } else if (heldItem.getItem() instanceof net.minecraft.world.item.BucketItem) {
-            net.minecraft.world.level.material.Fluid fluid = net.minecraft.world.level.material.Fluids.EMPTY;
-            if (heldItem.is(net.minecraft.world.item.Items.WATER_BUCKET)) {
-                fluid = net.minecraft.world.level.material.Fluids.WATER;
-            } else if (heldItem.is(com.potan.koreandelight.item.ModItems.SOY_SAUCE_BUCKET.get())) {
-                fluid = com.potan.koreandelight.fluid.ModFluids.SOURCE_SOY_SAUCE.get();
-            }
-            if (fluid != net.minecraft.world.level.material.Fluids.EMPTY && onggi.getStoredFluidAmount() == 0) {
-                onggi.setStoredFluid(fluid, 1000);
+        if (OnggiBlockEntity.isFluidContainer(heldItem)) {
+            net.minecraft.world.SimpleContainer buckets = new net.minecraft.world.SimpleContainer(OnggiBlockEntity.TOTAL_SLOTS);
+            buckets.setItem(OnggiBlockEntity.BUCKET_IN_SLOT, heldItem.copyWithCount(1));
+            var result = OnggiBlockEntity.transferFluidContainer(buckets, onggi.getStoredFluid(), onggi.getStoredFluidAmount());
+            if (result != null && (result.fluid() != onggi.getStoredFluid() || result.amount() != onggi.getStoredFluidAmount())) {
+                onggi.setStoredFluid(result.fluid(), result.amount());
                 player.setItemInHand(hand, net.minecraft.world.item.ItemUtils.createFilledResult(heldItem, player,
-                        new ItemStack(net.minecraft.world.item.Items.BUCKET)));
+                        buckets.getItem(OnggiBlockEntity.BUCKET_OUT_SLOT)));
             }
         } else if (onggi.insertItem(heldItem) && !player.isCreative()) {
             heldItem.shrink(1);

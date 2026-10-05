@@ -35,6 +35,14 @@ public class ModFluidTypes {
             )
     );
 
+    public static final Supplier<FluidType> FISH_SAUCE_FLUID_TYPE = FLUID_TYPES.register(
+            "fish_sauce_fluid",
+            () -> new BaseFluidType(WATER_STILL, WATER_FLOW, WATER_OVERLAY,
+                    0xB19B672E, new Vector3f(155.0F / 255.0F, 103.0F / 255.0F, 46.0F / 255.0F),
+                    FluidType.Properties.create().density(1100).viscosity(1500)
+                            .sound(SoundActions.BUCKET_FILL, SoundEvents.BUCKET_FILL)
+                            .sound(SoundActions.BUCKET_EMPTY, SoundEvents.BUCKET_EMPTY)));
+
     public static void init() {
     }
 }

@@ -17,9 +17,9 @@ import java.util.List;
 import java.util.Optional;
 
 public class FermentationRecipeSerializer implements RecipeSerializer<FermentationRecipe> {
-    private static final MapCodec<FermentationRecipe> CODEC = RecordCodecBuilder.mapCodec(inst ->
+    private static final MapCodec<FermentationRecipe> CODEC = RecordCodecBuilder.<FermentationRecipe>mapCodec(inst ->
             inst.group(
-                    ItemStack.STRICT_CODEC.fieldOf("result").forGetter(FermentationRecipe::getOutput),
+                    ItemStack.STRICT_CODEC.optionalFieldOf("result", ItemStack.EMPTY).forGetter(FermentationRecipe::getOutput),
                     Ingredient.CODEC_NONEMPTY.listOf().optionalFieldOf("ingredients").forGetter(r -> Optional.of(new ArrayList<>(r.getIngredients()))),
                     Ingredient.CODEC_NONEMPTY.optionalFieldOf("ingredient").forGetter(r -> Optional.empty()),
                     FluidStackData.CODEC.optionalFieldOf("fluid").forGetter(FermentationRecipe::getFluid),
@@ -38,7 +38,9 @@ public class FermentationRecipeSerializer implements RecipeSerializer<Fermentati
                 }
                 return new FermentationRecipe(result, list, fluid, resultFluid, time);
             })
-    );
+    ).validate(recipe -> recipe.getOutput().isEmpty() && recipe.getResultFluid().isEmpty()
+            ? DataResult.error(() -> "Fermentation needs an item or fluid result")
+            : DataResult.success(recipe));
 
     private static final StreamCodec<RegistryFriendlyByteBuf, Optional<FluidStackData>> OPTIONAL_FLUID_STREAM_CODEC =
             FluidStackData.OPTIONAL_STREAM_CODEC.mapStream(buffer -> buffer);
@@ -62,7 +64,7 @@ public class FermentationRecipeSerializer implements RecipeSerializer<Fermentati
             );
 
     private static final StreamCodec<RegistryFriendlyByteBuf, FermentationRecipe> STREAM_CODEC = StreamCodec.composite(
-            ItemStack.STREAM_CODEC,
+            ItemStack.OPTIONAL_STREAM_CODEC,
             FermentationRecipe::getOutput,
             INGREDIENTS_STREAM_CODEC,
             FermentationRecipe::getIngredients,

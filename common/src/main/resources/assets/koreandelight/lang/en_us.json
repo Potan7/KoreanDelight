@@ -1,48 +1,40 @@
 {
   "creativetab.koreandelight": "Korean Delight",
   "jei.koreandelight.category.fermentation": "Fermentation",
-
   "effect.koreandelight.spicy": "Spicy",
-
   "item.koreandelight.kimchi": "Kimchi",
   "item.koreandelight.aged_kimchi": "Aged Kimchi",
-
   "item.koreandelight.kimchi_cabbage": "Kimchi Cabbage",
   "item.koreandelight.kimchi_cabbage_seeds": "Kimchi Cabbage Seeds",
   "block.koreandelight.kimchi_cabbage_crop": "Kimchi Cabbage Crop",
-
   "item.koreandelight.red_pepper": "Red Pepper",
   "item.koreandelight.red_pepper_seeds": "Red Pepper Seeds",
   "block.koreandelight.red_pepper_crop": "Red Pepper Crop",
   "item.koreandelight.red_pepper_powder": "Red Pepper Powder",
-
   "item.koreandelight.bean": "Bean",
   "block.koreandelight.bean_crop": "Bean Crop",
-
   "item.koreandelight.green_onion": "Green Onion",
   "item.koreandelight.green_onion_seeds": "Green Onion Seeds",
   "block.koreandelight.green_onion_crop": "Green Onion Crop",
-
   "block.koreandelight.onggi_block": "Onggi",
   "item.koreandelight.onggi_block": "Onggi",
-
   "fluid_type.koreandelight.soy_sauce_fluid": "Soy Sauce",
   "block.koreandelight.soy_sauce_block": "Soy Sauce",
   "item.koreandelight.soy_sauce_bucket": "Soy Sauce Bucket",
-
+  "item.koreandelight.soy_sauce_bottle": "Soy Sauce Bottle",
+  "item.koreandelight.fish_sauce_bucket": "Fish Sauce Bucket",
+  "fluid_type.koreandelight.fish_sauce_fluid": "Fish Sauce",
+  "block.koreandelight.fish_sauce_block": "Fish Sauce",
   "item.koreandelight.meju_block": "Raw Meju",
   "block.koreandelight.meju_block": "Raw Meju",
-
   "item.koreandelight.fermented_meju_block": "Fermented Meju",
   "block.koreandelight.fermented_meju_block": "Fermented Meju",
-
   "item.koreandelight.doenjang": "Doenjang",
   "block.koreandelight.doenjang_block": "Doenjang Block",
-
   "item.koreandelight.garlic": "Garlic",
   "block.koreandelight.garlic_crop": "Garlic Crop",
   "item.koreandelight.gochujang": "Gochujang",
-  "item.koreandelight.fish_sauce": "Fish Sauce",
+  "item.koreandelight.fish_sauce": "Fish Sauce Bottle",
   "item.koreandelight.minced_garlic": "Minced Garlic",
   "item.koreandelight.tteok": "Tteok",
   "item.koreandelight.minced_fish": "Minced Fish",
@@ -59,8 +51,25 @@
   "item.koreandelight.pork_gukbap": "Pork Gukbap",
   "item.koreandelight.doenjang_jjigae": "Doenjang Jjigae",
   "item.koreandelight.sikhye": "Sikhye",
-
   "tooltip.koreandelight.spicy_level": "Spicy Level: %d",
-  "block.koreandelight.onggi.lid_closed": "The lid is closed. (Right-click with an empty hand to open)",
-  "fluid.koreandelight.soy_sauce": "Soy Sauce"
+  "block.koreandelight.onggi.lid_closed": "The lid is closed. Shift-right-click with an empty hand to open it.",
+  "fluid.koreandelight.soy_sauce": "Soy Sauce",
+  "gui.koreandelight.onggi.status.empty": "Add ingredients",
+  "gui.koreandelight.onggi.status.no_recipe": "No recipe for these ingredients",
+  "gui.koreandelight.onggi.status.missing_ingredients": "Missing ingredients",
+  "gui.koreandelight.onggi.status.wrong_ratio": "Ingredient ratio does not match",
+  "gui.koreandelight.onggi.status.wrong_fluid": "Incorrect fluid type",
+  "gui.koreandelight.onggi.status.too_little_fluid": "Too little fluid for ingredients",
+  "gui.koreandelight.onggi.status.too_much_fluid": "Too much fluid for ingredients",
+  "gui.koreandelight.onggi.status.unexpected_fluid": "This recipe needs an empty tank",
+  "gui.koreandelight.onggi.status.output_full": "Not enough room for results",
+  "gui.koreandelight.onggi.status.ready": "Close the lid to proceed",
+  "gui.koreandelight.onggi.fermenting": "Fermenting (%s%%)",
+  "gui.koreandelight.onggi.fluid.empty": "No fluid",
+  "gui.koreandelight.onggi.fluid.water": "Water",
+  "gui.koreandelight.onggi.fluid.soy_sauce": "Soy sauce",
+  "gui.koreandelight.onggi.remaining": "Fermentation remaining: %s seconds",
+  "gui.koreandelight.onggi.bucket_in": "Fluid input",
+  "gui.koreandelight.onggi.bucket_out": "Fluid output",
+  "gui.koreandelight.onggi.lid_hint": "Shift + empty-hand click: lid"
 }

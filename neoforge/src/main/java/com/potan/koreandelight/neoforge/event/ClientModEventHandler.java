@@ -6,6 +6,8 @@ import com.potan.koreandelight.Koreandelight;
 import com.potan.koreandelight.fluid.BaseFluidType;
 import com.potan.koreandelight.fluid.ModFluidTypes;
 import com.potan.koreandelight.item.ModItems;
+import com.potan.koreandelight.client.screen.OnggiScreen;
+import com.potan.koreandelight.menu.ModMenus;
 import net.minecraft.client.Camera;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.renderer.FogRenderer;
@@ -29,18 +31,27 @@ import org.joml.Vector3f;
 public class ClientModEventHandler {
 
     @SubscribeEvent
+    public static void registerScreens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
+        event.register(ModMenus.ONGGI.get(), OnggiScreen::new);
+    }
+
+    @SubscribeEvent
     public static void registerRenderers(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(com.potan.koreandelight.block.ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), com.potan.koreandelight.client.renderer.OnggiRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register(new DynamicFluidContainerModel.Colors(), ModItems.SOY_SAUCE_BUCKET.get());
+        event.register(new DynamicFluidContainerModel.Colors(), ModItems.SOY_SAUCE_BUCKET.get(), ModItems.FISH_SAUCE_BUCKET.get());
+        event.register((stack, tintIndex) -> tintIndex == 0 ? 0xFF412010 : -1, ModItems.SOY_SAUCE_BOTTLE.get());
     }
 
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-        if (ModFluidTypes.SOY_SAUCE_FLUID_TYPE.get() instanceof BaseFluidType baseFluidType) {
+        for (var fluidType : java.util.List.of(ModFluidTypes.SOY_SAUCE_FLUID_TYPE.get(), ModFluidTypes.FISH_SAUCE_FLUID_TYPE.get())) {
+            if (!(fluidType instanceof BaseFluidType baseFluidType)) {
+                continue;
+            }
             event.registerFluidType(new IClientFluidTypeExtensions() {
                 @Override
                 public ResourceLocation getStillTexture() {

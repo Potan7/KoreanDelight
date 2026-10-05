@@ -1,47 +1,40 @@
 {
   "creativetab.koreandelight": "Korean Delight",
   "jei.koreandelight.category.fermentation": "발효",
-
   "effect.koreandelight.spicy": "매움",
-
   "item.koreandelight.kimchi": "김치",
-    "item.koreandelight.aged_kimchi": "묵은지",
-
+  "item.koreandelight.aged_kimchi": "묵은지",
   "item.koreandelight.kimchi_cabbage": "배추",
   "item.koreandelight.kimchi_cabbage_seeds": "배추 씨앗",
   "block.koreandelight.kimchi_cabbage_crop": "배추 작물",
-
   "item.koreandelight.red_pepper": "고추",
   "item.koreandelight.red_pepper_seeds": "고추 씨앗",
   "block.koreandelight.red_pepper_crop": "고추 작물",
   "item.koreandelight.red_pepper_powder": "고추가루",
-
   "item.koreandelight.bean": "콩",
   "block.koreandelight.bean_crop": "콩 작물",
-
   "item.koreandelight.green_onion": "대파",
   "item.koreandelight.green_onion_seeds": "대파 씨앗",
   "block.koreandelight.green_onion_crop": "대파 작물",
-
   "block.koreandelight.onggi_block": "옹기",
   "item.koreandelight.onggi_block": "옹기",
-
   "fluid_type.koreandelight.soy_sauce_fluid": "간장",
   "block.koreandelight.soy_sauce_block": "간장",
   "item.koreandelight.soy_sauce_bucket": "간장 양동이",
-
+  "item.koreandelight.soy_sauce_bottle": "간장 병",
+  "item.koreandelight.fish_sauce_bucket": "액젓 양동이",
+  "fluid_type.koreandelight.fish_sauce_fluid": "액젓",
+  "block.koreandelight.fish_sauce_block": "액젓",
   "item.koreandelight.meju_block": "메주",
   "block.koreandelight.meju_block": "메주",
   "item.koreandelight.fermented_meju_block": "발효된 메주",
   "block.koreandelight.fermented_meju_block": "발효된 메주",
-
   "item.koreandelight.doenjang": "된장",
   "block.koreandelight.doenjang_block": "된장 블록",
-
   "item.koreandelight.garlic": "마늘",
   "block.koreandelight.garlic_crop": "마늘 작물",
   "item.koreandelight.gochujang": "고추장",
-  "item.koreandelight.fish_sauce": "액젖",
+  "item.koreandelight.fish_sauce": "액젓 병",
   "item.koreandelight.minced_garlic": "다진 마늘",
   "item.koreandelight.tteok": "떡",
   "item.koreandelight.minced_fish": "다진 생선살",
@@ -58,8 +51,25 @@
   "item.koreandelight.pork_gukbap": "돼지국밥",
   "item.koreandelight.doenjang_jjigae": "된장찌개",
   "item.koreandelight.sikhye": "식혜",
-
   "tooltip.koreandelight.spicy_level": "매운 강도: %d",
-  "block.koreandelight.onggi.lid_closed": "뚜껑이 닫혀 있습니다. (맨손 우클릭으로 열기)",
-  "fluid.koreandelight.soy_sauce": "간장"
+  "block.koreandelight.onggi.lid_closed": "뚜껑이 닫혀 있습니다. 맨손 Shift+우클릭으로 열어주세요.",
+  "fluid.koreandelight.soy_sauce": "간장",
+  "gui.koreandelight.onggi.status.empty": "재료를 넣어주세요",
+  "gui.koreandelight.onggi.status.no_recipe": "해당 재료 조합의 레시피가 없습니다",
+  "gui.koreandelight.onggi.status.missing_ingredients": "필요한 재료가 부족합니다",
+  "gui.koreandelight.onggi.status.wrong_ratio": "재료 비율이 맞지 않습니다",
+  "gui.koreandelight.onggi.status.wrong_fluid": "액체 종류가 맞지 않습니다",
+  "gui.koreandelight.onggi.status.too_little_fluid": "재료에 비해 액체가 부족합니다",
+  "gui.koreandelight.onggi.status.too_much_fluid": "재료에 비해 액체가 너무 많습니다",
+  "gui.koreandelight.onggi.status.unexpected_fluid": "액체가 필요 없는 레시피입니다",
+  "gui.koreandelight.onggi.status.output_full": "완성물을 담을 공간이 부족합니다",
+  "gui.koreandelight.onggi.status.ready": "뚜껑을 닫아 진행하세요",
+  "gui.koreandelight.onggi.fermenting": "발효 중 (%s%%)",
+  "gui.koreandelight.onggi.fluid.empty": "액체 없음",
+  "gui.koreandelight.onggi.fluid.water": "물",
+  "gui.koreandelight.onggi.fluid.soy_sauce": "간장",
+  "gui.koreandelight.onggi.remaining": "남은 발효 시간: %s초",
+  "gui.koreandelight.onggi.bucket_in": "Fluid input",
+  "gui.koreandelight.onggi.bucket_out": "Fluid output",
+  "gui.koreandelight.onggi.lid_hint": "맨손 Shift+우클릭: 뚜껑 여닫기"
 }

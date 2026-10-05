@@ -24,6 +24,12 @@ public class ModItems {
             () -> new BucketItem(ModFluids.SOURCE_SOY_SAUCE.get(), new Item.Properties().craftRemainder(net.minecraft.world.item.Items.BUCKET).stacksTo(1))
     );
 
+    public static final Supplier<Item> SOY_SAUCE_BOTTLE = ITEMS.register("soy_sauce_bottle",
+            () -> new FluidBottleItem(ModFluids.SOURCE_SOY_SAUCE));
+    public static final Supplier<Item> FISH_SAUCE_BUCKET = ITEMS.register("fish_sauce_bucket",
+            () -> new BucketItem(ModFluids.SOURCE_FISH_SAUCE.get(),
+                    new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
+
     // 배추 씨앗
     public static final Supplier<Item> KIMCHI_CABBAGE_SEEDS = ITEMS.register(
             "kimchi_cabbage_seeds",
@@ -55,7 +61,7 @@ public class ModItems {
     );
 
     public static final Supplier<Item> GOCHUJANG = ITEMS.register("gochujang", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> FISH_SAUCE = ITEMS.register("fish_sauce", () -> new Item(new Item.Properties()));
+    public static final Supplier<Item> FISH_SAUCE = ITEMS.register("fish_sauce", () -> new FluidBottleItem(ModFluids.SOURCE_FISH_SAUCE));
     public static final Supplier<Item> MINCED_GARLIC = ITEMS.register("minced_garlic", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> TTEOK = ITEMS.register("tteok", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> MINCED_FISH = ITEMS.register("minced_fish", () -> new Item(new Item.Properties()));

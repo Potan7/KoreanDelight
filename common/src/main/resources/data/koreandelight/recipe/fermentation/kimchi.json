@@ -3,9 +3,12 @@
   "ingredients": [
     { "item": "koreandelight:kimchi_cabbage" },
     { "item": "koreandelight:red_pepper_powder" },
-    { "item": "koreandelight:minced_garlic" },
-    { "item": "koreandelight:fish_sauce" }
+    { "item": "koreandelight:minced_garlic" }
   ],
+  "fluid": {
+    "fluid": "koreandelight:fish_sauce_fluid",
+    "amount": 250
+  },
   "result": {
     "count": 1,
     "id": "koreandelight:kimchi"

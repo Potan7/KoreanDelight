@@ -33,17 +33,16 @@ import java.util.function.Function;
  */
 public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
     private static final ResourceLocation WATER_STILL = ResourceLocation.withDefaultNamespace("block/water_still");
+    private static final ResourceLocation LAVA_STILL = ResourceLocation.withDefaultNamespace("block/lava_still");
     private static final ResourceLocation SOY_SAUCE_STILL = ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "block/soy_sauce_still");
 
     private final ItemRenderer itemRenderer;
 
-    // 6개 슬롯 아이템 분산 배치 오프셋 (X, Z)
+    // 4개 슬롯 아이템 분산 배치 오프셋 (X, Z)
     private static final float[][] ITEM_OFFSETS = {
             {-0.13F, -0.13F},
-            {0.0F, -0.16F},
             {0.13F, -0.13F},
             {-0.13F, 0.13F},
-            {0.0F, 0.16F},
             {0.13F, 0.13F}
     };
 
@@ -68,7 +67,7 @@ public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
         if (storedFluid != Fluids.EMPTY && fluidAmount > 0) {
             float minFluidY = 0.10F;
             float maxFluidY = 0.82F;
-            fluidY = minFluidY + (fluidAmount / 1000.0F) * (maxFluidY - minFluidY);
+            fluidY = minFluidY + ((float) fluidAmount / OnggiBlockEntity.TANK_CAPACITY) * (maxFluidY - minFluidY);
 
             renderFluidSurface(storedFluid, fluidY, poseStack, bufferSource, combinedLight, combinedOverlay);
         }
@@ -76,44 +75,29 @@ public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
         // 2. 아이템 3D 렌더링
         float itemBaseY = (storedFluid != Fluids.EMPTY && fluidAmount > 0) ? (fluidY + 0.02F) : 0.08F;
 
-        // 결과물 슬롯(6)에 아이템이 있으면 중앙에 크게 렌더링
-        ItemStack outputStack = blockEntity.getInventory().getItem(OnggiBlockEntity.OUTPUT_SLOT);
-        if (!outputStack.isEmpty()) {
-            if (outputStack.getItem() instanceof BlockItem) {
-                renderFilledBlock(outputStack, poseStack, bufferSource, combinedLight, combinedOverlay);
+        // A single block item fills the jar regardless of the stack count.
+        for (int i = 0; i < OnggiBlockEntity.INGREDIENT_SLOTS; i++) {
+            ItemStack stack = blockEntity.getInventory().getItem(i);
+            if (stack.getItem() instanceof BlockItem) {
+                renderFilledBlock(stack, poseStack, bufferSource, combinedLight, combinedOverlay);
                 return;
             }
-            poseStack.pushPose();
-            poseStack.translate(0.5F, itemBaseY + 0.05F, 0.5F);
-            poseStack.scale(0.5F, 0.5F, 0.5F);
-            poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-            this.itemRenderer.renderStatic(outputStack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, bufferSource, blockEntity.getLevel(), 0);
-            poseStack.popPose();
-        } else {
-            // A single block item fills the jar regardless of the stack count.
-            for (int i = 0; i < OnggiBlockEntity.INGREDIENT_SLOTS; i++) {
-                ItemStack stack = blockEntity.getInventory().getItem(i);
-                if (stack.getItem() instanceof BlockItem) {
-                    renderFilledBlock(stack, poseStack, bufferSource, combinedLight, combinedOverlay);
-                    return;
-                }
-            }
-            // 재료 슬롯(0..5)의 아이템들을 옹기 내부 공간에 자연스럽게 분산 렌더링
-            for (int i = 0; i < OnggiBlockEntity.INGREDIENT_SLOTS; i++) {
-                ItemStack ingredientStack = blockEntity.getInventory().getItem(i);
-                if (!ingredientStack.isEmpty()) {
-                    float ox = ITEM_OFFSETS[i][0];
-                    float oz = ITEM_OFFSETS[i][1];
-                    float rot = (i * 57.0F + (blockEntity.getBlockPos().getX() * 31 + blockEntity.getBlockPos().getZ() * 17)) % 360.0F;
+        }
+        // 재료 슬롯(0..3)의 아이템들을 옹기 내부 공간에 자연스럽게 분산 렌더링
+        for (int i = 0; i < OnggiBlockEntity.INGREDIENT_SLOTS; i++) {
+            ItemStack ingredientStack = blockEntity.getInventory().getItem(i);
+            if (!ingredientStack.isEmpty()) {
+                float ox = ITEM_OFFSETS[i][0];
+                float oz = ITEM_OFFSETS[i][1];
+                float rot = (i * 57.0F + (blockEntity.getBlockPos().getX() * 31 + blockEntity.getBlockPos().getZ() * 17)) % 360.0F;
 
-                    poseStack.pushPose();
-                    poseStack.translate(0.5F + ox, itemBaseY + 0.02F, 0.5F + oz);
-                    poseStack.scale(0.32F, 0.32F, 0.32F);
-                    poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
-                    poseStack.mulPose(Axis.ZP.rotationDegrees(rot));
-                    this.itemRenderer.renderStatic(ingredientStack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, bufferSource, blockEntity.getLevel(), i);
-                    poseStack.popPose();
-                }
+                poseStack.pushPose();
+                poseStack.translate(0.5F + ox, itemBaseY + 0.02F, 0.5F + oz);
+                poseStack.scale(0.32F, 0.32F, 0.32F);
+                poseStack.mulPose(Axis.XP.rotationDegrees(90.0F));
+                poseStack.mulPose(Axis.ZP.rotationDegrees(rot));
+                this.itemRenderer.renderStatic(ingredientStack, ItemDisplayContext.FIXED, combinedLight, combinedOverlay, poseStack, bufferSource, blockEntity.getLevel(), i);
+                poseStack.popPose();
             }
         }
     }
@@ -141,6 +125,18 @@ public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
             g = 1.0F;
             b = 1.0F;
             a = 0.95F;
+        } else if (fluid.isSame(ModFluids.SOURCE_FISH_SAUCE.get())) {
+            textureLocation = WATER_STILL;
+            r = 155.0F / 255.0F;
+            g = 103.0F / 255.0F;
+            b = 46.0F / 255.0F;
+            a = 0.95F;
+        } else if (fluid.isSame(Fluids.LAVA)) {
+            textureLocation = LAVA_STILL;
+            r = 1.0F;
+            g = 1.0F;
+            b = 1.0F;
+            a = 1.0F;
         } else if (fluid.isSame(Fluids.WATER)) {
             textureLocation = WATER_STILL;
             r = 0.25F;

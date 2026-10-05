@@ -23,6 +23,8 @@ public class ModCreativeTabs {
                     .displayItems((parameters, output) -> {
                         // 아이템 및 블록 추가
                         output.accept(ModItems.SOY_SAUCE_BUCKET.get());
+                        output.accept(ModItems.SOY_SAUCE_BOTTLE.get());
+                        output.accept(ModItems.FISH_SAUCE_BUCKET.get());
                         output.accept(ModItems.KIMCHI_CABBAGE_SEEDS.get());
                         output.accept(ModItems.RED_PEPPER_SEEDS.get());
                         output.accept(ModItems.GREEN_ONION_SEEDS.get());

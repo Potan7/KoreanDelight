@@ -7,6 +7,7 @@ import com.potan.koreandelight.fluid.ModFluids;
 import com.potan.koreandelight.item.ModFoodItems;
 import com.potan.koreandelight.item.ModItems;
 import com.potan.koreandelight.recipe.ModRecipes;
+import com.potan.koreandelight.menu.ModMenus;
 import com.potan.koreandelight.mobeffect.ModEffects;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,6 +42,7 @@ public class Koreandelight {
         ModEffects.init();
         ModBlockEntityTypes.init();
         ModRecipes.init();
+        ModMenus.init();
 
         // 크리에이티브 탭 등록
         ModCreativeTabs.init();

@@ -10,9 +10,9 @@
     "fluid": "minecraft:water",
     "amount": 1000
   },
-  "result": {
-    "count": 1,
-    "id": "koreandelight:fish_sauce"
+  "result_fluid": {
+    "fluid": "koreandelight:fish_sauce_fluid",
+    "amount": 1000
   },
   "fermentation_time": 1200
 }

@@ -2,6 +2,7 @@ package com.potan.koreandelight.recipe;
 
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.item.crafting.Recipe;
@@ -9,8 +10,6 @@ import net.minecraft.world.item.crafting.RecipeSerializer;
 import net.minecraft.world.item.crafting.RecipeType;
 import net.minecraft.world.level.Level;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class FermentationRecipe implements Recipe<FermentationInput> {
@@ -42,43 +41,26 @@ public class FermentationRecipe implements Recipe<FermentationInput> {
 
     @Override
     public boolean matches(FermentationInput input, Level level) {
-        List<ItemStack> nonEmptyInputs = new ArrayList<>();
-        for (int i = 0; i < input.size(); i++) {
-            ItemStack stack = input.getItem(i);
-            if (!stack.isEmpty()) {
-                nonEmptyInputs.add(stack);
-            }
-        }
-
-        List<Ingredient> nonEmptyIngredients = new ArrayList<>();
-        for (Ingredient ing : this.ingredients) {
-            if (!ing.isEmpty()) {
-                nonEmptyIngredients.add(ing);
-            }
-        }
-
-        if (nonEmptyInputs.size() != nonEmptyIngredients.size()) {
-            return false;
-        }
-
-        return matchIngredients(nonEmptyInputs, nonEmptyIngredients, 0, new boolean[nonEmptyInputs.size()]);
+        return getBatchSize(input) > 0;
     }
 
-    private boolean matchIngredients(List<ItemStack> inputs, List<Ingredient> ingredients, int ingIndex, boolean[] used) {
-        if (ingIndex >= ingredients.size()) {
-            return true;
+    public int getBatchSize(FermentationInput input) {
+        int ingredientCount = (int) ingredients.stream().filter(ingredient -> !ingredient.isEmpty()).count();
+        if (ingredientCount == 0) {
+            return 0;
         }
-        Ingredient ing = ingredients.get(ingIndex);
-        for (int i = 0; i < inputs.size(); i++) {
-            if (!used[i] && ing.test(inputs.get(i))) {
-                used[i] = true;
-                if (matchIngredients(inputs, ingredients, ingIndex + 1, used)) {
-                    return true;
-                }
-                used[i] = false;
-            }
+        StackedContents contents = new StackedContents();
+        int total = 0;
+        for (int i = 0; i < input.size(); i++) {
+            ItemStack stack = input.getItem(i);
+            total += stack.getCount();
+            contents.accountStack(stack);
         }
-        return false;
+        if (total == 0 || total % ingredientCount != 0) {
+            return 0;
+        }
+        int batchSize = total / ingredientCount;
+        return contents.canCraft(this, null, batchSize) ? batchSize : 0;
     }
 
     @Override
