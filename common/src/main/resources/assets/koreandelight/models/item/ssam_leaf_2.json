@@ -1,0 +1,255 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/lime_wool",
+    "leaf": "minecraft:block/green_wool",
+    "heart": "minecraft:block/lime_wool",
+    "vein": "minecraft:block/lime_terracotta",
+    "meat": "minecraft:block/orange_terracotta",
+    "sauce": "minecraft:block/brown_terracotta",
+    "rice": "minecraft:block/white_wool",
+    "garlic": "minecraft:block/sandstone_top"
+  },
+  "elements": [
+    {
+      "from": [
+        3,
+        0,
+        3
+      ],
+      "to": [
+        13,
+        0.6,
+        13
+      ],
+      "faces": {
+        "up": {
+          "texture": "#leaf"
+        },
+        "down": {
+          "texture": "#leaf"
+        },
+        "north": {
+          "texture": "#leaf"
+        },
+        "south": {
+          "texture": "#leaf"
+        },
+        "west": {
+          "texture": "#leaf"
+        },
+        "east": {
+          "texture": "#leaf"
+        }
+      }
+    },
+    {
+      "from": [
+        2,
+        0.2,
+        4
+      ],
+      "to": [
+        14,
+        0.8,
+        12
+      ],
+      "faces": {
+        "up": {
+          "texture": "#leaf"
+        },
+        "down": {
+          "texture": "#leaf"
+        },
+        "north": {
+          "texture": "#leaf"
+        },
+        "south": {
+          "texture": "#leaf"
+        },
+        "west": {
+          "texture": "#leaf"
+        },
+        "east": {
+          "texture": "#leaf"
+        }
+      }
+    },
+    {
+      "from": [
+        4,
+        0.6,
+        3.5
+      ],
+      "to": [
+        12,
+        1,
+        12.5
+      ],
+      "faces": {
+        "up": {
+          "texture": "#heart"
+        },
+        "down": {
+          "texture": "#heart"
+        },
+        "north": {
+          "texture": "#heart"
+        },
+        "south": {
+          "texture": "#heart"
+        },
+        "west": {
+          "texture": "#heart"
+        },
+        "east": {
+          "texture": "#heart"
+        }
+      }
+    },
+    {
+      "from": [
+        7.7,
+        1,
+        3
+      ],
+      "to": [
+        8.3,
+        1.15,
+        13
+      ],
+      "faces": {
+        "up": {
+          "texture": "#vein"
+        },
+        "down": {
+          "texture": "#vein"
+        },
+        "north": {
+          "texture": "#vein"
+        },
+        "south": {
+          "texture": "#vein"
+        },
+        "west": {
+          "texture": "#vein"
+        },
+        "east": {
+          "texture": "#vein"
+        }
+      }
+    },
+    {
+      "from": [
+        4.2,
+        1.15,
+        8.2
+      ],
+      "to": [
+        7,
+        2.5,
+        11
+      ],
+      "faces": {
+        "up": {
+          "texture": "#rice"
+        },
+        "down": {
+          "texture": "#rice"
+        },
+        "north": {
+          "texture": "#rice"
+        },
+        "south": {
+          "texture": "#rice"
+        },
+        "west": {
+          "texture": "#rice"
+        },
+        "east": {
+          "texture": "#rice"
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        1.15,
+        9
+      ],
+      "to": [
+        9,
+        3,
+        11
+      ],
+      "faces": {
+        "up": {
+          "texture": "#rice"
+        },
+        "down": {
+          "texture": "#rice"
+        },
+        "north": {
+          "texture": "#rice"
+        },
+        "south": {
+          "texture": "#rice"
+        },
+        "west": {
+          "texture": "#rice"
+        },
+        "east": {
+          "texture": "#rice"
+        }
+      }
+    }
+  ],
+  "display": {
+    "gui": {
+      "rotation": [
+        30,
+        225,
+        0
+      ],
+      "scale": [
+        0.8,
+        0.8,
+        0.8
+      ]
+    },
+    "firstperson_righthand": {
+      "rotation": [
+        0,
+        -20,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    },
+    "firstperson_lefthand": {
+      "rotation": [
+        0,
+        20,
+        0
+      ],
+      "translation": [
+        0,
+        3,
+        0
+      ],
+      "scale": [
+        0.75,
+        0.75,
+        0.75
+      ]
+    }
+  }
+}

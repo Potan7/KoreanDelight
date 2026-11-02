@@ -27,7 +27,7 @@ public class FermentationCategory implements IRecipeCategory<FermentationRecipe>
             RecipeType.create(Koreandelight.MODID, "fermentation", FermentationRecipe.class);
 
     private static final int WIDTH = 176;
-    private static final int HEIGHT = 116;
+    private static final int HEIGHT = 140;
     private static final int SPACING = 36;
     private final IDrawable icon;
 
@@ -102,6 +102,10 @@ public class FermentationCategory implements IRecipeCategory<FermentationRecipe>
         for (int i = 0; i < 5; i++) {
             graphics.fill(center - 5 + i, 65 + i, center + 6 - i, 66 + i, 0xFF77904D);
         }
+        graphics.drawWordWrap(Minecraft.getInstance().font,
+                Component.translatable("jei.koreandelight.fermentation.environment",
+                        Component.translatable(recipe.getEnvironment().getTranslationKey())),
+                8, 118, WIDTH - 16, 0x493C2C);
     }
 
     private static void drawRatio(GuiGraphics graphics, List<String> amounts, int y, int color) {

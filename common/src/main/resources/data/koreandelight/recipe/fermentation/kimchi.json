@@ -1,17 +1,12 @@
 {
   "type": "koreandelight:fermentation",
   "ingredients": [
-    { "item": "koreandelight:kimchi_cabbage" },
-    { "item": "koreandelight:red_pepper_powder" },
-    { "item": "koreandelight:minced_garlic" }
+    { "item": "koreandelight:fresh_kimchi" }
   ],
-  "fluid": {
-    "fluid": "koreandelight:fish_sauce_fluid",
-    "amount": 250
-  },
   "result": {
     "count": 1,
     "id": "koreandelight:kimchi"
   },
-  "fermentation_time": 1200
+  "fermentation_time": 1200,
+  "environment": "cool"
 }

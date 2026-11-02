@@ -11,6 +11,7 @@ import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.List;
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class OnggiScreen extends AbstractContainerScreen<OnggiMenu> {
@@ -87,9 +88,17 @@ public class OnggiScreen extends AbstractContainerScreen<OnggiMenu> {
             graphics.renderComponentTooltip(font, List.of(
                     fluid,
                     Component.literal(menu.getFluidAmount() + " / " + OnggiBlockEntity.TANK_CAPACITY + " mB")), mouseX, mouseY);
-        } else if (isHovering(18, 83, 72, 8, mouseX, mouseY) && menu.getMaxProgress() > 0) {
-            graphics.renderTooltip(font, Component.translatable("gui.koreandelight.onggi.remaining",
-                    Math.max(0, (menu.getMaxProgress() - menu.getProgress() + 19) / 20)), mouseX, mouseY);
+        } else if (isHovering(18, 83, 72, 8, mouseX, mouseY)) {
+            List<Component> tooltip = new ArrayList<>();
+            tooltip.add(Component.translatable("gui.koreandelight.onggi.environment",
+                    Component.translatable(menu.getEnvironment().getTranslationKey())));
+            tooltip.add(Component.translatable("gui.koreandelight.onggi.speed", menu.getProgressPerTick()));
+            if (menu.getMaxProgress() > 0) {
+                int seconds = Math.max(0, (int) Math.ceil((menu.getMaxProgress() - menu.getProgress())
+                        / (20.0 * menu.getProgressPerTick())));
+                tooltip.add(Component.translatable("gui.koreandelight.onggi.remaining", seconds));
+            }
+            graphics.renderComponentTooltip(font, tooltip, mouseX, mouseY);
         } else if (hoveredSlot != null && !hoveredSlot.hasItem()
                 && hoveredSlot.index >= OnggiBlockEntity.BUCKET_IN_SLOT && hoveredSlot.index <= OnggiBlockEntity.BUCKET_OUT_SLOT) {
             graphics.renderTooltip(font, Component.translatable(hoveredSlot.index == OnggiBlockEntity.BUCKET_IN_SLOT

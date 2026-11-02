@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_raw_pajeon": {
+      "conditions": {
+        "items": [
+          {
+            "items": "koreandelight:raw_pajeon"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "koreandelight:pajeon_from_smoking"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_raw_pajeon"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "koreandelight:pajeon_from_smoking"
+    ]
+  }
+}

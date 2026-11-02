@@ -3,6 +3,7 @@ package com.potan.koreandelight.menu;
 import com.potan.koreandelight.block.ModBlocks;
 import com.potan.koreandelight.block.blockentity.OnggiBlockEntity;
 import com.potan.koreandelight.block.custom.OnggiBlock;
+import com.potan.koreandelight.recipe.FermentationEnvironment;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.entity.player.Inventory;
@@ -21,7 +22,7 @@ public class OnggiMenu extends AbstractContainerMenu {
 
     public OnggiMenu(int id, Inventory playerInventory) {
         this(id, playerInventory, new SimpleContainer(OnggiBlockEntity.TOTAL_SLOTS),
-                new SimpleContainerData(6), ContainerLevelAccess.NULL, null);
+                new SimpleContainerData(OnggiBlockEntity.MENU_DATA_COUNT), ContainerLevelAccess.NULL, null);
     }
 
     public OnggiMenu(int id, Inventory playerInventory, OnggiBlockEntity onggi) {
@@ -35,7 +36,7 @@ public class OnggiMenu extends AbstractContainerMenu {
         this.data = data;
         this.access = access;
         checkContainerSize(inventory, OnggiBlockEntity.TOTAL_SLOTS);
-        checkContainerDataCount(data, 6);
+        checkContainerDataCount(data, OnggiBlockEntity.MENU_DATA_COUNT);
 
         for (int i = 0; i < OnggiBlockEntity.INGREDIENT_SLOTS; i++) {
             addSlot(new Slot(inventory, i, 18 + (i % 2) * 18, 42 + (i / 2) * 18) {
@@ -149,6 +150,14 @@ public class OnggiMenu extends AbstractContainerMenu {
 
     public int getMaxProgress() {
         return data.get(1);
+    }
+
+    public FermentationEnvironment getEnvironment() {
+        return FermentationEnvironment.values()[data.get(6)];
+    }
+
+    public double getProgressPerTick() {
+        return data.get(7) == 3 ? 1.5 : 1.0;
     }
 
     public Fluid getFluid() {

@@ -98,7 +98,7 @@ public class ModItems {
    - 씨앗 분리 작물(배추, 고추, 대파): 전용 `_seeds` 아이템을 `ItemNameBlockItem`으로 등록하고, 작물 자체는 일반 `Item`으로 등록.
 3. **블록스테이트 및 전리품 테이블**:
    - `assets/koreandelight/blockstates/<crop_id>.json`
-   - `data/koreandelight/loot_table/block/<crop_id>.json`
+   - `data/koreandelight/loot_table/blocks/<crop_id>.json`
 4. **씨앗 변환 레시피**:
    - `ModRecipeProvider.java`의 `seedFromCrop()` 메서드를 통해 작물 ➡️ 씨앗 변환 조합법 등록.
 
@@ -141,6 +141,9 @@ public class ModItems {
 - `ingredients` (배열) 또는 `ingredient` (단일 객체) 지원
 - `fluid` (투입 유체) 및 `result_fluid` (결과 유체)는 선택 사항
 - `fermentation_time`: 틱 단위 (예: 1200틱 = 1분)
+- `environment`: 선택 사항. `sunny`는 낮이면서 하늘이 보일 때, `cool`은 밝기 7 이하일 때 1.5배로 진행합니다. `any` 또는 필드 생략 시 환경 가속이 없습니다. 발효는 뚜껑이 닫혔을 때만 진행합니다.
+- 옹기 소금물은 물 유체와 소금 재료를 함께 요구하는 레시피로 표현합니다. 별도 소금물 유체는 등록하지 않습니다. 현재 김치 발효 입력은 `fresh_kimchi`이며 실제 재료표는 [최종 통합 기획서](final-design.md)를 따릅니다.
+- 옹기 레시피 캐시는 인벤토리·유체 변경 및 RecipeManager의 레시피 컬렉션 교체 시 무효화합니다. 인벤토리의 스택을 직접 변경하는 코드는 반드시 `setChanged()`로 변경을 알려야 합니다. 환경 조건은 최대 20틱 간격으로 갱신하며 매 틱 결과 컨테이너를 생성하거나 전체 인벤토리 패킷을 보내지 않습니다.
 
 ### 4.4 도마 썰기 레시피 추가
 Farmer's Delight 도마 레시피는 `common/src/main/resources/data/koreandelight/recipe/cutting/`에 JSON으로 작성합니다.
@@ -227,7 +230,7 @@ Minecraft 1.21.1 버전의 데이터팩 형식 변경 사항을 엄격히 준수
 - 표준 표기법 준수:
   - `고춧가루` (O) / `고추가루` (X)
   - `액젓` (O) / `액젖` (X)
-- 레지스트리 ID 및 영문 명칭은 기획 문서(`docs/recipes.md`, `docs/roadmap.md`)의 공식 영문 ID를 우선합니다.
+- 레지스트리 ID 및 영문 명칭은 [최종 통합 기획서](final-design.md)의 공식 영문 ID를 우선합니다. 기존 ID를 변경할 때는 저장 데이터 호환성을 검토합니다.
 
 ---
 
@@ -270,5 +273,5 @@ Minecraft 1.21.1 버전의 데이터팩 형식 변경 사항을 엄격히 준수
 - `chore:` 빌드 스크립트, 종속성 버전, 데이터젠 캐시 업데이트
 
 ### 8.2 협업 및 문서 동기화
-- 신규 아이템 추가/상태 변경 시 [docs/notion_item_list.csv](file:///e:/Develop/Java/KoreanDelight1.20.1/docs/notion_item_list.csv) 및 [docs/texture-resources.md](file:///e:/Develop/Java/KoreanDelight1.20.1/docs/texture-resources.md) 문서를 함께 갱신합니다.
+- 기획·레시피·구현 상태·에셋 준비 상태는 [최종 통합 기획서](final-design.md)에 함께 갱신합니다. 개발 절차가 바뀌면 이 문서와 루트 [AGENTS.md](../AGENTS.md)를 맞춥니다.
 - PR(Pull Request) 제출 시 사용자 관점의 변경점, 기술적 변경 내용, 검증에 사용한 실행 명령어를 명시합니다.

@@ -1,0 +1,38 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:lettuce_seeds"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:perilla_seeds"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:kimchi_cabbage_seeds"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:red_pepper_seeds"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:green_onion_seeds"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:garlic"
+        },
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:bean"
+        }
+      ]
+    }
+  ]
+}

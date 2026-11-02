@@ -18,13 +18,19 @@ public class FermentationRecipe implements Recipe<FermentationInput> {
     private final Optional<FluidStackData> fluid;
     private final Optional<FluidStackData> resultFluid;
     private final int fermentationTime;
+    private final FermentationEnvironment environment;
 
     public FermentationRecipe(ItemStack result, NonNullList<Ingredient> ingredients, Optional<FluidStackData> fluid, Optional<FluidStackData> resultFluid, int processTime) {
+        this(result, ingredients, fluid, resultFluid, processTime, FermentationEnvironment.ANY);
+    }
+
+    public FermentationRecipe(ItemStack result, NonNullList<Ingredient> ingredients, Optional<FluidStackData> fluid, Optional<FluidStackData> resultFluid, int processTime, FermentationEnvironment environment) {
         this.output = result;
         this.ingredients = ingredients;
         this.fluid = fluid.filter(stack -> !stack.isEmpty());
         this.resultFluid = resultFluid.filter(stack -> !stack.isEmpty());
         this.fermentationTime = processTime;
+        this.environment = environment;
     }
 
     public FermentationRecipe(ItemStack result, Ingredient input, Optional<FluidStackData> fluid, Optional<FluidStackData> resultFluid, int processTime) {
@@ -94,6 +100,10 @@ public class FermentationRecipe implements Recipe<FermentationInput> {
 
     public int getFermentationTime() {
         return fermentationTime;
+    }
+
+    public FermentationEnvironment getEnvironment() {
+        return environment;
     }
 
     public Ingredient getInput() {

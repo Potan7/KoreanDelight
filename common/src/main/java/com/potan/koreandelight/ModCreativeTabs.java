@@ -38,11 +38,43 @@ public class ModCreativeTabs {
                         output.accept(ModItems.RAW_KIMCHI_JEON.get());
                         output.accept(ModItems.RAW_PAJEON.get());
                         output.accept(ModItems.RED_PEPPER_POWDER.get());
+                        output.accept(ModItems.PESTLE.get());
+                        output.accept(ModItems.SALT.get());
+                        output.accept(ModItems.DRIED_RED_PEPPER.get());
+                        output.accept(ModItems.BOILED_BEANS.get());
+                        output.accept(ModItems.MEJU_LUMP.get());
+                        output.accept(ModItems.MEJU_POWDER.get());
+                        output.accept(ModItems.GLUTINOUS_RICE.get());
+                        output.accept(ModItems.STEAMED_RICE.get());
+                        output.accept(ModItems.STEAMED_GLUTINOUS_RICE.get());
+                        output.accept(ModItems.GLUTINOUS_RICE_PASTE.get());
+                        output.accept(ModItems.RICE_FLOUR.get());
+                        output.accept(ModItems.RICE_CAKE_DOUGH.get());
+                        output.accept(ModItems.SESAME.get());
+                        output.accept(ModItems.ROASTED_SESAME.get());
+                        output.accept(ModItems.SESAME_OIL.get());
+                        output.accept(ModItems.BRINED_CABBAGE.get());
+                        output.accept(ModItems.RAW_SHRIMP.get());
+                        output.accept(ModItems.ANCHOVY.get());
+                        output.accept(ModItems.SALTED_SHRIMP.get());
+                        output.accept(ModItems.TOFU.get());
                         output.accept(ModItems.ONGGI_BLOCK_ITEM.get());
                         output.accept(ModItems.MEJU_BLOCK_ITEM.get());
                         output.accept(ModItems.FERMENTED_MEJU.get());
+                        output.accept(ModItems.RICE_BOWL.get());
+                        output.accept(ModItems.LETTUCE_SEEDS.get());
+                        output.accept(ModItems.PERILLA_SEEDS.get());
+                        output.accept(ModFoodItems.LETTUCE.get());
+                        output.accept(ModFoodItems.SSAM.get());
+                        output.accept(ModFoodItems.SSAMJANG.get());
+                        output.accept(ModFoodItems.GARLIC_BOWL.get());
+                        output.accept(ModFoodItems.SSAMJANG_BOWL.get());
+                        output.accept(ModFoodItems.KIMCHI_BOWL.get());
+                        output.accept(ModFoodItems.LETTUCE_BOWL.get());
+                        output.accept(ModFoodItems.PERILLA_LEAF_BOWL.get());
 
                         // 음식류 추가
+                        output.accept(ModFoodItems.COOKED_RICE_BOWL.get());
                         output.accept(ModFoodItems.KIMCHI_CABBAGE.get());
                         output.accept(ModFoodItems.RED_PEPPER.get());
                         output.accept(ModFoodItems.BEAN.get());
@@ -61,6 +93,14 @@ public class ModCreativeTabs {
                         output.accept(ModFoodItems.PORK_GUKBAP.get());
                         output.accept(ModFoodItems.DOENJANG_JJIGAE.get());
                         output.accept(ModFoodItems.SIKHYE.get());
+                        output.accept(ModFoodItems.RADISH.get());
+                        output.accept(ModFoodItems.PERILLA_LEAF.get());
+                        output.accept(ModFoodItems.FRESH_KIMCHI.get());
+                        output.accept(ModFoodItems.GRILLED_KIMCHI.get());
+                        output.accept(ModFoodItems.GRILLED_GARLIC.get());
+                        output.accept(ModFoodItems.SUNGNYUNG.get());
+                        output.accept(ModFoodItems.DONGCHIMI.get());
+                        output.accept(ModFoodItems.STEAMED_EGG.get());
                     }).build()
     );
 

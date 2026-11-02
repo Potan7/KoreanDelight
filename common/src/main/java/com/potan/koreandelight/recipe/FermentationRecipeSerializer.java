@@ -28,15 +28,17 @@ public class FermentationRecipeSerializer implements RecipeSerializer<Fermentati
                             .validate(time -> time > 0
                                     ? DataResult.success(time)
                                     : DataResult.error(() -> "fermentation_time must be positive"))
-                            .forGetter(FermentationRecipe::getFermentationTime)
-            ).apply(inst, (result, ingredientsOpt, ingredientOpt, fluid, resultFluid, time) -> {
+                            .forGetter(FermentationRecipe::getFermentationTime),
+                    FermentationEnvironment.CODEC.optionalFieldOf("environment", FermentationEnvironment.ANY)
+                            .forGetter(FermentationRecipe::getEnvironment)
+            ).apply(inst, (result, ingredientsOpt, ingredientOpt, fluid, resultFluid, time, environment) -> {
                 NonNullList<Ingredient> list = NonNullList.create();
                 if (ingredientsOpt.isPresent() && !ingredientsOpt.get().isEmpty()) {
                     list.addAll(ingredientsOpt.get());
                 } else if (ingredientOpt.isPresent()) {
                     list.add(ingredientOpt.get());
                 }
-                return new FermentationRecipe(result, list, fluid, resultFluid, time);
+                return new FermentationRecipe(result, list, fluid, resultFluid, time, environment);
             })
     ).validate(recipe -> recipe.getOutput().isEmpty() && recipe.getResultFluid().isEmpty()
             ? DataResult.error(() -> "Fermentation needs an item or fluid result")
@@ -74,6 +76,8 @@ public class FermentationRecipeSerializer implements RecipeSerializer<Fermentati
             FermentationRecipe::getResultFluid,
             ByteBufCodecs.VAR_INT,
             FermentationRecipe::getFermentationTime,
+            ByteBufCodecs.fromCodec(FermentationEnvironment.CODEC),
+            FermentationRecipe::getEnvironment,
             FermentationRecipe::new
     );
 

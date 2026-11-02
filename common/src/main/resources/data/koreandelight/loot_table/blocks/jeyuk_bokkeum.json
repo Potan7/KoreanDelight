@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:jeyuk_bokkeum",
+          "functions": [
+            {
+              "function": "minecraft:copy_state",
+              "block": "koreandelight:jeyuk_bokkeum",
+              "properties": [
+                "servings"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

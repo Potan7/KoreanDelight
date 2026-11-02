@@ -6,6 +6,7 @@ import com.potan.koreandelight.fluid.ModFluids;
 import com.potan.koreandelight.item.FluidBottleItem;
 import com.potan.koreandelight.item.ModItems;
 import com.potan.koreandelight.recipe.FermentationInput;
+import com.potan.koreandelight.recipe.FermentationEnvironment;
 import com.potan.koreandelight.recipe.FermentationRecipe;
 import com.potan.koreandelight.recipe.FluidStackData;
 import com.potan.koreandelight.recipe.ModRecipes;
@@ -26,6 +27,7 @@ import net.minecraft.world.item.MilkBucketItem;
 import net.minecraft.world.item.MobBucketItem;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.crafting.RecipeHolder;
 import net.minecraft.world.item.alchemy.PotionContents;
 import net.minecraft.world.item.alchemy.Potions;
 import net.minecraft.world.inventory.ContainerData;
@@ -36,6 +38,7 @@ import net.minecraft.world.level.material.Fluid;
 import net.minecraft.world.level.material.Fluids;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,6 +51,7 @@ public class OnggiBlockEntity extends BlockEntity {
     public static final int BUCKET_VOLUME = 1000;
     public static final int BOTTLE_VOLUME = 250;
     public static final int TANK_CAPACITY = 8 * BUCKET_VOLUME;
+    public static final int MENU_DATA_COUNT = 8;
 
     public enum RecipeStatus {
         EMPTY, NO_RECIPE, MISSING_INGREDIENTS, WRONG_RATIO,
@@ -58,12 +62,14 @@ public class OnggiBlockEntity extends BlockEntity {
         @Override
         public int get(int index) {
             return switch (index) {
-                case 0 -> agingProgress;
+                case 0 -> (int) agingProgress;
                 case 1 -> maxProgress;
                 case 2 -> BuiltInRegistries.FLUID.getId(storedFluid);
                 case 3 -> storedFluidAmount;
                 case 4 -> getBlockState().getValue(OnggiBlock.HAS_LID) ? 1 : 0;
                 case 5 -> getRecipeStatus().ordinal();
+                case 6 -> environment.ordinal();
+                case 7 -> (int) (progressPerTick * 2);
                 default -> 0;
             };
         }
@@ -74,7 +80,7 @@ public class OnggiBlockEntity extends BlockEntity {
 
         @Override
         public int getCount() {
-            return 6;
+            return MENU_DATA_COUNT;
         }
     };
 
@@ -82,9 +88,10 @@ public class OnggiBlockEntity extends BlockEntity {
         @Override
         public void setChanged() {
             super.setChanged();
-            OnggiBlockEntity.this.setChanged();
-            if (level != null && !level.isClientSide) {
-                level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+            if (!suppressInventoryUpdates) {
+                fermentation.invalidate();
+                containersDirty = true;
+                syncChanged();
             }
         }
     };
@@ -93,136 +100,173 @@ public class OnggiBlockEntity extends BlockEntity {
     private Fluid storedFluid = Fluids.EMPTY;
     private int storedFluidAmount = 0;
 
-    private int agingProgress = 0;
+    private double agingProgress = 0;
     private int maxProgress = 0;
+    private FermentationEnvironment environment = FermentationEnvironment.ANY;
+    private double progressPerTick = 1.0;
+    private final CachedFermentation fermentation = new CachedFermentation();
+    private boolean containersDirty = true;
+    private boolean suppressInventoryUpdates;
+    private long nextEnvironmentCheck = Long.MIN_VALUE;
 
     public OnggiBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), pos, state);
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, OnggiBlockEntity blockEntity) {
+    public static void tick(Level level, BlockPos pos, BlockState state, OnggiBlockEntity jar) {
         if (level.isClientSide) {
-            // 뚜껑이 열려있을 때만 내부 발효 파티클을 렌더링하여 렉을 방지합니다.
             if (state.hasProperty(OnggiBlock.HAS_LID) && !state.getValue(OnggiBlock.HAS_LID)) {
-                blockEntity.spawnParticles(level, pos);
+                jar.spawnParticles(level, pos);
             }
             return;
         }
 
-        // 1. 양동이 슬롯 처리
-        handleFluidContainerSlots(blockEntity);
-
-        // 2. 뚜껑이 열려있으면 발효 일시 정지
-        if (state.hasProperty(OnggiBlock.HAS_LID) && !state.getValue(OnggiBlock.HAS_LID)) {
+        handleFluidContainerSlots(jar);
+        jar.refreshFermentation();
+        if (jar.fermentation.recipe != null && level.getGameTime() >= jar.nextEnvironmentCheck) {
+            jar.environment = jar.fermentation.recipe.getEnvironment();
+            jar.progressPerTick = switch (jar.environment) {
+                case ANY -> 1.0;
+                case SUNNY -> jar.environment.getProgressPerTick(level.isDay() && level.canSeeSky(pos), level.isDay(), 15);
+                case COOL -> jar.environment.getProgressPerTick(false, false, level.getMaxLocalRawBrightness(pos));
+            };
+            jar.nextEnvironmentCheck = level.getGameTime() + 20;
+        }
+        if (jar.fermentation.status != RecipeStatus.READY
+                || state.hasProperty(OnggiBlock.HAS_LID) && !state.getValue(OnggiBlock.HAS_LID)) {
             return;
         }
 
-        // 3. 재료 슬롯(0..3)에서 비어있지 않은 아이템 추출
-        List<ItemStack> inputItems = new ArrayList<>();
-        for (int i = 0; i < INGREDIENT_SLOTS; i++) {
-            ItemStack stack = blockEntity.inventory.getItem(i);
-            if (!stack.isEmpty()) {
-                inputItems.add(stack);
-            }
-        }
-
-        if (inputItems.isEmpty()) {
-            blockEntity.resetProgress();
-            return;
-        }
-
-        FermentationInput input = new FermentationInput(inputItems);
-        Optional<FermentationRecipe> recipe = level.getRecipeManager()
-                .getRecipeFor(ModRecipes.FERMENTATION_RECIPE_TYPE.get(), input, level)
-                .map(holder -> holder.value());
-
-        if (recipe.isPresent()) {
-            FermentationRecipe fermentationRecipe = recipe.get();
-
-            int batchSize = fermentationRecipe.getBatchSize(input);
-            FluidStackData transformedFluid = createFermentedFluid(fermentationRecipe,
-                    blockEntity.storedFluid, blockEntity.storedFluidAmount, batchSize);
-            if (transformedFluid == null) {
-                blockEntity.resetProgress();
-                return;
-            }
-
-            // Check the replacement contents before consuming any items or fluid.
-            ItemStack recipeResult = fermentationRecipe.assemble(input, level.registryAccess());
-            SimpleContainer transformed = createFermentedContents(fermentationRecipe, blockEntity.inventory, recipeResult);
-            if (transformed == null) {
-                blockEntity.resetProgress();
-                return;
-            }
-
-            blockEntity.maxProgress = getBatchTime(fermentationRecipe.getFermentationTime(), batchSize);
-            blockEntity.agingProgress++;
-
-            if (blockEntity.agingProgress == 1 || blockEntity.agingProgress % 20 == 0) {
-                blockEntity.syncChanged();
-            }
-
-            // 발효(숙성) 완료
-            if (blockEntity.agingProgress >= blockEntity.maxProgress) {
-                blockEntity.storedFluid = transformedFluid.fluid();
-                blockEntity.storedFluidAmount = transformedFluid.amount();
-
-                // 3. Replace the contents in the same four ingredient slots.
-                for (int i = 0; i < INGREDIENT_SLOTS; i++) {
-                    blockEntity.inventory.setItem(i, transformed.getItem(i));
+        boolean starting = jar.agingProgress == 0;
+        jar.agingProgress += jar.progressPerTick;
+        // Progress needs saving, but does not change comparator output or the visible inventory.
+        level.blockEntityChanged(pos);
+        if (jar.agingProgress >= jar.maxProgress) {
+            jar.suppressInventoryUpdates = true;
+            try {
+                jar.storedFluid = jar.fermentation.fluid.fluid();
+                jar.storedFluidAmount = jar.fermentation.fluid.amount();
+                for (int slot = 0; slot < INGREDIENT_SLOTS; slot++) {
+                    jar.inventory.setItem(slot, jar.fermentation.contents.getItem(slot));
                 }
-
-                blockEntity.agingProgress = 0;
-                blockEntity.maxProgress = 0;
-                blockEntity.syncChanged();
+            } finally {
+                jar.suppressInventoryUpdates = false;
             }
-        } else {
-            blockEntity.resetProgress();
+            jar.fermentation.invalidate();
+            jar.containersDirty = true;
+            jar.resetProgress();
+            jar.syncChanged();
+        } else if (starting) {
+            jar.syncChanged();
         }
     }
 
-    private static void handleFluidContainerSlots(OnggiBlockEntity blockEntity) {
-        FluidStackData result = transferFluidContainer(blockEntity.inventory, blockEntity.storedFluid, blockEntity.storedFluidAmount);
-        if (result != null) {
-            if (result.fluid() != blockEntity.storedFluid || result.amount() != blockEntity.storedFluidAmount) {
-                blockEntity.setStoredFluid(result.fluid(), result.amount());
-            }
-            blockEntity.inventory.setChanged();
+    private static void handleFluidContainerSlots(OnggiBlockEntity jar) {
+        if (!jar.containersDirty) {
+            return;
         }
+        jar.containersDirty = false;
+        FluidStackData result;
+        jar.suppressInventoryUpdates = true;
+        try {
+            result = transferFluidContainer(jar.inventory, jar.storedFluid, jar.storedFluidAmount);
+        } finally {
+            jar.suppressInventoryUpdates = false;
+        }
+        if (result != null) {
+            if (result.fluid() != jar.storedFluid || result.amount() != jar.storedFluidAmount) {
+                jar.storedFluid = result.fluid();
+                jar.storedFluidAmount = result.amount();
+                jar.resetProgress();
+            }
+            jar.fermentation.invalidate();
+            jar.containersDirty = !jar.inventory.getItem(BUCKET_IN_SLOT).isEmpty();
+            jar.syncChanged();
+        }
+    }
+
+    private void refreshFermentation() {
+        if (level == null) {
+            return;
+        }
+        FermentationRecipe previous = fermentation.recipe;
+        if (!fermentation.update(level.getRecipeManager().getRecipes(), inventory, storedFluid, storedFluidAmount)) {
+            return;
+        }
+        if ((previous != null && previous != fermentation.recipe) || fermentation.status != RecipeStatus.READY) {
+            resetProgress();
+        }
+        if (fermentation.recipe != null) {
+            environment = fermentation.recipe.getEnvironment();
+        }
+        maxProgress = fermentation.status == RecipeStatus.READY ? fermentation.duration : 0;
+        nextEnvironmentCheck = Long.MIN_VALUE;
     }
 
     private RecipeStatus getRecipeStatus() {
-        if (level == null) {
-            return RecipeStatus.EMPTY;
+        refreshFermentation();
+        return fermentation.status;
+    }
+
+    // RecipeManager replaces this immutable collection on /reload; reference changes invalidate the plan.
+    static final class CachedFermentation {
+        private Collection<RecipeHolder<?>> recipes;
+        private boolean dirty = true;
+        FermentationRecipe recipe;
+        RecipeStatus status = RecipeStatus.EMPTY;
+        SimpleContainer contents;
+        FluidStackData fluid;
+        int duration;
+
+        void invalidate() {
+            dirty = true;
         }
-        List<ItemStack> items = new ArrayList<>();
-        for (int i = 0; i < INGREDIENT_SLOTS; i++) {
-            if (!inventory.getItem(i).isEmpty()) {
-                items.add(inventory.getItem(i));
+
+        boolean update(Collection<RecipeHolder<?>> snapshot, SimpleContainer inventory, Fluid storedFluid, int amount) {
+            if (!dirty && recipes == snapshot) {
+                return false;
             }
-        }
-        if (items.isEmpty()) {
-            return RecipeStatus.EMPTY;
-        }
-        FermentationInput input = new FermentationInput(items);
-        var recipe = level.getRecipeManager().getRecipeFor(ModRecipes.FERMENTATION_RECIPE_TYPE.get(), input, level);
-        if (recipe.isPresent()) {
-            FermentationRecipe matched = recipe.get().value();
-            return checkRecipeStatus(matched, inventory, storedFluid, storedFluidAmount,
-                    matched.assemble(input, level.registryAccess()));
-        }
-        RecipeStatus reason = RecipeStatus.NO_RECIPE;
-        for (var holder : level.getRecipeManager().getAllRecipesFor(ModRecipes.FERMENTATION_RECIPE_TYPE.get())) {
-            RecipeStatus candidate = checkRecipeStatus(holder.value(), inventory, storedFluid, storedFluidAmount,
-                    holder.value().getResultItem(level.registryAccess()));
-            if (candidate == RecipeStatus.WRONG_RATIO) {
-                return candidate;
+            recipes = snapshot;
+            dirty = false;
+            recipe = null;
+            contents = null;
+            fluid = null;
+            duration = 0;
+            List<ItemStack> items = new ArrayList<>(INGREDIENT_SLOTS);
+            for (int slot = 0; slot < INGREDIENT_SLOTS; slot++) {
+                if (!inventory.getItem(slot).isEmpty()) {
+                    items.add(inventory.getItem(slot));
+                }
             }
-            if (candidate == RecipeStatus.MISSING_INGREDIENTS) {
-                reason = candidate;
+            if (items.isEmpty()) {
+                status = RecipeStatus.EMPTY;
+                return true;
             }
+            FermentationInput input = new FermentationInput(items);
+            status = RecipeStatus.NO_RECIPE;
+            for (RecipeHolder<?> holder : snapshot) {
+                if (!(holder.value() instanceof FermentationRecipe candidate)) {
+                    continue;
+                }
+                int batch = candidate.getBatchSize(input);
+                if (batch > 0) {
+                    recipe = candidate;
+                    status = checkRecipeStatus(candidate, inventory, storedFluid, amount, candidate.getOutput());
+                    if (status == RecipeStatus.READY) {
+                        contents = createFermentedContents(candidate, inventory, candidate.getOutput());
+                        fluid = createFermentedFluid(candidate, storedFluid, amount, batch);
+                        duration = getBatchTime(candidate.getFermentationTime(), batch);
+                    }
+                    return true;
+                }
+                RecipeStatus reason = checkRecipeStatus(candidate, inventory, storedFluid, amount, candidate.getOutput());
+                if (reason == RecipeStatus.WRONG_RATIO
+                        || (reason == RecipeStatus.MISSING_INGREDIENTS && status != RecipeStatus.WRONG_RATIO)) {
+                    status = reason;
+                }
+            }
+            return true;
         }
-        return reason;
     }
 
     static RecipeStatus checkRecipeStatus(FermentationRecipe recipe, SimpleContainer inventory,
@@ -355,10 +399,7 @@ public class OnggiBlockEntity extends BlockEntity {
             return null;
         }
         SimpleContainer transformed = new SimpleContainer(INGREDIENT_SLOTS);
-        if (result.isEmpty()) {
-            return transformed;
-        }
-        int stackLimit = Math.min(result.getMaxStackSize(), transformed.getMaxStackSize());
+        int stackLimit = result.isEmpty() ? 64 : Math.min(result.getMaxStackSize(), transformed.getMaxStackSize());
         long remaining = (long) result.getCount() * batchSize;
         if (remaining > (long) stackLimit * INGREDIENT_SLOTS) {
             return null;
@@ -367,6 +408,25 @@ public class OnggiBlockEntity extends BlockEntity {
             int count = (int) Math.min(remaining, stackLimit);
             transformed.setItem(slot, result.copyWithCount(count));
             remaining -= count;
+        }
+        // Containers are returned with the result, or the whole transaction waits for room.
+        for (int slot = 0; slot < INGREDIENT_SLOTS; slot++) {
+            ItemStack input = inventory.getItem(slot);
+            if (input.isEmpty()) {
+                continue;
+            }
+            ItemStack remainder = input.getCraftingRemainingItem();
+            if (remainder.isEmpty()) {
+                continue;
+            }
+            long count = (long) remainder.getCount() * input.getCount();
+            while (count > 0) {
+                int portion = (int) Math.min(count, remainder.getMaxStackSize());
+                if (!transformed.addItem(remainder.copyWithCount(portion)).isEmpty()) {
+                    return null;
+                }
+                count -= portion;
+            }
         }
         return transformed;
     }
@@ -392,7 +452,7 @@ public class OnggiBlockEntity extends BlockEntity {
     }
 
     static int getBatchTime(int baseTime, int batchSize) {
-        return Math.toIntExact(((long) baseTime * (3 * batchSize + 1) + 3) / 4);
+        return (int) Math.min(Integer.MAX_VALUE, ((long) baseTime * (3L * batchSize + 1) + 3) / 4);
     }
 
     private void spawnParticles(Level level, BlockPos pos) {
@@ -416,10 +476,12 @@ public class OnggiBlockEntity extends BlockEntity {
     }
 
     private void resetProgress() {
+        environment = FermentationEnvironment.ANY;
+        progressPerTick = 1.0;
         if (agingProgress != 0 || maxProgress != 0) {
             agingProgress = 0;
             maxProgress = 0;
-            syncChanged();
+            setChanged();
         }
     }
 
@@ -433,7 +495,7 @@ public class OnggiBlockEntity extends BlockEntity {
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
-        tag.putInt("aging_progress", this.agingProgress);
+        tag.putDouble("aging_progress", this.agingProgress);
         tag.putInt("max_progress", this.maxProgress);
 
         // 1.21.1 사양: 유체 NBT 상태 저장
@@ -452,7 +514,8 @@ public class OnggiBlockEntity extends BlockEntity {
     @Override
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
-        this.agingProgress = tag.getInt("aging_progress");
+        // Numeric NBT conversion also reads the integer progress saved by older versions.
+        this.agingProgress = tag.getDouble("aging_progress");
         this.maxProgress = tag.getInt("max_progress");
 
         // 1.21.1 사양: 유체 NBT 상태 로드
@@ -467,9 +530,17 @@ public class OnggiBlockEntity extends BlockEntity {
 
         NonNullList<ItemStack> list = NonNullList.withSize(TOTAL_SLOTS, ItemStack.EMPTY);
         ContainerHelper.loadAllItems(tag, list, registries);
-        for (int i = 0; i < TOTAL_SLOTS; i++) {
-            inventory.setItem(i, list.get(i));
+        suppressInventoryUpdates = true;
+        try {
+            for (int i = 0; i < TOTAL_SLOTS; i++) {
+                inventory.setItem(i, list.get(i));
+            }
+        } finally {
+            suppressInventoryUpdates = false;
         }
+        fermentation.invalidate();
+        containersDirty = true;
+        nextEnvironmentCheck = Long.MIN_VALUE;
     }
 
     @Override
@@ -487,16 +558,16 @@ public class OnggiBlockEntity extends BlockEntity {
     }
 
     public void ingredientsChanged() {
-        inventory.setChanged();
         resetProgress();
+        inventory.setChanged();
     }
 
     public boolean insertItem(ItemStack stack) {
         if (!insertItem(inventory, stack)) {
             return false;
         }
-        inventory.setChanged();
         resetProgress();
+        inventory.setChanged();
         return true;
     }
 
@@ -533,6 +604,9 @@ public class OnggiBlockEntity extends BlockEntity {
     public void setStoredFluid(Fluid fluid, int amount) {
         this.storedFluid = fluid;
         this.storedFluidAmount = amount;
+        fermentation.invalidate();
+        containersDirty = true;
+        nextEnvironmentCheck = Long.MIN_VALUE;
         resetProgress();
         setChanged();
         if (level != null && !level.isClientSide) {

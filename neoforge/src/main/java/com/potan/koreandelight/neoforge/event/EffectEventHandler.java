@@ -1,6 +1,7 @@
 package com.potan.koreandelight.neoforge.event;
 
 import com.potan.koreandelight.Koreandelight;
+import com.potan.koreandelight.item.ModFoodItems;
 import com.potan.koreandelight.mobeffect.ModEffects;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
@@ -15,6 +16,8 @@ import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.neoforge.event.entity.living.LivingEntityUseItemEvent;
 import net.neoforged.neoforge.event.entity.player.ItemTooltipEvent;
 import net.neoforged.neoforge.event.entity.player.PlayerEvent;
+import vectorwing.farmersdelight.common.Configuration;
+import vectorwing.farmersdelight.common.utility.TextUtils;
 
 import java.util.List;
 
@@ -36,6 +39,11 @@ public class EffectEventHandler {
     @SubscribeEvent
     public static void onTooltip(ItemTooltipEvent event) {
         ItemStack stack = event.getItemStack();
+
+        if ((stack.is(ModFoodItems.COOKED_RICE_BOWL.get()) || stack.is(ModFoodItems.SSAM.get()))
+                && Configuration.FOOD_EFFECT_TOOLTIP.get()) {
+            TextUtils.addFoodEffectTooltip(stack, event.getToolTip()::add, 1.0F, event.getContext().tickRate());
+        }
         
         // 1.21.1 사양: 아이템의 CUSTOM_DATA 컴포넌트(구 NBT 태그 역할)를 가져옵니다.
         CustomData customData = stack.get(DataComponents.CUSTOM_DATA);

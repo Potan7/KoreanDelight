@@ -1,18 +1,16 @@
 {
   "type": "koreandelight:fermentation",
   "ingredients": [
-    { "item": "koreandelight:minced_fish" },
-    { "item": "koreandelight:minced_fish" },
-    { "item": "koreandelight:minced_fish" },
-    { "item": "koreandelight:minced_fish" }
+    { "tag": "koreandelight:fermentation_fish" },
+    { "tag": "koreandelight:fermentation_fish" },
+    { "tag": "koreandelight:fermentation_fish" },
+    { "tag": "koreandelight:fermentation_fish" },
+    { "item": "koreandelight:salt" }
   ],
-  "fluid": {
-    "fluid": "minecraft:water",
-    "amount": 1000
-  },
   "result_fluid": {
     "fluid": "koreandelight:fish_sauce_fluid",
     "amount": 1000
   },
-  "fermentation_time": 1200
+  "fermentation_time": 1200,
+  "environment": "cool"
 }

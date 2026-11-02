@@ -4,6 +4,9 @@ modLoader = "javafml"
 loaderVersion = "[1,)"
 license = "${mod_license}"
 
+[[mixins]]
+config = "koreandelight.neoforge.mixins.json"
+
 [[mods]]
 modId = "${mod_id}"
 version = "${mod_version}"

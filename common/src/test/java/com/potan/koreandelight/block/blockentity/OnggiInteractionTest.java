@@ -13,6 +13,7 @@ import com.google.gson.JsonParser;
 import io.netty.buffer.Unpooled;
 import com.potan.koreandelight.recipe.FermentationRecipeSerializer;
 import com.potan.koreandelight.recipe.FermentationRecipe;
+import com.potan.koreandelight.recipe.FermentationEnvironment;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.SimpleContainer;
 import net.minecraft.world.item.ItemStack;
@@ -51,7 +52,157 @@ public class OnggiInteractionTest {
         testRecipeStatus();
         testBottleTransfers();
         testFluidOnlyRecipe();
+        testFermentationEnvironment();
+        testCachedFermentation();
+        testContainerRemainders();
+        testKimchiStages();
         System.out.println("Onggi interaction checks passed");
+    }
+
+    private static void testCachedFermentation() {
+        var recipe = new CountingRecipe(Items.BREAD);
+        java.util.List<net.minecraft.world.item.crafting.RecipeHolder<?>> snapshot = java.util.List.of(
+                new net.minecraft.world.item.crafting.RecipeHolder<>(
+                        net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("test", "fermentation"), recipe));
+        SimpleContainer inventory = new SimpleContainer(OnggiBlockEntity.TOTAL_SLOTS);
+        inventory.setItem(0, new ItemStack(Items.STONE, 2));
+        var cache = new OnggiBlockEntity.CachedFermentation();
+        assert cache.update(snapshot, inventory, Fluids.WATER, 2000);
+        assert cache.status == OnggiBlockEntity.RecipeStatus.READY;
+        assert cache.contents.countItem(Items.BREAD) == 8 && cache.fluid.amount() == 0;
+        assert cache.duration == 350;
+        int initialMatches = recipe.matches;
+        var prepared = cache.contents;
+        for (int tick = 0; tick < 20_000; tick++) {
+            assert !cache.update(snapshot, inventory, Fluids.WATER, 2000);
+            assert cache.contents == prepared;
+        }
+        assert recipe.matches == initialMatches;
+        assert inventory.getItem(0).getCount() == 2;
+
+        inventory.setItem(0, new ItemStack(Items.STONE, 3));
+        cache.invalidate();
+        assert cache.update(snapshot, inventory, Fluids.WATER, 2000);
+        assert cache.status == OnggiBlockEntity.RecipeStatus.TOO_LITTLE_FLUID && cache.contents == null;
+        cache.invalidate();
+        assert cache.update(snapshot, inventory, Fluids.WATER, 3000);
+        assert cache.contents.countItem(Items.BREAD) == 12;
+
+        var replacement = new CountingRecipe(Items.COOKIE);
+        snapshot = java.util.List.of(new net.minecraft.world.item.crafting.RecipeHolder<>(
+                net.minecraft.resources.ResourceLocation.fromNamespaceAndPath("test", "fermentation"), replacement));
+        assert cache.update(snapshot, inventory, Fluids.WATER, 3000);
+        assert cache.contents.countItem(Items.COOKIE) == 12 && cache.contents.countItem(Items.BREAD) == 0;
+
+        inventory.setItem(0, new ItemStack(Items.DIRT));
+        cache.invalidate();
+        assert cache.update(snapshot, inventory, Fluids.EMPTY, 0);
+        assert cache.status == OnggiBlockEntity.RecipeStatus.NO_RECIPE;
+        int failedMatches = replacement.matches;
+        for (int tick = 0; tick < 20_000; tick++) {
+            assert !cache.update(snapshot, inventory, Fluids.EMPTY, 0);
+        }
+        assert replacement.matches == failedMatches;
+        System.out.println("Onggi cache: 20,000 ready ticks and 20,000 unmatched ticks, no repeated recipe matching or output allocation");
+    }
+
+    private static class CountingRecipe extends FermentationRecipe {
+        int matches;
+
+        CountingRecipe(net.minecraft.world.item.Item result) {
+            super(new ItemStack(result, 4), Ingredient.of(Items.STONE),
+                    Optional.of(new com.potan.koreandelight.recipe.FluidStackData(Fluids.WATER, 1000)),
+                    Optional.empty(), 200);
+        }
+
+        @Override
+        public int getBatchSize(com.potan.koreandelight.recipe.FermentationInput input) {
+            matches++;
+            return super.getBatchSize(input);
+        }
+    }
+
+    private static void testContainerRemainders() {
+        var recipe = new FermentationRecipe(new ItemStack(Items.BREAD, 16), Ingredient.of(Items.MILK_BUCKET),
+                Optional.empty(), Optional.empty(), 200);
+        SimpleContainer inventory = new SimpleContainer(OnggiBlockEntity.TOTAL_SLOTS);
+        for (int slot = 0; slot < OnggiBlockEntity.INGREDIENT_SLOTS; slot++) {
+            inventory.setItem(slot, new ItemStack(Items.MILK_BUCKET));
+        }
+        var output = OnggiBlockEntity.createFermentedContents(recipe, inventory, new ItemStack(Items.BREAD, 16));
+        assert output != null && output.countItem(Items.BREAD) == 64 && output.countItem(Items.BUCKET) == 4;
+        assert inventory.countItem(Items.MILK_BUCKET) == 4;
+        assert OnggiBlockEntity.createFermentedContents(recipe, inventory, new ItemStack(Items.BREAD, 64)) == null;
+        assert inventory.countItem(Items.MILK_BUCKET) == 4;
+    }
+
+    private static void testKimchiStages() {
+        var first = new FermentationRecipe(new ItemStack(Items.COOKIE), Ingredient.of(Items.BREAD),
+                Optional.empty(), Optional.empty(), 1200);
+        var second = new FermentationRecipe(new ItemStack(Items.APPLE), Ingredient.of(Items.COOKIE),
+                Optional.empty(), Optional.empty(), 2400);
+        java.util.List<net.minecraft.world.item.crafting.RecipeHolder<?>> snapshot = java.util.List.of(
+                new net.minecraft.world.item.crafting.RecipeHolder<>(net.minecraft.resources.ResourceLocation.parse("test:fresh"), first),
+                new net.minecraft.world.item.crafting.RecipeHolder<>(net.minecraft.resources.ResourceLocation.parse("test:aged"), second));
+        var cache = new OnggiBlockEntity.CachedFermentation();
+        SimpleContainer inventory = new SimpleContainer(OnggiBlockEntity.TOTAL_SLOTS);
+        inventory.setItem(0, new ItemStack(Items.BREAD, 5));
+        assert cache.update(snapshot, inventory, Fluids.EMPTY, 0);
+        assert cache.recipe == first && cache.contents.countItem(Items.COOKIE) == 5;
+        var fermented = cache.contents;
+        cache.invalidate();
+        assert cache.update(snapshot, fermented, Fluids.EMPTY, 0);
+        assert cache.recipe == second && cache.contents.countItem(Items.APPLE) == 5;
+        assert fermented.countItem(Items.COOKIE) == 5;
+    }
+
+    private static void testFermentationEnvironment() {
+        for (boolean sky : new boolean[]{false, true}) {
+            for (boolean day : new boolean[]{false, true}) {
+                for (int light : new int[]{0, 7, 8, 15}) {
+                    assert FermentationEnvironment.SUNNY.getProgressPerTick(sky, day, light)
+                            == (sky && day ? 1.5 : 1.0);
+                    assert FermentationEnvironment.COOL.getProgressPerTick(sky, day, light)
+                            == (light <= 7 ? 1.5 : 1.0);
+                    assert FermentationEnvironment.ANY.getProgressPerTick(sky, day, light) == 1.0;
+                }
+            }
+        }
+        // Changing from day to night keeps accumulated progress, including half ticks.
+        double progress = 0;
+        for (int tick = 0; tick < 100; tick++) {
+            progress += FermentationEnvironment.SUNNY.getProgressPerTick(true, tick < 51, 15);
+        }
+        assert progress == 125.5;
+        var saved = new net.minecraft.nbt.CompoundTag();
+        saved.putDouble("aging_progress", progress);
+        assert saved.getDouble("aging_progress") == 125.5;
+        saved.putInt("aging_progress", 100);
+        assert saved.getDouble("aging_progress") == 100.0;
+
+        var serializer = new FermentationRecipeSerializer();
+        var json = JsonParser.parseString("""
+                {"ingredient":{"item":"minecraft:stone"},
+                 "result_fluid":{"fluid":"minecraft:water","amount":1000}}
+                """).getAsJsonObject();
+        assert serializer.codec().codec().parse(JsonOps.INSTANCE, json).getOrThrow().getEnvironment()
+                == FermentationEnvironment.ANY;
+        for (var environment : FermentationEnvironment.values()) {
+            json.addProperty("environment", environment.getSerializedName());
+            var recipe = serializer.codec().codec().parse(JsonOps.INSTANCE, json).getOrThrow();
+            assert recipe.getEnvironment() == environment;
+            var encoded = serializer.codec().codec().encodeStart(JsonOps.INSTANCE, recipe).getOrThrow();
+            assert serializer.codec().codec().parse(JsonOps.INSTANCE, encoded).getOrThrow().getEnvironment() == environment;
+            var payload = new FermentationRecipe(ItemStack.EMPTY, NonNullList.create(), Optional.empty(),
+                    recipe.getResultFluid(), recipe.getFermentationTime(), environment);
+            var buffer = new RegistryFriendlyByteBuf(Unpooled.buffer(),
+                    RegistryAccess.fromRegistryOfRegistries(BuiltInRegistries.REGISTRY));
+            serializer.streamCodec().encode(buffer, payload);
+            assert serializer.streamCodec().decode(buffer).getEnvironment() == environment;
+            buffer.release();
+        }
+        json.addProperty("environment", "unknown");
+        assert serializer.codec().codec().parse(JsonOps.INSTANCE, json).error().isPresent();
     }
 
     private static void testFermentedContents() {
@@ -130,6 +281,7 @@ public class OnggiInteractionTest {
         assert OnggiBlockEntity.getBatchTime(200, 3) == 500;
         assert OnggiBlockEntity.getBatchTime(200, 8) == 1250;
         assert OnggiBlockEntity.getBatchTime(1, 2) == 2;
+        assert OnggiBlockEntity.getBatchTime(Integer.MAX_VALUE, 32) == Integer.MAX_VALUE;
     }
     private static void testRecipeStatus() {
         SimpleContainer inventory = new SimpleContainer(OnggiBlockEntity.TOTAL_SLOTS);

@@ -1,0 +1,74 @@
+{
+  "parent": "minecraft:block/block",
+  "textures": {
+    "particle": "minecraft:block/lime_wool",
+    "leaf": "minecraft:block/green_wool",
+    "heart": "minecraft:block/lime_wool"
+  },
+  "elements": [
+    {
+      "from": [
+        2.75,
+        0,
+        2.75
+      ],
+      "to": [
+        13.25,
+        5.1,
+        13.25
+      ],
+      "faces": {
+        "up": {
+          "texture": "#leaf"
+        },
+        "down": {
+          "texture": "#leaf"
+        },
+        "north": {
+          "texture": "#leaf"
+        },
+        "south": {
+          "texture": "#leaf"
+        },
+        "west": {
+          "texture": "#leaf"
+        },
+        "east": {
+          "texture": "#leaf"
+        }
+      }
+    },
+    {
+      "from": [
+        7,
+        5.1,
+        7
+      ],
+      "to": [
+        9,
+        6.6,
+        9
+      ],
+      "faces": {
+        "up": {
+          "texture": "#heart"
+        },
+        "down": {
+          "texture": "#heart"
+        },
+        "north": {
+          "texture": "#heart"
+        },
+        "south": {
+          "texture": "#heart"
+        },
+        "west": {
+          "texture": "#heart"
+        },
+        "east": {
+          "texture": "#heart"
+        }
+      }
+    }
+  ]
+}

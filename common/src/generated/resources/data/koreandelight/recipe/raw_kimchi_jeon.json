@@ -1,0 +1,22 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "minecraft:wheat"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "koreandelight:kimchi"
+    },
+    {
+      "item": "koreandelight:soy_sauce_bottle"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:raw_kimchi_jeon"
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:perilla_leaf_bowl"
+    }
+  ],
+  "result": {
+    "count": 5,
+    "id": "koreandelight:perilla_leaf"
+  }
+}

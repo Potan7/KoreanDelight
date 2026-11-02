@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:ssamjang_bowl"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:ssamjang"
+  }
+}

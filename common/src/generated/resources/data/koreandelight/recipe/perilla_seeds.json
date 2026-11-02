@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:perilla_leaf"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:perilla_seeds"
+  }
+}

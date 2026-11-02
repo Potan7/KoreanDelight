@@ -1,7 +1,10 @@
 {
   "variants": {
-    "": {
+    "hanging=false": {
       "model": "koreandelight:block/fermented_meju_block"
+    },
+    "hanging=true": {
+      "model": "koreandelight:block/fermented_hanging_meju_block"
     }
   }
 }

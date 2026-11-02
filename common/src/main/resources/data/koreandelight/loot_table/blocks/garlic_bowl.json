@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:garlic_bowl",
+          "functions": [
+            {
+              "function": "minecraft:copy_state",
+              "block": "koreandelight:garlic_bowl",
+              "properties": [
+                "servings"
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

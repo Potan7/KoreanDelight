@@ -1,0 +1,26 @@
+{
+  "type": "minecraft:block",
+  "pools": [
+    {
+      "rolls": 1,
+      "conditions": [
+        {
+          "condition": "minecraft:survives_explosion"
+        }
+      ],
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "koreandelight:perilla_leaf_bowl",
+          "functions": [
+            {
+              "function": "minecraft:copy_state",
+              "block": "koreandelight:perilla_leaf_bowl",
+              "properties": ["servings"]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

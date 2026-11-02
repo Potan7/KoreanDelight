@@ -1,0 +1,25 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "c:foods/dough/wheat"
+    },
+    {
+      "item": "minecraft:egg"
+    },
+    {
+      "item": "koreandelight:green_onion"
+    },
+    {
+      "item": "koreandelight:minced_fish"
+    },
+    {
+      "item": "koreandelight:soy_sauce_bottle"
+    }
+  ],
+  "result": {
+    "count": 2,
+    "id": "koreandelight:raw_pajeon"
+  }
+}

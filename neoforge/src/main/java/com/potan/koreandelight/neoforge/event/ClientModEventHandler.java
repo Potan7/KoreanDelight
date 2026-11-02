@@ -6,6 +6,9 @@ import com.potan.koreandelight.Koreandelight;
 import com.potan.koreandelight.fluid.BaseFluidType;
 import com.potan.koreandelight.fluid.ModFluidTypes;
 import com.potan.koreandelight.item.ModItems;
+import com.potan.koreandelight.item.ModFoodItems;
+import com.potan.koreandelight.item.SsamLeafItem;
+import net.minecraft.client.renderer.item.ItemProperties;
 import com.potan.koreandelight.client.screen.OnggiScreen;
 import com.potan.koreandelight.menu.ModMenus;
 import net.minecraft.client.Camera;
@@ -31,6 +34,16 @@ import org.joml.Vector3f;
 public class ClientModEventHandler {
 
     @SubscribeEvent
+    public static void registerSsamModels(net.neoforged.fml.event.lifecycle.FMLClientSetupEvent event) {
+        event.enqueueWork(() -> {
+            for (var item : java.util.List.of(ModFoodItems.LETTUCE.get(), ModFoodItems.PERILLA_LEAF.get(), ModFoodItems.OPEN_SSAM.get())) {
+                ItemProperties.register(item, ResourceLocation.fromNamespaceAndPath(Koreandelight.MODID, "ssam_ingredients"),
+                        (stack, level, entity, seed) -> SsamLeafItem.getModelIngredients(stack));
+            }
+        });
+    }
+
+    @SubscribeEvent
     public static void registerScreens(net.neoforged.neoforge.client.event.RegisterMenuScreensEvent event) {
         event.register(ModMenus.ONGGI.get(), OnggiScreen::new);
     }
@@ -38,6 +51,7 @@ public class ClientModEventHandler {
     @SubscribeEvent
     public static void registerRenderers(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(com.potan.koreandelight.block.ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), com.potan.koreandelight.client.renderer.OnggiRenderer::new);
+        event.registerBlockEntityRenderer(com.potan.koreandelight.block.ModBlockEntityTypes.RICE_BOWL.get(), com.potan.koreandelight.client.renderer.RiceBowlRenderer::new);
     }
 
     @SubscribeEvent

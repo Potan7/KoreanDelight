@@ -26,6 +26,8 @@ Use Java 21; version values in `gradle.properties` are authoritative.
 
 ## Coding Style & Testing
 
+Consider performance in every implementation. In tick loops, minimize repeated recipe searches, temporary allocations, environment queries, and unnecessary client synchronization. Cache or throttle work where state changes allow it, preserving gameplay timing, save/load correctness, and multiplayer behavior. Verify the affected behavior and avoid adding complexity without a concrete performance benefit.
+
 Use four-space indentation, same-line braces, and one public top-level class per file. Name classes in `PascalCase`, members in `camelCase`, constants in `UPPER_SNAKE_CASE`, and resource IDs in lowercase `snake_case`. Keep registry IDs aligned with asset, recipe, tag, and localization keys. No formatter or linter is configured, so preserve nearby style and imports.
 
 Automated tests are not currently committed. Add isolated logic tests under `<module>/src/test/java` with names ending in `Test`. Validate gameplay changes in `runClient`, data changes with `runData`, and confirm affected content loads without errors.

@@ -2,10 +2,18 @@ package com.potan.koreandelight.neoforge;
 
 import com.potan.koreandelight.Koreandelight;
 import com.potan.koreandelight.data.ModRecipeProvider;
+import com.potan.koreandelight.item.ModFoodItems;
+import com.potan.koreandelight.item.ModItems;
 import com.potan.koreandelight.platform.Services;
+import net.minecraft.core.component.DataComponents;
+import net.minecraft.world.food.FoodProperties;
+import net.minecraft.world.item.ItemStack;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.data.event.GatherDataEvent;
+import net.neoforged.neoforge.event.ModifyDefaultComponentsEvent;
+
+import java.util.Optional;
 
 @Mod(Koreandelight.MODID)
 public class KoreandelightNeoForge {
@@ -22,6 +30,15 @@ public class KoreandelightNeoForge {
         }
 
         modEventBus.addListener(KoreandelightNeoForge::gatherData);
+        modEventBus.addListener(KoreandelightNeoForge::modifyDefaultComponents);
+    }
+
+    private static void modifyDefaultComponents(ModifyDefaultComponentsEvent event) {
+        FoodProperties rice = vectorwing.farmersdelight.common.registry.ModItems.COOKED_RICE.get()
+                .components().get(DataComponents.FOOD);
+        FoodProperties bowlRice = new FoodProperties(rice.nutrition(), rice.saturation(), rice.canAlwaysEat(),
+                rice.eatSeconds(), Optional.of(new ItemStack(ModItems.RICE_BOWL.get())), rice.effects());
+        event.modify(ModFoodItems.COOKED_RICE_BOWL.get(), components -> components.set(DataComponents.FOOD, bowlRice));
     }
 
     private static void gatherData(GatherDataEvent event) {

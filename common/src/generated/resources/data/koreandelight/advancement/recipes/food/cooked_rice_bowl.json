@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_rice_bowl": {
+      "conditions": {
+        "items": [
+          {
+            "items": "koreandelight:rice_bowl"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "koreandelight:cooked_rice_bowl"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_rice_bowl"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "koreandelight:cooked_rice_bowl"
+    ]
+  }
+}

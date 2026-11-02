@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:doenjang"
+    },
+    {
+      "item": "koreandelight:gochujang"
+    },
+    {
+      "item": "koreandelight:minced_garlic"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:ssamjang"
+  }
+}

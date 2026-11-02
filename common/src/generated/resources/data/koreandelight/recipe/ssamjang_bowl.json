@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "item": "koreandelight:rice_bowl"
+    },
+    {
+      "item": "koreandelight:ssamjang"
+    }
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:ssamjang_bowl"
+  }
+}

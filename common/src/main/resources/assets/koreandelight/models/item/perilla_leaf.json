@@ -1,0 +1,50 @@
+{
+  "parent": "minecraft:item/generated",
+  "textures": {
+    "layer0": "minecraft:item/kelp"
+  },
+  "overrides": [
+    {
+      "predicate": {
+        "koreandelight:ssam_ingredients": 1
+      },
+      "model": "koreandelight:item/ssam_leaf_1"
+    },
+    {
+      "predicate": {
+        "koreandelight:ssam_ingredients": 2
+      },
+      "model": "koreandelight:item/ssam_leaf_2"
+    },
+    {
+      "predicate": {
+        "koreandelight:ssam_ingredients": 3
+      },
+      "model": "koreandelight:item/ssam_leaf_3"
+    },
+    {
+      "predicate": {
+        "koreandelight:ssam_ingredients": 4
+      },
+      "model": "koreandelight:item/ssam_leaf_4"
+    },
+    {
+      "predicate": {
+        "koreandelight:ssam_ingredients": 5
+      },
+      "model": "koreandelight:item/ssam_leaf_5"
+    },
+    {
+      "predicate": {
+        "koreandelight:ssam_ingredients": 6
+      },
+      "model": "koreandelight:item/ssam_leaf_6"
+    },
+    {
+      "predicate": {
+        "koreandelight:ssam_ingredients": 7
+      },
+      "model": "koreandelight:item/ssam_leaf_7"
+    }
+  ]
+}

@@ -7,5 +7,6 @@
     "count": 1,
     "id": "koreandelight:aged_kimchi"
   },
-  "fermentation_time": 100
+  "fermentation_time": 100,
+  "environment": "cool"
 }
