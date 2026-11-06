@@ -6,6 +6,10 @@ KoreanDelight is a Minecraft 1.21.1 mod using Java 21 and Gradle. Shared logic b
 
 `neoforge/` is the active loader module and owns its entry point, event handlers, JEI integration, run configurations, and `META-INF/neoforge.mods.toml`. `fabric/` is a future target and is currently excluded from `settings.gradle`. Keep loader-specific behavior outside `common`. Treat `docs/reference/` as reference material, not production code.
 
+## Development Compatibility
+
+This project is in development. Do not preserve compatibility with previous development versions, worlds, saves, registry IDs, or data formats unless the user explicitly requests it. When the user mentions "배포" (release or deployment), remind them to remove this development-only rule and reassess compatibility.
+
 ## Architecture & Data Rules
 
 Common registrations use `Services.PLATFORM.getProvider(Registries.X)` and `RegistrationProvider<T>`; NeoForge adapts these to `DeferredRegister`. Preserve the initialization order in `Koreandelight.init()`, especially fluids before dependent blocks and items. Soy sauce fluids must continue to return the registered NeoForge `FluidType` from `SoySauceFluid#getFluidType()`.

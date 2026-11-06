@@ -48,7 +48,7 @@ public class OnggiScreen extends AbstractContainerScreen<OnggiMenu> {
         int fluidHeight = Math.clamp(48 * menu.getFluidAmount() / OnggiBlockEntity.TANK_CAPACITY, 0, 48);
         int color = menu.getFluid().isSame(Fluids.WATER) ? 0xFF477BB8
                 : menu.getFluid().isSame(Fluids.LAVA) ? 0xFFFF771F
-                : menu.getFluid().isSame(ModFluids.SOURCE_FISH_SAUCE.get()) ? 0xFF9B672E : 0xFF61402B;
+                : 0xFF61402B;
         graphics.fill(x + 149, y + 90 - fluidHeight, x + 161, y + 90, color);
         if (!menu.isLidOpen()) {
             for (int i = 0; i < OnggiBlockEntity.TOTAL_SLOTS; i++) {

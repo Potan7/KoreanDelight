@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_minced_fish": {
+    "has_bean": {
       "conditions": {
         "items": [
           {
-            "items": "koreandelight:minced_fish"
+            "items": "koreandelight:bean"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "koreandelight:raw_fish_cake"
+        "recipe": "koreandelight:boiled_beans_from_smoking"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_minced_fish"
+      "has_bean"
     ]
   ],
   "rewards": {
     "recipes": [
-      "koreandelight:raw_fish_cake"
+      "koreandelight:boiled_beans_from_smoking"
     ]
   }
 }

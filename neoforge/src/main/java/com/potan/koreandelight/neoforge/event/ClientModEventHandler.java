@@ -51,18 +51,19 @@ public class ClientModEventHandler {
     @SubscribeEvent
     public static void registerRenderers(net.neoforged.neoforge.client.event.EntityRenderersEvent.RegisterRenderers event) {
         event.registerBlockEntityRenderer(com.potan.koreandelight.block.ModBlockEntityTypes.ONGGI_BLOCK_ENTITY.get(), com.potan.koreandelight.client.renderer.OnggiRenderer::new);
+        event.registerBlockEntityRenderer(com.potan.koreandelight.block.ModBlockEntityTypes.MORTAR.get(), com.potan.koreandelight.client.renderer.MortarRenderer::new);
         event.registerBlockEntityRenderer(com.potan.koreandelight.block.ModBlockEntityTypes.RICE_BOWL.get(), com.potan.koreandelight.client.renderer.RiceBowlRenderer::new);
     }
 
     @SubscribeEvent
     public static void registerItemColors(RegisterColorHandlersEvent.Item event) {
-        event.register(new DynamicFluidContainerModel.Colors(), ModItems.SOY_SAUCE_BUCKET.get(), ModItems.FISH_SAUCE_BUCKET.get());
+        event.register(new DynamicFluidContainerModel.Colors(), ModItems.SOY_SAUCE_BUCKET.get());
         event.register((stack, tintIndex) -> tintIndex == 0 ? 0xFF412010 : -1, ModItems.SOY_SAUCE_BOTTLE.get());
     }
 
     @SubscribeEvent
     public static void registerClientExtensions(RegisterClientExtensionsEvent event) {
-        for (var fluidType : java.util.List.of(ModFluidTypes.SOY_SAUCE_FLUID_TYPE.get(), ModFluidTypes.FISH_SAUCE_FLUID_TYPE.get())) {
+        for (var fluidType : java.util.List.of(ModFluidTypes.SOY_SAUCE_FLUID_TYPE.get())) {
             if (!(fluidType instanceof BaseFluidType baseFluidType)) {
                 continue;
             }

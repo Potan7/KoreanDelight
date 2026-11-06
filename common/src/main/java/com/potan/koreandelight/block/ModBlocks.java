@@ -53,9 +53,8 @@ public class ModBlocks {
             )
     );
 
-    public static final Supplier<LiquidBlock> FISH_SAUCE_BLOCK = BLOCKS.register("fish_sauce_block",
-            () -> new com.potan.koreandelight.block.custom.ModLiquidBlock(ModFluids.SOURCE_FISH_SAUCE.get(),
-                    BlockBehaviour.Properties.ofFullCopy(Blocks.WATER).noLootTable()));
+    public static final Supplier<Block> MORTAR = BLOCKS.register("mortar",
+            () -> new com.potan.koreandelight.block.custom.MortarBlock(BlockBehaviour.Properties.of().noOcclusion().strength(2.0F).sound(SoundType.STONE)));
 
     // 옹기 블록
     public static final Supplier<Block> ONGGI_BLOCK = BLOCKS.register(

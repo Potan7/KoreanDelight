@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_raw_pajeon": {
+    "has_meju_lump": {
       "conditions": {
         "items": [
           {
-            "items": "koreandelight:raw_pajeon"
+            "items": "koreandelight:meju_lump"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "koreandelight:pajeon_from_smoking"
+        "recipe": "koreandelight:meju_block_from_lumps"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_raw_pajeon"
+      "has_meju_lump"
     ]
   ],
   "rewards": {
     "recipes": [
-      "koreandelight:pajeon_from_smoking"
+      "koreandelight:meju_block_from_lumps"
     ]
   }
 }

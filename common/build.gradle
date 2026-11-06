@@ -38,4 +38,13 @@ tasks.register('riceBowlInteractionTest', JavaExec) {
     javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(21) }
 }
 
-tasks.named('check') { dependsOn 'onggiInteractionTest', 'riceBowlInteractionTest' }
+tasks.register('mortarInteractionTest', JavaExec) {
+    dependsOn testClasses
+    classpath = sourceSets.test.runtimeClasspath
+    mainClass = 'com.potan.koreandelight.block.blockentity.MortarInteractionTest'
+    workingDir = layout.buildDirectory.get().asFile
+    enableAssertions = true
+    javaLauncher = javaToolchains.launcherFor { languageVersion = JavaLanguageVersion.of(21) }
+}
+
+tasks.named('check') { dependsOn 'onggiInteractionTest', 'riceBowlInteractionTest', 'mortarInteractionTest' }

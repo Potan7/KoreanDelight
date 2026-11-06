@@ -34,9 +34,6 @@ public class ModItems {
 
     public static final Supplier<Item> SOY_SAUCE_BOTTLE = ITEMS.register("soy_sauce_bottle",
             () -> new FluidBottleItem(ModFluids.SOURCE_SOY_SAUCE));
-    public static final Supplier<Item> FISH_SAUCE_BUCKET = ITEMS.register("fish_sauce_bucket",
-            () -> new BucketItem(ModFluids.SOURCE_FISH_SAUCE.get(),
-                    new Item.Properties().craftRemainder(Items.BUCKET).stacksTo(1)));
 
     // 배추 씨앗
     public static final Supplier<Item> KIMCHI_CABBAGE_SEEDS = ITEMS.register(
@@ -69,19 +66,12 @@ public class ModItems {
     );
 
     public static final Supplier<Item> GOCHUJANG = ITEMS.register("gochujang", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> FISH_SAUCE = ITEMS.register("fish_sauce", () -> new FluidBottleItem(ModFluids.SOURCE_FISH_SAUCE));
     public static final Supplier<Item> MINCED_GARLIC = ITEMS.register("minced_garlic", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> TTEOK = ITEMS.register("tteok", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> MINCED_FISH = ITEMS.register("minced_fish", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> RAW_FISH_CAKE = ITEMS.register("raw_fish_cake", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> RAW_KIMCHI_JEON = ITEMS.register("raw_kimchi_jeon", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> RAW_PAJEON = ITEMS.register("raw_pajeon", () -> new Item(new Item.Properties()));
 
     // 신규 공정용 재료와 도구. 가공 및 획득 레시피는 각 설비 구현 시 연결합니다.
-    public static final Supplier<Item> PESTLE = ITEMS.register("pestle",
-            () -> new Item(new Item.Properties().stacksTo(1)));
     public static final Supplier<Item> SALT = ITEMS.register("salt", () -> new Item(new Item.Properties()));
-    public static final Supplier<Item> DRIED_RED_PEPPER = ITEMS.register("dried_red_pepper", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> BOILED_BEANS = ITEMS.register("boiled_beans", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> MEJU_LUMP = ITEMS.register("meju_lump", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> MEJU_POWDER = ITEMS.register("meju_powder", () -> new Item(new Item.Properties()));
@@ -100,6 +90,9 @@ public class ModItems {
     public static final Supplier<Item> ANCHOVY = ITEMS.register("anchovy", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> SALTED_SHRIMP = ITEMS.register("salted_shrimp", () -> new Item(new Item.Properties()));
     public static final Supplier<Item> TOFU = ITEMS.register("tofu", () -> new Item(new Item.Properties()));
+
+    public static final Supplier<Item> MORTAR = ITEMS.register("mortar",
+            () -> new BlockItem(ModBlocks.MORTAR.get(), new Item.Properties()));
 
     // 옹기 블록 아이템
     public static final Supplier<Item> ONGGI_BLOCK_ITEM = ITEMS.register(

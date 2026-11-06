@@ -21,6 +21,10 @@ public class ModBlockEntityTypes {
                     ModBlocks.LETTUCE_BOWL.get(), ModBlocks.PERILLA_LEAF_BOWL.get(),
                     ModBlocks.JEYUK_BOKKEUM.get()).build(null));
 
+    public static final Supplier<BlockEntityType<com.potan.koreandelight.block.blockentity.MortarBlockEntity>> MORTAR =
+            BLOCK_ENTITY_TYPES.register("mortar", () -> BlockEntityType.Builder.of(
+                    com.potan.koreandelight.block.blockentity.MortarBlockEntity::new, ModBlocks.MORTAR.get()).build(null));
+
     // 옹기 블록 엔티티 등록
     public static final Supplier<BlockEntityType<OnggiBlockEntity>> ONGGI_BLOCK_ENTITY =
             BLOCK_ENTITY_TYPES.register(

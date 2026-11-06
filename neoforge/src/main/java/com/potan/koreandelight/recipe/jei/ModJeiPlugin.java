@@ -2,6 +2,8 @@ package com.potan.koreandelight.recipe.jei;
 
 import com.potan.koreandelight.Koreandelight;
 import com.potan.koreandelight.block.ModBlocks;
+import com.potan.koreandelight.block.blockentity.MortarBlockEntity;
+import net.minecraft.core.registries.BuiltInRegistries;
 import com.potan.koreandelight.item.ModFoodItems;
 import com.potan.koreandelight.item.ModItems;
 import com.potan.koreandelight.recipe.FermentationRecipe;
@@ -30,7 +32,8 @@ public class ModJeiPlugin implements IModPlugin {
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        registration.addRecipeCategories(new FermentationCategory(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new FermentationCategory(registration.getJeiHelpers().getGuiHelper()),
+                new MortarCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -46,6 +49,21 @@ public class ModJeiPlugin implements IModPlugin {
                 .toList();
 
         registration.addRecipes(FermentationCategory.TYPE, recipes);
+
+        // Derive displayed ratios from the same processing logic used by the mortar.
+        List<MortarCategory.Recipe> mortarRecipes = BuiltInRegistries.ITEM.stream()
+                .map(item -> {
+                    ItemStack input = new ItemStack(item);
+                    ItemStack output = MortarBlockEntity.result(input);
+                    if (output.isEmpty()) {
+                        input = new ItemStack(item, 2);
+                        output = MortarBlockEntity.result(input);
+                    }
+                    return new MortarCategory.Recipe(input, output);
+                })
+                .filter(recipe -> !recipe.output().isEmpty())
+                .toList();
+        registration.addRecipes(MortarCategory.TYPE, mortarRecipes);
 
         // Serving containers do not select the cooking recipe; show this variant in JEI only.
         var level = Minecraft.getInstance().level;
@@ -69,5 +87,6 @@ public class ModJeiPlugin implements IModPlugin {
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(ModBlocks.ONGGI_BLOCK.get(), FermentationCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.MORTAR.get(), MortarCategory.TYPE);
     }
 }

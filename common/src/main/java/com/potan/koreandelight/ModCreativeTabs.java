@@ -24,23 +24,17 @@ public class ModCreativeTabs {
                         // 아이템 및 블록 추가
                         output.accept(ModItems.SOY_SAUCE_BUCKET.get());
                         output.accept(ModItems.SOY_SAUCE_BOTTLE.get());
-                        output.accept(ModItems.FISH_SAUCE_BUCKET.get());
                         output.accept(ModItems.KIMCHI_CABBAGE_SEEDS.get());
                         output.accept(ModItems.RED_PEPPER_SEEDS.get());
                         output.accept(ModItems.GREEN_ONION_SEEDS.get());
                         output.accept(ModItems.GARLIC.get());
                         output.accept(ModItems.GOCHUJANG.get());
-                        output.accept(ModItems.FISH_SAUCE.get());
                         output.accept(ModItems.MINCED_GARLIC.get());
                         output.accept(ModItems.TTEOK.get());
-                        output.accept(ModItems.MINCED_FISH.get());
-                        output.accept(ModItems.RAW_FISH_CAKE.get());
                         output.accept(ModItems.RAW_KIMCHI_JEON.get());
-                        output.accept(ModItems.RAW_PAJEON.get());
                         output.accept(ModItems.RED_PEPPER_POWDER.get());
-                        output.accept(ModItems.PESTLE.get());
+                        output.accept(ModItems.MORTAR.get());
                         output.accept(ModItems.SALT.get());
-                        output.accept(ModItems.DRIED_RED_PEPPER.get());
                         output.accept(ModItems.BOILED_BEANS.get());
                         output.accept(ModItems.MEJU_LUMP.get());
                         output.accept(ModItems.MEJU_POWDER.get());
@@ -83,9 +77,7 @@ public class ModCreativeTabs {
                         output.accept(ModFoodItems.AGED_KIMCHI.get());
                         output.accept(ModFoodItems.DOENJANG.get());
                         output.accept(ModFoodItems.DOENJANG_BLOCK_ITEM.get());
-                        output.accept(ModFoodItems.FISH_CAKE.get());
                         output.accept(ModFoodItems.KIMCHI_JEON.get());
-                        output.accept(ModFoodItems.PAJEON.get());
                         output.accept(ModFoodItems.BIBIMBAP.get());
                         output.accept(ModFoodItems.CHICKEN_KALGUKSU.get());
                         output.accept(ModFoodItems.TTEOKBOKKI.get());

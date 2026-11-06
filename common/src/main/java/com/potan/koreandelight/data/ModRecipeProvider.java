@@ -102,6 +102,14 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_bean", has(ModFoodItems.BEAN.get()))
                 .save(output, modRecipe("meju_block"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MORTAR.get())
+                .pattern("S S").pattern("SSS").define('S', Items.STONE)
+                .unlockedBy("has_stone", has(Items.STONE)).save(output, modRecipe("mortar"));
+
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MEJU_BLOCK_ITEM.get())
+                .pattern("MM").pattern("MM").define('M', ModItems.MEJU_LUMP.get())
+                .unlockedBy("has_meju_lump", has(ModItems.MEJU_LUMP.get())).save(output, modRecipe("meju_block_from_lumps"));
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.ONGGI_BLOCK_ITEM.get())
                 .pattern("B B").pattern("B B").pattern("BBB").define('B', Items.BRICK)
                 .unlockedBy("has_brick", has(Items.BRICK))
@@ -130,8 +138,8 @@ public class ModRecipeProvider extends RecipeProvider {
                 .save(output, modRecipe("glutinous_rice_paste"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.FRESH_KIMCHI.get())
                 .requires(ModFoodItems.KIMCHI_CABBAGE.get()).requires(ModItems.RED_PEPPER_POWDER.get())
-                .requires(ModItems.MINCED_GARLIC.get()).requires(ModItems.FISH_SAUCE.get())
-                .unlockedBy("has_fish_sauce", has(ModItems.FISH_SAUCE.get()))
+                .requires(ModItems.MINCED_GARLIC.get())
+                .unlockedBy("has_cabbage", has(ModFoodItems.KIMCHI_CABBAGE.get()))
                 .save(output, modRecipe("fresh_kimchi"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.COOKED_RICE_BOWL.get())
                 .requires(ModItems.RICE_BOWL.get())
@@ -142,13 +150,6 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(ModFoodItems.COOKED_RICE_BOWL.get()).requires(Items.BOWL)
                 .unlockedBy("has_cooked_rice_bowl", has(ModFoodItems.COOKED_RICE_BOWL.get()))
                 .save(output, modRecipe("cooked_rice_from_rice_bowl"));
-
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.RAW_FISH_CAKE.get())
-                .requires(ModItems.MINCED_FISH.get())
-                .requires(WHEAT_DOUGH)
-                .requires(ModItems.MINCED_GARLIC.get())
-                .unlockedBy("has_minced_fish", has(ModItems.MINCED_FISH.get()))
-                .save(output, modRecipe("raw_fish_cake"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.RAW_KIMCHI_JEON.get())
                 .requires(Items.WHEAT)
@@ -166,27 +167,9 @@ public class ModRecipeProvider extends RecipeProvider {
                 .unlockedBy("has_kimchi", has(ModFoodItems.KIMCHI.get()))
                 .save(output, modRecipe("raw_kimchi_jeon_from_wheat_dough"));
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.RAW_PAJEON.get())
-                .requires(Items.WHEAT)
-                .requires(Items.EGG)
-                .requires(ModFoodItems.GREEN_ONION.get())
-                .requires(ModItems.MINCED_FISH.get())
-                .requires(ModItems.SOY_SAUCE_BOTTLE.get())
-                .unlockedBy("has_minced_fish", has(ModItems.MINCED_FISH.get()))
-                .save(output, modRecipe("raw_pajeon"));
+        cookFood(output, ModFoodItems.BEAN.get(), ModItems.BOILED_BEANS.get(), "bean", "boiled_beans");
 
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.RAW_PAJEON.get(), 2)
-                .requires(WHEAT_DOUGH)
-                .requires(Items.EGG)
-                .requires(ModFoodItems.GREEN_ONION.get())
-                .requires(ModItems.MINCED_FISH.get())
-                .requires(ModItems.SOY_SAUCE_BOTTLE.get())
-                .unlockedBy("has_minced_fish", has(ModItems.MINCED_FISH.get()))
-                .save(output, modRecipe("raw_pajeon_from_wheat_dough"));
-
-        cookFood(output, ModItems.RAW_FISH_CAKE.get(), ModFoodItems.FISH_CAKE.get(), "raw_fish_cake", "fish_cake");
         cookFood(output, ModItems.RAW_KIMCHI_JEON.get(), ModFoodItems.KIMCHI_JEON.get(), "raw_kimchi_jeon", "kimchi_jeon");
-        cookFood(output, ModItems.RAW_PAJEON.get(), ModFoodItems.PAJEON.get(), "raw_pajeon", "pajeon");
     }
 
     private static void cookFood(RecipeOutput output, Item raw, Item cooked, String rawName, String cookedName) {

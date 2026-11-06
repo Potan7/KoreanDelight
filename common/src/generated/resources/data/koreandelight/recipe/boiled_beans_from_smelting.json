@@ -1,13 +1,13 @@
 {
   "type": "minecraft:smelting",
-  "category": "food",
+  "category": "misc",
   "cookingtime": 200,
   "experience": 0.35,
   "ingredient": {
-    "item": "koreandelight:raw_fish_cake"
+    "item": "koreandelight:bean"
   },
   "result": {
     "count": 1,
-    "id": "koreandelight:fish_cake"
+    "id": "koreandelight:boiled_beans"
   }
 }

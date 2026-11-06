@@ -125,12 +125,6 @@ public class OnggiRenderer implements BlockEntityRenderer<OnggiBlockEntity> {
             g = 1.0F;
             b = 1.0F;
             a = 0.95F;
-        } else if (fluid.isSame(ModFluids.SOURCE_FISH_SAUCE.get())) {
-            textureLocation = WATER_STILL;
-            r = 155.0F / 255.0F;
-            g = 103.0F / 255.0F;
-            b = 46.0F / 255.0F;
-            a = 0.95F;
         } else if (fluid.isSame(Fluids.LAVA)) {
             textureLocation = LAVA_STILL;
             r = 1.0F;

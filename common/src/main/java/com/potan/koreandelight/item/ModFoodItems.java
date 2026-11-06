@@ -71,9 +71,7 @@ public class ModFoodItems {
             "doenjang_block",
             () -> new BlockItem(ModBlocks.DOENJANG_BLOCK.get(), new Item.Properties())
     );
-    public static final Supplier<Item> FISH_CAKE = food("fish_cake", ModFoodProperties.FISH_CAKE);
     public static final Supplier<Item> KIMCHI_JEON = food("kimchi_jeon", ModFoodProperties.KIMCHI_JEON);
-    public static final Supplier<Item> PAJEON = food("pajeon", ModFoodProperties.PAJEON);
     public static final Supplier<Item> BIBIMBAP = food("bibimbap", ModFoodProperties.BIBIMBAP);
     public static final Supplier<Item> CHICKEN_KALGUKSU = food("chicken_kalguksu", ModFoodProperties.CHICKEN_KALGUKSU);
     public static final Supplier<Item> TTEOKBOKKI = food("tteokbokki", ModFoodProperties.TTEOKBOKKI);

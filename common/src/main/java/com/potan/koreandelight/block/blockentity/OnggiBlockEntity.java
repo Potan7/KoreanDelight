@@ -331,9 +331,6 @@ public class OnggiBlockEntity extends BlockEntity {
             if (fluid.isSame(ModFluids.SOURCE_SOY_SAUCE.get())) {
                 return new ItemStack(ModItems.SOY_SAUCE_BOTTLE.get());
             }
-            if (fluid.isSame(ModFluids.SOURCE_FISH_SAUCE.get())) {
-                return new ItemStack(ModItems.FISH_SAUCE.get());
-            }
         }
         return ItemStack.EMPTY;
     }

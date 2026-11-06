@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "koreandelight:item/raw_fish_cake"
+    "layer0": "koreandelight:item/dough_placeholder"
   }
 }

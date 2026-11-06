@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "koreandelight:onggi_block"
+    "koreandelight:onggi_block",
+    "koreandelight:mortar"
   ]
 }

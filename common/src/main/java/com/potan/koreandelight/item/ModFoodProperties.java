@@ -15,9 +15,7 @@ public class ModFoodProperties {
     public static final FoodProperties LETTUCE = food(2, 0.3f);
     public static final FoodProperties SSAM = ssam(LETTUCE);
     public static final FoodProperties SSAMJANG = food(2, 0.3f);
-    public static final FoodProperties FISH_CAKE = food(5, 0.6f);
     public static final FoodProperties KIMCHI_JEON = food(7, 0.7f);
-    public static final FoodProperties PAJEON = food(7, 0.7f);
     public static final FoodProperties BIBIMBAP = food(12, 0.9f);
     public static final FoodProperties CHICKEN_KALGUKSU = food(14, 1.0f);
     public static final FoodProperties TTEOKBOKKI = food(12, 0.8f);
