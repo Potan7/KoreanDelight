@@ -39,3 +39,14 @@ Automated tests are not currently committed. Add isolated logic tests under `<mo
 ## Commits & Pull Requests
 
 Use concise prefixes seen in history, such as `feat:`, `fix:`, and `refactor:`. Keep commits focused. Pull requests should describe user-visible and technical effects, link relevant issues, list validation commands, and include screenshots for UI, model, texture, or gameplay changes. Explicitly identify generated-resource updates.
+
+## Notion Integration & Multi-AI Rules
+
+Notion is connected **only to Antigravity** via its `notion_notion` MCP plugin. Other AI coding assistants (Claude Code, Codex, Cursor, etc.) do not have direct access to Notion.
+
+- **Non-Antigravity AIs**: Do not attempt to connect to Notion, guess Notion contents, or invent API/script workarounds. When a task depends on Notion specs or when code changes modify items, blocks, recipes, or systems that belong in Notion, state clearly what needs to be checked or synced in Notion via Antigravity. Still follow the Notion conventions below during implementation.
+- **Antigravity**: Use `.agents/rules/notion-koreandelight.md` for the exact `Korean Delight` root page URL, subpage/database IDs, and MCP usage rules.
+- **Project Scope Boundary**: Only the `Korean Delight` Notion page and its child pages/databases belong to this repository. Never search, read, or reference unrelated pages in the user's Notion workspace.
+- **Sync Conventions**:
+  - Some entries in the `아이템` database group derived mod items into one page instead of 1:1 rows (e.g., `간장` covers fluid/bucket/bottle; `밥그릇` covers empty/filled bowl variants; `상추` covers the `ssam` and `open_ssam` wrapping system).
+  - Never write mod registry IDs or temporary/placeholder texture notes in the Notion `비고` column.
