@@ -29,6 +29,7 @@ import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.IntegerProperty;
 import net.minecraft.world.level.gameevent.GameEvent;
 import net.minecraft.world.level.storage.loot.LootParams;
+import net.minecraft.world.level.storage.loot.parameters.LootContextParams;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.phys.shapes.CollisionContext;
@@ -80,7 +81,13 @@ public class RiceBowlBlock extends Block implements EntityBlock {
             Item container = asItem().getCraftingRemainingItem();
             return container == null ? List.of() : List.of(new ItemStack(container));
         }
-        return super.getDrops(state, params);
+        List<ItemStack> drops = super.getDrops(state, params);
+        if (state.is(ModBlocks.KIMCHI_BOWL.get())
+                && params.getOptionalParameter(LootContextParams.BLOCK_ENTITY) instanceof RiceBowlBlockEntity bowl
+                && !bowl.getStoredDish().isEmpty()) {
+            return drops.stream().map(stack -> stack.is(ModFoodItems.KIMCHI_BOWL.get()) ? bowl.getStoredDish() : stack).toList();
+        }
+        return drops;
     }
 
     public static boolean consumeServing(Level level, BlockPos pos, BlockState state, BlockState remainder) {
@@ -101,10 +108,7 @@ public class RiceBowlBlock extends Block implements EntityBlock {
     }
 
     public static Item dishLeaf(BlockState state) {
-        if (state.is(ModBlocks.LETTUCE_BOWL.get())) {
-            return ModFoodItems.LETTUCE.get();
-        }
-        return state.is(ModBlocks.PERILLA_LEAF_BOWL.get()) ? ModFoodItems.PERILLA_LEAF.get() : null;
+        return state.is(ModBlocks.LETTUCE_BOWL.get()) ? ModFoodItems.LETTUCE.get() : null;
     }
 
     public static boolean canTakeLeaf(ItemStack held, Item leaf) {
@@ -179,6 +183,11 @@ public class RiceBowlBlock extends Block implements EntityBlock {
             return InteractionResult.SUCCESS;
         }
         ItemStack pickedUp = pickupStack(state);
+        if (state.is(ModBlocks.KIMCHI_BOWL.get())
+                && level.getBlockEntity(pos) instanceof RiceBowlBlockEntity bowl
+                && !bowl.getStoredDish().isEmpty()) {
+            pickedUp = bowl.getStoredDish();
+        }
         if (!level.removeBlock(pos, false)) {
             return InteractionResult.FAIL;
         }

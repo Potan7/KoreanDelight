@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "R": {
+      "item": "minecraft:red_terracotta"
+    }
+  },
+  "pattern": [
+    "R R",
+    "RRR"
+  ],
+  "result": {
+    "count": 1,
+    "id": "koreandelight:kimjang_basin"
+  }
+}

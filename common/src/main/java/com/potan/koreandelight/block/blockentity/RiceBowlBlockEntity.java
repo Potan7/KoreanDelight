@@ -6,6 +6,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
 import net.minecraft.util.Mth;
 import net.minecraft.world.level.block.entity.BlockEntity;
@@ -15,6 +16,15 @@ import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class RiceBowlBlockEntity extends BlockEntity {
     private Vec3 placementOffset = Vec3.ZERO;
+    private ItemStack storedDish = ItemStack.EMPTY;
+
+    public ItemStack getStoredDish() { return storedDish.copy(); }
+
+    public void setStoredDish(ItemStack stack) {
+        storedDish = stack.copyWithCount(1);
+        setChanged();
+        if (level != null && !level.isClientSide) level.sendBlockUpdated(worldPosition, getBlockState(), getBlockState(), 3);
+    }
 
     public RiceBowlBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntityTypes.RICE_BOWL.get(), pos, state);
@@ -54,11 +64,13 @@ public class RiceBowlBlockEntity extends BlockEntity {
     protected void loadAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.loadAdditional(tag, registries);
         placementOffset = clampOffset(tag.getDouble("OffsetX"), tag.getDouble("OffsetZ"), getCenteredShape());
+        storedDish = ItemStack.parseOptional(registries, tag.getCompound("StoredDish"));
     }
 
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
+        if (!storedDish.isEmpty()) tag.put("StoredDish", storedDish.save(registries));
         tag.putDouble("OffsetX", placementOffset.x);
         tag.putDouble("OffsetZ", placementOffset.z);
     }

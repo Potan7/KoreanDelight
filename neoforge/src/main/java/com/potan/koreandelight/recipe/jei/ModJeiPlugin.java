@@ -2,6 +2,7 @@ package com.potan.koreandelight.recipe.jei;
 
 import com.potan.koreandelight.Koreandelight;
 import com.potan.koreandelight.block.ModBlocks;
+import com.potan.koreandelight.block.blockentity.KimjangBasinBlockEntity;
 import com.potan.koreandelight.block.blockentity.MortarBlockEntity;
 import net.minecraft.core.registries.BuiltInRegistries;
 import com.potan.koreandelight.item.ModFoodItems;
@@ -14,6 +15,7 @@ import mezz.jei.api.registration.IRecipeCatalystRegistration;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.client.Minecraft;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
@@ -33,7 +35,8 @@ public class ModJeiPlugin implements IModPlugin {
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
         registration.addRecipeCategories(new FermentationCategory(registration.getJeiHelpers().getGuiHelper()),
-                new MortarCategory(registration.getJeiHelpers().getGuiHelper()));
+                new MortarCategory(registration.getJeiHelpers().getGuiHelper()),
+                new KimjangCategory(registration.getJeiHelpers().getGuiHelper()));
     }
 
     @Override
@@ -64,6 +67,15 @@ public class ModJeiPlugin implements IModPlugin {
                 .filter(recipe -> !recipe.output().isEmpty())
                 .toList();
         registration.addRecipes(MortarCategory.TYPE, mortarRecipes);
+        int batch = KimjangBasinBlockEntity.BATCH_SIZE;
+        int seasoning = KimjangBasinBlockEntity.SEASONING_COUNT;
+        registration.addRecipes(KimjangCategory.TYPE, List.of(
+                new KimjangCategory.Recipe(
+                        Component.translatable("jei.koreandelight.kimjang.mix", KimjangBasinBlockEntity.MIXES),
+                        List.of(new ItemStack(ModFoodItems.KIMCHI_CABBAGE.get(), batch),
+                                new ItemStack(ModItems.RED_PEPPER_POWDER.get(), seasoning),
+                                new ItemStack(ModItems.MINCED_GARLIC.get(), seasoning)),
+                        List.of(new ItemStack(ModFoodItems.KIMCHI.get(), batch)))));
 
         // Serving containers do not select the cooking recipe; show this variant in JEI only.
         var level = Minecraft.getInstance().level;
@@ -88,5 +100,6 @@ public class ModJeiPlugin implements IModPlugin {
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
         registration.addRecipeCatalyst(ModBlocks.ONGGI_BLOCK.get(), FermentationCategory.TYPE);
         registration.addRecipeCatalyst(ModBlocks.MORTAR.get(), MortarCategory.TYPE);
+        registration.addRecipeCatalyst(ModBlocks.KIMJANG_BASIN.get(), KimjangCategory.TYPE);
     }
 }

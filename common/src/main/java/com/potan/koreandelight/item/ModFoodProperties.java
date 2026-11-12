@@ -26,11 +26,8 @@ public class ModFoodProperties {
 
     // shortcut: 신규 음식 영양치는 임시값이며, 1회분 배분과 중화 효과 구현 시 조정합니다.
     public static final FoodProperties RADISH = food(2, 0.3f);
-    public static final FoodProperties PERILLA_LEAF = food(2, 0.3f);
-    public static final FoodProperties FRESH_KIMCHI = food(4, 0.4f);
     public static final FoodProperties GRILLED_KIMCHI = food(7, 0.7f);
     public static final FoodProperties GRILLED_GARLIC = food(3, 0.3f);
-    public static final FoodProperties SUNGNYUNG = food(4, 0.3f);
     public static final FoodProperties DONGCHIMI = food(4, 0.4f);
     public static final FoodProperties STEAMED_EGG = food(6, 0.6f);
 

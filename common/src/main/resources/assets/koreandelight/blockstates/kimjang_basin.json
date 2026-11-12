@@ -1,0 +1,19 @@
+{
+  "variants": {
+    "part=north_west": {
+      "model": "koreandelight:block/kimjang_basin"
+    },
+    "part=north_east": {
+      "model": "koreandelight:block/kimjang_basin",
+      "y": 90
+    },
+    "part=south_east": {
+      "model": "koreandelight:block/kimjang_basin",
+      "y": 180
+    },
+    "part=south_west": {
+      "model": "koreandelight:block/kimjang_basin",
+      "y": 270
+    }
+  }
+}

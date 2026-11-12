@@ -2,7 +2,6 @@ package com.potan.koreandelight.block;
 
 import com.potan.koreandelight.block.custom.cropblock.BeanCropBlock;
 import com.potan.koreandelight.block.custom.cropblock.LettuceCropBlock;
-import com.potan.koreandelight.block.custom.cropblock.PerillaCropBlock;
 import com.potan.koreandelight.block.custom.cropblock.GarlicCropBlock;
 import com.potan.koreandelight.block.custom.cropblock.GreenOnionCropBlock;
 import com.potan.koreandelight.block.custom.cropblock.KimchiCabbageCropBlock;
@@ -21,8 +20,6 @@ public class ModCropBlocks {
 
     public static final Supplier<Block> LETTUCE_CROP = BLOCKS.register("lettuce_crop",
             () -> new LettuceCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).noOcclusion().noCollission()));
-    public static final Supplier<Block> PERILLA_CROP = BLOCKS.register("perilla_crop",
-            () -> new PerillaCropBlock(BlockBehaviour.Properties.ofFullCopy(Blocks.WHEAT).noOcclusion().noCollission()));
 
     // 배추 작물
     public static final Supplier<Block> KIMCHI_CABBAGE_CROP = BLOCKS.register(

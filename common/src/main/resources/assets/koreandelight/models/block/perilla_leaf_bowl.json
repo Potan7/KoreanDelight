@@ -1,8 +1,0 @@
-{
-  "parent": "koreandelight:block/lettuce_bowl",
-  "textures": {
-    "leaf": "minecraft:block/green_terracotta",
-    "heart": "minecraft:block/green_wool",
-    "vein": "minecraft:block/lime_terracotta"
-  }
-}

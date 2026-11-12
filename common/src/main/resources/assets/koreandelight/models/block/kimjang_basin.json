@@ -1,0 +1,15 @@
+{
+  "textures": {
+    "particle": "#side",
+    "floor": "minecraft:block/red_terracotta",
+    "side": "minecraft:block/red_concrete",
+    "lip": "minecraft:block/red_concrete_powder"
+  },
+  "elements": [
+    {"from": [1, 0, 1], "to": [16, 2, 16], "faces": {"north": {"texture": "#floor"}, "west": {"texture": "#floor"}, "up": {"texture": "#floor"}, "down": {"texture": "#floor"}}},
+    {"from": [1, 2, 1], "to": [16, 6, 3], "faces": {"north": {"texture": "#side"}, "south": {"texture": "#side"}, "west": {"texture": "#side"}, "up": {"texture": "#side"}, "down": {"texture": "#side"}}},
+    {"from": [1, 2, 3], "to": [3, 6, 16], "faces": {"west": {"texture": "#side"}, "east": {"texture": "#side"}, "up": {"texture": "#side"}, "down": {"texture": "#side"}}},
+    {"from": [1, 6, 1], "to": [16, 7, 3], "faces": {"north": {"texture": "#lip"}, "south": {"texture": "#lip"}, "west": {"texture": "#lip"}, "up": {"texture": "#lip"}, "down": {"texture": "#lip"}}},
+    {"from": [1, 6, 3], "to": [3, 7, 16], "faces": {"west": {"texture": "#lip"}, "east": {"texture": "#lip"}, "up": {"texture": "#lip"}, "down": {"texture": "#lip"}}}
+  ]
+}

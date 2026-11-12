@@ -2,6 +2,9 @@ package com.potan.koreandelight.item;
 
 import com.potan.koreandelight.block.ModBlocks;
 import com.potan.koreandelight.block.custom.RiceBowlBlock;
+import com.potan.koreandelight.block.blockentity.RiceBowlBlockEntity;
+import com.potan.koreandelight.mobeffect.ModEffects;
+import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
@@ -75,7 +78,17 @@ public class SsamLeafItem extends Item {
                     case KIMCHI -> ModFoodItems.KIMCHI_BOWL.get();
                     default -> throw new IllegalArgumentException("Unknown ssam ingredient: " + ingredient);
                 };
-                foods.add(food.components().get(DataComponents.FOOD));
+                FoodProperties properties = food.components().get(DataComponents.FOOD);
+                var data = leaf.getOrDefault(DataComponents.CUSTOM_DATA, CustomData.EMPTY).copyTag();
+                if (ingredient == KIMCHI && data.contains("KimchiSpicyDuration")) {
+                    int duration = data.getInt("KimchiSpicyDuration");
+                    int amplifier = data.getInt("KimchiSpicyAmplifier");
+                    properties = new FoodProperties(properties.nutrition(), properties.saturation(),
+                            properties.canAlwaysEat(), properties.eatSeconds(), properties.usingConvertsTo(),
+                            duration > 0 ? List.of(new FoodProperties.PossibleEffect(
+                                    () -> new MobEffectInstance(ModEffects.SPICY_HOLDER, duration, amplifier), 1.0F)) : List.of());
+                }
+                foods.add(properties);
             }
         }
         return ModFoodProperties.ssam(foods.toArray(FoodProperties[]::new));
@@ -129,6 +142,20 @@ public class SsamLeafItem extends Item {
             return InteractionResult.sidedSuccess(level.isClientSide);
         }
         if (!level.isClientSide) {
+            if (ingredient == KIMCHI && level.getBlockEntity(context.getClickedPos()) instanceof RiceBowlBlockEntity bowl) {
+                ItemStack storedDish = bowl.getStoredDish();
+                FoodProperties food = storedDish.get(DataComponents.FOOD);
+                if (food != null) {
+                    var spicy = food.effects().stream()
+                            .map(FoodProperties.PossibleEffect::effect)
+                            .filter(effect -> effect.getEffect().equals(ModEffects.SPICY_HOLDER))
+                            .findFirst();
+                    CustomData.update(DataComponents.CUSTOM_DATA, result, tag -> {
+                        tag.putInt("KimchiSpicyDuration", spicy.map(MobEffectInstance::getDuration).orElse(0));
+                        tag.putInt("KimchiSpicyAmplifier", spicy.map(MobEffectInstance::getAmplifier).orElse(0));
+                    });
+                }
+            }
             BlockState remainder = ingredient == MEAT ? Blocks.AIR.defaultBlockState()
                     : ModBlocks.RICE_BOWL.get().defaultBlockState();
             if (!RiceBowlBlock.consumeServing(level, context.getClickedPos(), source, remainder)) {

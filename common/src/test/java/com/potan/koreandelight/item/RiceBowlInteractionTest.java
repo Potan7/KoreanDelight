@@ -203,7 +203,7 @@ public class RiceBowlInteractionTest {
         var spicy = new net.minecraft.world.food.FoodProperties.Builder().nutrition(6).saturationModifier(0.6F)
                 .effect(() -> new net.minecraft.world.effect.MobEffectInstance(
                         net.minecraft.world.effect.MobEffects.MOVEMENT_SPEED, 200, 1), 0.75F).build();
-        var expected = ModFoodProperties.ssam(ModFoodProperties.PERILLA_LEAF, spicy,
+        var expected = ModFoodProperties.ssam(ModFoodProperties.LETTUCE, spicy,
                 ModFoodProperties.GARLIC, ModFoodProperties.SSAMJANG);
         assert expected.nutrition() == 12;
         assert Math.abs(expected.saturation() - 12.48F) < 0.00001F;

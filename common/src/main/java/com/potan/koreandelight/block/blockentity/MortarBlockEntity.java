@@ -6,8 +6,10 @@ import com.potan.koreandelight.item.ModFoodItems;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.core.NonNullList;
+import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.game.ClientboundBlockEntityDataPacket;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.ContainerHelper;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
@@ -15,6 +17,7 @@ import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
 public class MortarBlockEntity extends BlockEntity {
+    private static final ResourceLocation COOKED_RICE_ID = ResourceLocation.fromNamespaceAndPath("farmersdelight", "cooked_rice");
     private final NonNullList<ItemStack> items = NonNullList.withSize(1, ItemStack.EMPTY);
     private int progress;
     private boolean finished;
@@ -24,14 +27,18 @@ public class MortarBlockEntity extends BlockEntity {
     public boolean isFinished() { return finished; }
 
     public static ItemStack result(ItemStack input) {
+        if (input.isEmpty()) return ItemStack.EMPTY;
         int count = input.getCount();
         if (input.is(ModItems.GARLIC.get())) return new ItemStack(ModItems.MINCED_GARLIC.get(), count / 2 * 3);
         if (input.is(ModFoodItems.RED_PEPPER.get())) return new ItemStack(ModItems.RED_PEPPER_POWDER.get(), count / 2 * 3);
         if (input.is(Items.SUGAR_CANE)) return new ItemStack(Items.SUGAR, count / 2 * 3);
         if (input.is(ModItems.BOILED_BEANS.get())) return new ItemStack(ModItems.MEJU_LUMP.get(), count);
-        if (input.is(ModItems.STEAMED_RICE.get())) return new ItemStack(ModItems.RICE_FLOUR.get(), count);
-        if (input.is(ModItems.STEAMED_GLUTINOUS_RICE.get())) return new ItemStack(ModItems.RICE_CAKE_DOUGH.get(), count);
+        if (isCookedRice(input)) return new ItemStack(ModItems.TTEOK.get(), count);
         return ItemStack.EMPTY;
+    }
+    private static boolean isCookedRice(ItemStack input) {
+        return input.is(ModFoodItems.COOKED_RICE_BOWL.get())
+                || BuiltInRegistries.ITEM.getKey(input.getItem()).equals(COOKED_RICE_ID);
     }
     private static boolean bonus(ItemStack stack) {
         return stack.is(ModItems.GARLIC.get()) || stack.is(ModFoodItems.RED_PEPPER.get()) || stack.is(Items.SUGAR_CANE);
@@ -52,7 +59,17 @@ public class MortarBlockEntity extends BlockEntity {
         if (progress >= 8) {
             int remainder = bonus(stack) ? stack.getCount() % 2 : 0;
             ItemStack output = result(stack);
+            ItemStack container = stack.getCraftingRemainingItem();
             if (remainder != 0 && level != null) net.minecraft.world.Containers.dropItemStack(level, worldPosition.getX() + 0.5, worldPosition.getY() + 0.7, worldPosition.getZ() + 0.5, stack.copyWithCount(remainder));
+            if (!container.isEmpty() && level != null) {
+                int returned = stack.getCount() - remainder;
+                int max = container.getMaxStackSize();
+                while (returned > 0) {
+                    int dropCount = Math.min(returned, max);
+                    net.minecraft.world.Containers.dropItemStack(level, worldPosition.getX() + 0.5, worldPosition.getY() + 0.7, worldPosition.getZ() + 0.5, container.copyWithCount(dropCount));
+                    returned -= dropCount;
+                }
+            }
             items.set(0, output); finished = true; progress = 0;
         }
         sync(); return true;

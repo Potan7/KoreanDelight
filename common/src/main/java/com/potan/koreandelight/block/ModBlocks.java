@@ -1,6 +1,7 @@
 package com.potan.koreandelight.block;
 
 import com.potan.koreandelight.block.custom.MejuBlock;
+import com.potan.koreandelight.block.custom.KimjangBasinBlock;
 import com.potan.koreandelight.block.custom.MejuBaseBlock;
 import com.potan.koreandelight.block.custom.OnggiBlock;
 import com.potan.koreandelight.block.custom.RiceBowlBlock;
@@ -13,6 +14,7 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LiquidBlock;
 import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.state.BlockBehaviour;
+import net.minecraft.world.level.material.PushReaction;
 
 import java.util.function.Supplier;
 
@@ -29,9 +31,6 @@ public class ModBlocks {
     public static final Supplier<Block> GARLIC_BOWL = bowl("garlic_bowl");
     public static final Supplier<Block> SSAMJANG_BOWL = bowl("ssamjang_bowl");
     public static final Supplier<Block> LETTUCE_BOWL = BLOCKS.register("lettuce_bowl",
-            () -> new RiceBowlBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.2F)
-                    .sound(SoundType.WOOD), Block.box(2, 0, 2, 14, 4, 14), RiceBowlBlock.DISH_SERVINGS));
-    public static final Supplier<Block> PERILLA_LEAF_BOWL = BLOCKS.register("perilla_leaf_bowl",
             () -> new RiceBowlBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.2F)
                     .sound(SoundType.WOOD), Block.box(2, 0, 2, 14, 4, 14), RiceBowlBlock.DISH_SERVINGS));
     public static final Supplier<Block> JEYUK_BOKKEUM = BLOCKS.register("jeyuk_bokkeum",
@@ -55,6 +54,10 @@ public class ModBlocks {
 
     public static final Supplier<Block> MORTAR = BLOCKS.register("mortar",
             () -> new com.potan.koreandelight.block.custom.MortarBlock(BlockBehaviour.Properties.of().noOcclusion().strength(2.0F).sound(SoundType.STONE)));
+
+    public static final Supplier<Block> KIMJANG_BASIN = BLOCKS.register("kimjang_basin",
+            () -> new KimjangBasinBlock(BlockBehaviour.Properties.of().noOcclusion().strength(0.8F)
+                    .sound(SoundType.BAMBOO_WOOD).pushReaction(PushReaction.BLOCK)));
 
     // 옹기 블록
     public static final Supplier<Block> ONGGI_BLOCK = BLOCKS.register(

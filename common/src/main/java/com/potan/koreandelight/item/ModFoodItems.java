@@ -95,16 +95,8 @@ public class ModFoodItems {
     public static final Supplier<Item> SIKHYE = food("sikhye", ModFoodProperties.SIKHYE);
 
     public static final Supplier<Item> RADISH = food("radish", ModFoodProperties.RADISH);
-    public static final Supplier<Item> PERILLA_LEAF = ITEMS.register("perilla_leaf",
-            () -> new SsamLeafItem(new Item.Properties().food(ModFoodProperties.PERILLA_LEAF)));
-    public static final Supplier<Item> PERILLA_LEAF_BOWL = served("perilla_leaf_bowl", ModBlocks.PERILLA_LEAF_BOWL,
-            ModFoodProperties.PERILLA_LEAF, () -> Items.BOWL);
-    public static final Supplier<Item> FRESH_KIMCHI = food("fresh_kimchi", ModFoodProperties.FRESH_KIMCHI);
     public static final Supplier<Item> GRILLED_KIMCHI = food("grilled_kimchi", ModFoodProperties.GRILLED_KIMCHI);
     public static final Supplier<Item> GRILLED_GARLIC = food("grilled_garlic", ModFoodProperties.GRILLED_GARLIC);
-    public static final Supplier<Item> SUNGNYUNG = ITEMS.register("sungnyung",
-            () -> new Item(new Item.Properties().stacksTo(16).craftRemainder(ModItems.RICE_BOWL.get())
-                    .food(ModFoodProperties.servedIn(ModFoodProperties.SUNGNYUNG, ModItems.RICE_BOWL.get()))));
     public static final Supplier<Item> DONGCHIMI = ITEMS.register("dongchimi",
             () -> new Item(new Item.Properties().stacksTo(16).craftRemainder(ModItems.RICE_BOWL.get())
                     .food(ModFoodProperties.servedIn(ModFoodProperties.DONGCHIMI, ModItems.RICE_BOWL.get()))));

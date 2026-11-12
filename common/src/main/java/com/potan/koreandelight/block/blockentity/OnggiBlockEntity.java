@@ -4,6 +4,7 @@ import com.potan.koreandelight.block.ModBlockEntityTypes;
 import com.potan.koreandelight.block.custom.OnggiBlock;
 import com.potan.koreandelight.fluid.ModFluids;
 import com.potan.koreandelight.item.FluidBottleItem;
+import com.potan.koreandelight.item.ModFoodItems;
 import com.potan.koreandelight.item.ModItems;
 import com.potan.koreandelight.recipe.FermentationInput;
 import com.potan.koreandelight.recipe.FermentationEnvironment;
@@ -107,6 +108,7 @@ public class OnggiBlockEntity extends BlockEntity {
     private final CachedFermentation fermentation = new CachedFermentation();
     private boolean containersDirty = true;
     private boolean suppressInventoryUpdates;
+    private boolean kimchiReady;
     private long nextEnvironmentCheck = Long.MIN_VALUE;
 
     public OnggiBlockEntity(BlockPos pos, BlockState state) {
@@ -122,6 +124,9 @@ public class OnggiBlockEntity extends BlockEntity {
         }
 
         handleFluidContainerSlots(jar);
+        if (jar.kimchiReady) {
+            return;
+        }
         jar.refreshFermentation();
         if (jar.fermentation.recipe != null && level.getGameTime() >= jar.nextEnvironmentCheck) {
             jar.environment = jar.fermentation.recipe.getEnvironment();
@@ -142,6 +147,7 @@ public class OnggiBlockEntity extends BlockEntity {
         // Progress needs saving, but does not change comparator output or the visible inventory.
         level.blockEntityChanged(pos);
         if (jar.agingProgress >= jar.maxProgress) {
+            jar.kimchiReady = jar.fermentation.recipe.getOutput().is(ModFoodItems.KIMCHI.get());
             jar.suppressInventoryUpdates = true;
             try {
                 jar.storedFluid = jar.fermentation.fluid.fluid();
@@ -489,11 +495,19 @@ public class OnggiBlockEntity extends BlockEntity {
         }
     }
 
+    public void onLidClosed() {
+        if (kimchiReady) {
+            kimchiReady = false;
+            setChanged();
+        }
+    }
+
     @Override
     protected void saveAdditional(CompoundTag tag, HolderLookup.Provider registries) {
         super.saveAdditional(tag, registries);
         tag.putDouble("aging_progress", this.agingProgress);
         tag.putInt("max_progress", this.maxProgress);
+        tag.putBoolean("kimchi_ready", kimchiReady);
 
         // 1.21.1 사양: 유체 NBT 상태 저장
         if (this.storedFluid != Fluids.EMPTY) {
@@ -514,6 +528,7 @@ public class OnggiBlockEntity extends BlockEntity {
         // Numeric NBT conversion also reads the integer progress saved by older versions.
         this.agingProgress = tag.getDouble("aging_progress");
         this.maxProgress = tag.getInt("max_progress");
+        kimchiReady = tag.getBoolean("kimchi_ready");
 
         // 1.21.1 사양: 유체 NBT 상태 로드
         if (tag.contains("stored_fluid")) {

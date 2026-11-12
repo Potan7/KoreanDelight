@@ -1,8 +1,7 @@
 {
   "type": "koreandelight:fermentation",
   "ingredients": [
-    { "item": "koreandelight:fermented_meju_block" },
-    { "item": "koreandelight:salt" }
+    { "item": "koreandelight:fermented_meju_block" }
   ],
   "fluid": {
     "fluid": "minecraft:water",

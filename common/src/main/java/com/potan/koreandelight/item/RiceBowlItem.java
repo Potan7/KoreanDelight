@@ -31,6 +31,9 @@ public class RiceBowlItem extends BlockItem {
         }
         if (context.getLevel().getBlockEntity(context.getClickedPos()) instanceof RiceBowlBlockEntity bowl) {
             bowl.setPlacementLocation(context.getClickLocation());
+            if (context.getItemInHand().is(ModFoodItems.KIMCHI_BOWL.get())) {
+                bowl.setStoredDish(context.getItemInHand());
+            }
         }
         return true;
     }

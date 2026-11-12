@@ -1,11 +1,11 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "has_kimchi_bowl": {
+    "has_red_terracotta": {
       "conditions": {
         "items": [
           {
-            "items": "koreandelight:kimchi_bowl"
+            "items": "minecraft:red_terracotta"
           }
         ]
       },
@@ -13,7 +13,7 @@
     },
     "has_the_recipe": {
       "conditions": {
-        "recipe": "koreandelight:kimchi_from_bowl"
+        "recipe": "koreandelight:kimjang_basin"
       },
       "trigger": "minecraft:recipe_unlocked"
     }
@@ -21,12 +21,12 @@
   "requirements": [
     [
       "has_the_recipe",
-      "has_kimchi_bowl"
+      "has_red_terracotta"
     ]
   ],
   "rewards": {
     "recipes": [
-      "koreandelight:kimchi_from_bowl"
+      "koreandelight:kimjang_basin"
     ]
   }
 }

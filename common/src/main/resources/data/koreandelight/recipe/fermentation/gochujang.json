@@ -2,8 +2,8 @@
   "type": "koreandelight:fermentation",
   "ingredients": [
     { "item": "koreandelight:red_pepper_powder" },
-    { "item": "koreandelight:meju_powder" },
-    { "item": "koreandelight:glutinous_rice_paste" }
+    { "item": "koreandelight:doenjang" },
+    { "item": "minecraft:sugar" }
   ],
   "result": {
     "count": 1,

@@ -27,6 +27,9 @@ public class ModRecipes {
     public static final Supplier<RecipeSerializer<FermentationRecipe>> FERMENTATION_SERIALIZER =
             RECIPE_SERIALIZERS.register("fermentation", FermentationRecipeSerializer::new);
 
+    public static final Supplier<RecipeSerializer<KimchiBowlRecipe>> KIMCHI_BOWL_SERIALIZER =
+            RECIPE_SERIALIZERS.register("kimchi_bowl", KimchiBowlRecipe.Serializer::new);
+
     public static void init() {
         // 클래스 로딩을 위해 호출됩니다.
     }

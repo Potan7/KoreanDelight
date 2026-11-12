@@ -42,12 +42,24 @@ public class ModRecipeProvider extends RecipeProvider {
         seedFromCrop(output, ModFoodItems.RED_PEPPER.get(), ModItems.RED_PEPPER_SEEDS.get(), "red_pepper");
         seedFromCrop(output, ModFoodItems.GREEN_ONION.get(), ModItems.GREEN_ONION_SEEDS.get(), "green_onion");
         seedFromCrop(output, ModFoodItems.LETTUCE.get(), ModItems.LETTUCE_SEEDS.get(), "lettuce");
-        seedFromCrop(output, ModFoodItems.PERILLA_LEAF.get(), ModItems.PERILLA_SEEDS.get(), "perilla");
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.KIMCHI_BOWL.get())
                 .requires(ModItems.RICE_BOWL.get()).requires(ModFoodItems.KIMCHI.get())
                 .unlockedBy("has_kimchi", has(ModFoodItems.KIMCHI.get()))
-                .save(output, modRecipe("kimchi_bowl"));
+                .save(new RecipeOutput() {
+                    @Override
+                    public void accept(ResourceLocation id, net.minecraft.world.item.crafting.Recipe<?> recipe,
+                                       net.minecraft.advancements.AdvancementHolder advancement,
+                                       net.neoforged.neoforge.common.conditions.ICondition... conditions) {
+                        output.accept(id, new com.potan.koreandelight.recipe.KimchiBowlRecipe(
+                                (net.minecraft.world.item.crafting.ShapelessRecipe) recipe), advancement, conditions);
+                    }
+
+                    @Override
+                    public net.minecraft.advancements.Advancement.Builder advancement() {
+                        return output.advancement();
+                    }
+                }, modRecipe("kimchi_bowl"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.LETTUCE_BOWL.get())
                 .requires(Items.BOWL).requires(ModFoodItems.LETTUCE.get(), RiceBowlBlock.DISH_SERVINGS)
                 .unlockedBy("has_lettuce", has(ModFoodItems.LETTUCE.get()))
@@ -56,18 +68,6 @@ public class ModRecipeProvider extends RecipeProvider {
                 .requires(ModFoodItems.LETTUCE_BOWL.get())
                 .unlockedBy("has_lettuce_bowl", has(ModFoodItems.LETTUCE_BOWL.get()))
                 .save(output, modRecipe("lettuce_from_bowl"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.PERILLA_LEAF_BOWL.get())
-                .requires(Items.BOWL).requires(ModFoodItems.PERILLA_LEAF.get(), RiceBowlBlock.DISH_SERVINGS)
-                .unlockedBy("has_perilla_leaf", has(ModFoodItems.PERILLA_LEAF.get()))
-                .save(output, modRecipe("perilla_leaf_bowl"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.PERILLA_LEAF.get(), RiceBowlBlock.DISH_SERVINGS)
-                .requires(ModFoodItems.PERILLA_LEAF_BOWL.get())
-                .unlockedBy("has_perilla_leaf_bowl", has(ModFoodItems.PERILLA_LEAF_BOWL.get()))
-                .save(output, modRecipe("perilla_leaf_from_bowl"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.KIMCHI.get())
-                .requires(ModFoodItems.KIMCHI_BOWL.get())
-                .unlockedBy("has_kimchi_bowl", has(ModFoodItems.KIMCHI_BOWL.get()))
-                .save(output, modRecipe("kimchi_from_bowl"));
 
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.GARLIC_BOWL.get())
                 .requires(ModItems.RICE_BOWL.get()).requires(ModItems.GARLIC.get())
@@ -106,6 +106,11 @@ public class ModRecipeProvider extends RecipeProvider {
                 .pattern("S S").pattern("SSS").define('S', Items.STONE)
                 .unlockedBy("has_stone", has(Items.STONE)).save(output, modRecipe("mortar"));
 
+        ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.KIMJANG_BASIN.get())
+                .pattern("R R").pattern("RRR").define('R', Items.RED_TERRACOTTA)
+                .unlockedBy("has_red_terracotta", has(Items.RED_TERRACOTTA))
+                .save(output, modRecipe("kimjang_basin"));
+
         ShapedRecipeBuilder.shaped(RecipeCategory.MISC, ModItems.MEJU_BLOCK_ITEM.get())
                 .pattern("MM").pattern("MM").define('M', ModItems.MEJU_LUMP.get())
                 .unlockedBy("has_meju_lump", has(ModItems.MEJU_LUMP.get())).save(output, modRecipe("meju_block_from_lumps"));
@@ -124,23 +129,10 @@ public class ModRecipeProvider extends RecipeProvider {
 
         Item cookedRice = BuiltInRegistries.ITEM.get(ResourceLocation.fromNamespaceAndPath("farmersdelight", "cooked_rice"));
         // Keep the onggi chain obtainable before dedicated grinding and grain crops arrive.
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.SALT.get(), 4)
-                .requires(Items.WATER_BUCKET)
-                .unlockedBy("has_water_bucket", has(Items.WATER_BUCKET))
-                .save(output, modRecipe("salt"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.MEJU_POWDER.get(), 4)
                 .requires(ModItems.FERMENTED_MEJU.get())
                 .unlockedBy("has_fermented_meju", has(ModItems.FERMENTED_MEJU.get()))
                 .save(output, modRecipe("meju_powder"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModItems.GLUTINOUS_RICE_PASTE.get())
-                .requires(cookedRice).requires(Items.WATER_BUCKET)
-                .unlockedBy("has_cooked_rice", has(cookedRice))
-                .save(output, modRecipe("glutinous_rice_paste"));
-        ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.FRESH_KIMCHI.get())
-                .requires(ModFoodItems.KIMCHI_CABBAGE.get()).requires(ModItems.RED_PEPPER_POWDER.get())
-                .requires(ModItems.MINCED_GARLIC.get())
-                .unlockedBy("has_cabbage", has(ModFoodItems.KIMCHI_CABBAGE.get()))
-                .save(output, modRecipe("fresh_kimchi"));
         ShapelessRecipeBuilder.shapeless(RecipeCategory.FOOD, ModFoodItems.COOKED_RICE_BOWL.get())
                 .requires(ModItems.RICE_BOWL.get())
                 .requires(cookedRice)

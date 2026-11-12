@@ -58,6 +58,9 @@ public class OnggiBlock extends Block implements EntityBlock {
         if (player.isShiftKeyDown()) {
             boolean hasLid = !state.getValue(HAS_LID);
             level.setBlock(pos, state.setValue(HAS_LID, hasLid), 3);
+            if (hasLid) {
+                onggi.onLidClosed();
+            }
             level.playSound(null, pos, hasLid ? net.minecraft.sounds.SoundEvents.BARREL_CLOSE : net.minecraft.sounds.SoundEvents.BARREL_OPEN,
                     net.minecraft.sounds.SoundSource.BLOCKS, 0.7F, 0.9F);
         } else if (!state.getValue(HAS_LID)) {

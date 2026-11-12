@@ -10,10 +10,6 @@
         },
         {
           "type": "minecraft:item",
-          "name": "koreandelight:perilla_seeds"
-        },
-        {
-          "type": "minecraft:item",
           "name": "koreandelight:kimchi_cabbage_seeds"
         },
         {
